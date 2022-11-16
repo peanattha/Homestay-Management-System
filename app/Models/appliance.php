@@ -20,6 +20,6 @@ class appliance extends Model
 
     public function homestay_details()
     {
-        return $this->hasMany(homestay_detail::class,'homestay_detail_id','id');
+        return $this->hasMany(homestay_detail::class,'appliance_id','id');
     }
 }

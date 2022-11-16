@@ -18,9 +18,9 @@ class booking extends Model
         return $this->belongsTo(user::class)->withTrashed();
     }
 
-    public function homestay()
+    public function booking_details()
     {
-        return $this->belongsTo(homestay::class)->withTrashed();
+        return $this->hasMany(booking_detail::class,'booking_id','id');
     }
 
     public function widens()
@@ -35,12 +35,12 @@ class booking extends Model
 
     public function payments()
     {
-        return $this->hasMany(payment::class,'payment_id','id');
+        return $this->hasMany(payment::class,'booking_id','id');
     }
 
     public function review()
     {
-        return $this->hasOne(booking::class,'review_id','id');
+        return $this->hasOne(booking::class,'booking_id','id');
     }
     public function promotion()
     {

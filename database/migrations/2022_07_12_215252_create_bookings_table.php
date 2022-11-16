@@ -16,7 +16,6 @@ class CreateBookingsTable extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreignId('homestay_id')->references('id')->on('homestays')->onDelete('cascade');
             $table->foreignId('set_menu_id')->references('id')->on('set_menus')->onDelete('cascade');
             $table->foreignId('promotion_id')->nullable()->references('id')->on('promotions')->onDelete('cascade');
             $table->char('booking_type',1);
@@ -30,7 +29,6 @@ class CreateBookingsTable extends Migration
             $table->integer('num_menu');
             $table->float('total_price');
             $table->float('total_price_discount')->nullable();
-            $table->float('discount')->nullable();
             $table->float('deposit');
             $table->char('status',1);
             $table->timestamps();

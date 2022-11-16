@@ -13,9 +13,9 @@ class homestay extends Model
 
     public $table = 'homestays';
 
-    public function bookings()
+    public function booking_details()
     {
-        return $this->hasMany(booking::class,'homestay_id','id');
+        return $this->hasMany(booking_detail::class,'homestay_id','id');
     }
 
     public function homestay_type()
@@ -25,7 +25,7 @@ class homestay extends Model
 
     public function homestay_details()
     {
-        return $this->hasMany(homestay_detail::class,'homestay_detail_id','id');
+        return $this->hasMany(homestay_detail::class,'homestay_id','id');
     }
 
 }

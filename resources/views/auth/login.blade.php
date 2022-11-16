@@ -58,7 +58,7 @@
 
                         <div class="row mb-0">
                             <div>
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-success">
                                     {{ __('เข้าสู่ระบบ') }}
                                 </button>
 

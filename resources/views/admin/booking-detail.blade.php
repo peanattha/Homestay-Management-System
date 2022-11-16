@@ -29,12 +29,12 @@
                 <label for="homestay_name" class="form-label">ชื่อที่พัก *</label>
                 <select class="form-select" id="homestay_name" name="homestay_name" form="form_edit_homestay" disabled required>
                     @foreach ($homestays as $homestay)
-                        @if ($booking->homestay->homestay_name == $homestay->homestay_name)
+                        {{-- @if ($booking->homestay->homestay_name == $homestay->homestay_name)
                             <option value="{{ $booking->homestay_id }}" selected>
                                 {{ $booking->homestay->homestay_name }}</option>
                         @else
                             <option value="{{ $homestay->id }}">{{ $homestay->homestay_name }}</option>
-                        @endif
+                        @endif --}}
                     @endforeach
                 </select>
             </div>
@@ -42,12 +42,12 @@
                 <label for="homestay_type" class="form-label">ประเภทที่พัก *</label>
                 <select class="form-select" id="homestay_type" name="homestay_type" form="form_edit_homestay" disabled required>
                     @foreach ($homestay_types as $homestay_type)
-                        @if ($booking->homestay->homestay_type->homestay_type_name == $homestay_type->homestay_type_name)
+                        {{-- @if ($booking->homestay->homestay_type->homestay_type_name == $homestay_type->homestay_type_name)
                             <option value="{{ $booking->homestay_type_id }}" selected>
                                 {{ $booking->homestay->homestay_type->homestay_type_name }}</option>
                         @else
                             <option value="{{ $homestay_type->id }}">{{ $homestay_type->homestay_type_name }}</option>
-                        @endif
+                        @endif --}}
                     @endforeach
                 </select>
             </div>
@@ -57,25 +57,25 @@
                     name="number_guests" placeholder="จำนวนผู้เข้าพัก" value="{{ $booking->number_guests }}" disabled
                     required>
             </div>
-            {{-- <div class="mt-3 ">
+            <div class="mt-3 ">
                 <label for="homestay" class="form-label">สถานะการจ่ายเงิน *</label>
-                @if ($booking->payment_status == 1)
-                    <input type="text" class="form-control" style="margin-right: 10px" id="payment_status"
-                        name="payment_status" value="ชำระเงินเเล้ว" disabled required>
-                @elseif ($booking->payment_status == 2)
-                    <input type="text" class="form-control" style="margin-right: 10px" id="payment_status"
-                        name="payment_status" value="รอชำระเงิน" disabled required>
-                @elseif ($booking->payment_status == 3)
-                    <input type="text" class="form-control" style="margin-right: 10px" id="payment_status"
-                        name="payment_status" value="รอยืนยันการชำระเงิน" disabled required>
-                @elseif ($booking->payment_status == 4)
-                    <input type="text" class="form-control" style="margin-right: 10px" id="payment_status"
-                        name="payment_status" value="คืนเงินเสร็จสิ้น" disabled required>
-                @elseif ($booking->payment_status == 5)
-                    <input type="text" class="form-control" style="margin-right: 10px" id="payment_status"
-                        name="payment_status" value="รอคืนเงิน" disabled required>
-                @endif
-            </div> --}}
+                {{-- @if ($booking->status == 1)
+                    <input type="text" class="form-control" style="margin-right: 10px" id="status"
+                        name="status" value="ชำระเงินเเล้ว" disabled required>
+                @elseif ($booking->status == 2)
+                    <input type="text" class="form-control" style="margin-right: 10px" id="status"
+                        name="status" value="รอชำระเงิน" disabled required>
+                @elseif ($booking->status == 3)
+                    <input type="text" class="form-control" style="margin-right: 10px" id="status"
+                        name="status" value="รอยืนยันการชำระเงิน" disabled required>
+                @elseif ($booking->status == 4)
+                    <input type="text" class="form-control" style="margin-right: 10px" id="status"
+                        name="status" value="คืนเงินเสร็จสิ้น" disabled required>
+                @elseif ($booking->status == 5)
+                    <input type="text" class="form-control" style="margin-right: 10px" id="status"
+                        name="status" value="รอคืนเงิน" disabled required>
+                @endif --}}
+            </div>
             <div class="mt-3 ">
                 <label for="homestay" class="form-label">Check In *</label>
                 <input type="text" class="form-control" style="margin-right: 10px" id="check_in" name="check_in"

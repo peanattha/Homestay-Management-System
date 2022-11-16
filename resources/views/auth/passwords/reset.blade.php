@@ -111,7 +111,7 @@
 
                                 <div class="row mb-0">
                                     <div class="col-md-6 offset-md-4">
-                                        <button type="submit" class="btn btn-primary">
+                                        <button type="submit" class="btn btn-success">
                                             {{ __('รีเซ็ตรหัสผ่าน') }}
                                         </button>
                                     </div>

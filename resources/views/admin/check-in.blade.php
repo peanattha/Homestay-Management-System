@@ -78,7 +78,11 @@
                         <tr>
                             <td style="width: 5%">{{ $loop->iteration }}</td>
                             <td style="width: 15%">{{ $booking->user->firstName }} {{ $booking->user->lastName }}</td>
-                            <td style="width: 10%">{{ $booking->homestay->homestay_name }}</td>
+                            <td style="width: 10%">
+                                @foreach ($booking->booking_details as $booking_detail)
+                                    {{ $booking_detail->homestay->homestay_name }}
+                                @endforeach
+                            </td>
                             <td style="width: 10%">{{ $booking->number_guests }}</td>
                             {{-- <td style="width: 10%">ชำระเงินเเล้ว</td> --}}
                             @if ($booking->status == 1)

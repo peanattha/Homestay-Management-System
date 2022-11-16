@@ -77,7 +77,11 @@
                             <td style="width: 5%">{{ $loop->iteration }}</td>
                             <td style="width: 20%">{{ $booking->user->firstName }} {{ $booking->user->lastName }}
                             </td>
-                            <td style="width: 10%">{{ $booking->homestay->homestay_name }}</td>
+                            <td style="width: 10%">
+                                @foreach ($booking->booking_details as $booking_detail)
+                                    {{ $booking_detail->homestay->homestay_name }}
+                                @endforeach
+                            </td>
                             <td style="width: 10%">{{ $booking->number_guests }}</td>
                             {{-- {{ asset('storage/images/' . $img) }} --}}
                             <td style="width: 15%"><a href="">สลิปจ่ายเงิน</a></td>

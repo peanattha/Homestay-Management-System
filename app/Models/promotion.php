@@ -15,6 +15,6 @@ class promotion extends Model
 
     public function bookings()
     {
-        return $this->hasMany(booking::class,'booking_id','id');
+        return $this->hasMany(booking::class,'promotion_id','id');
     }
 }

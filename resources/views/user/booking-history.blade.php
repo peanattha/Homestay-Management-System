@@ -35,27 +35,17 @@
             @foreach ($bookings as $booking)
                 <div class="card m-2">
                     <div class="card-header">
-                        {{ $booking->homestay->homestay_name }}
+                        @foreach ($booking->booking_details as $booking_detail)
+                            {{ $booking_detail->homestay->homestay_name }}
+                        @endforeach
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">{{ $booking->homestay->homestay_name }}</h5>
                         <p class="card-text"><b>วันที่จอง: </b>08/10/2022 - 09/10/2022</p>
                         <p class="card-text"><b>สถานะ: </b>ชำระเงินมัดจำเเล้ว รอยืนยันชำระเงินจากจากเจ้าของโฮมสเตย์</p>
                         <a href="#" class="btn btn-success">ดูรายละเอียดการจอง</a>
                     </div>
                 </div>
             @endforeach
-            <div class="card m-2">
-                <div class="card-header">
-                    กระโจม1
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">กระโจม1</h5>
-                    <p class="card-text"><b>วันที่จอง: </b>08/09/2022 - 09/09/2022</p>
-                    <p class="card-text"><b>สถานะ: </b>Check Out</p>
-                    <a href="{{route('booking-history-details',1)}}" class="btn btn-success">ดูรายละเอียดการจอง</a>
-                </div>
-            </div>
         </div>
     @endif
 @endsection

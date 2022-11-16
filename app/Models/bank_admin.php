@@ -15,6 +15,6 @@ class bank_admin extends Model
 
     public function payments()
     {
-        return $this->hasMany(payment::class,'payment_id','id');
+        return $this->hasMany(payment::class,'bank_admin_id','id');
     }
 }

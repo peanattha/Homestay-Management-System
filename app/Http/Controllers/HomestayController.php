@@ -8,6 +8,7 @@ use App\Models\homestay_type;
 use App\Models\homestay;
 use Illuminate\Support\Facades\DB;
 use App\Models\booking;
+use App\Models\booking_detail;
 use App\Models\set_menu;
 
 class homestayController extends Controller
@@ -210,8 +211,8 @@ class homestayController extends Controller
         //เข้า อยู่ระหว่าง
         //ออก อยู่ระหว่าง
 
-        $infos = DB::table('bookings')
-            ->select('homestay_id')
+        $booking_infos = DB::table('bookings')
+            ->select('id')
             ->where(function ($query) use ($start_date, $end_date) {
                 $query->where('start_date', $start_date)
                     ->Where('end_date', $end_date);
@@ -230,9 +231,14 @@ class homestayController extends Controller
             })->get();
 
         $answers = collect([]);
-        foreach ($infos as $info) {
-            $answers->push($info->homestay_id);
+
+        foreach ($booking_infos as $info) {
+            $booking_details = booking_detail::where('booking_id',$info->id)->get();
+            foreach($booking_details as $booking_detail){
+                $answers->push($booking_detail->homestay_id);
+            }
         }
+
         $homestays = DB::table('homestays')->whereNotIn('id', $answers)->get();
 
         $number_guests = $request->number_guests;
