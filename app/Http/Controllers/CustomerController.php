@@ -24,21 +24,19 @@ class CustomerController extends Controller
     }
     public function search_customer(Request $request)
     {
-
         $firstName = user::where('firstName', $request->firstName)->get();
         $lastName = user::where('lastName', $request->lastName)->get();
-        if (($firstName->count() == 0) && ($firstName->count() == 0)) {
-            return redirect()->back()->with('error', 'ไม่มีรายการค้นหา');;
+        if (($firstName->count() == 0) || ($lastName->count() == 0)) {
+            return redirect()->route('manage-customer')->with('error', 'ไม่มีรายการค้นหา');
         } else {
             $user_id = DB::table('users')
                 ->where('firstName', $request->firstName)
                 ->where('lastName', $request->lastName)
                 ->first()->id;
+
+            $users = user::where('id', $user_id)->get();
+            return view('admin.manage-customer', compact('users'));
         }
-
-        $users = user::where('id', $user_id)->get();
-
-        return view('admin.manage-customer', compact('users'));
     }
     public function customer_detail($id)
     {

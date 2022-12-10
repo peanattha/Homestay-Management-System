@@ -8,14 +8,50 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
+
+<script>
+    // Delete Promotion
+    function showModelDelPromo(id, name) {
+        window.id_promo = id;
+        document.getElementById("textModelDelPromo").innerHTML =
+            "คุณเเน่ใจที่จะลบ " + name;
+        $("#modal-del-promo").modal("show");
+    }
+
+    function confirmDelPromo() {
+        document.getElementById("del-promo" + window.id_promo).submit();
+    }
+
+    //Close Model
+    function closeModel() {
+        $("#modal-del-promo").modal("hide");
+    }
+</script>
+
 @section('content')
+    {{-- Model Delete Promotion --}}
+    <div class="modal fade" id="modal-del-promo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">แจ้งเตือน</h5>
+                </div>
+                <div class="modal-body" id="textModelDelPromo"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" onclick="closeModel()">ยกเลิก</button>
+                    <button type="button" class="btn btn-success" onclick="confirmDelPromo()">ยืนยัน</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div>
         <h3>จัดการโปรโมชั่น > เพิ่ม / ลบ / แก้ใข โปรโมชั่น</h3>
-        <form action="#" method="POST">
+        <form action="{{ route('add-promotion') }}" method="POST">
             @csrf
             <div class="mb-3">
-                <label for="set_menu_name" class="form-label">ชื่อโปรโมชั่น *</label>
-                <input type="text" class="form-control" id="set_menu_name" name="set_menu_name" required>
+                <label for="promotion_name" class="form-label">ชื่อโปรโมชั่น *</label>
+                <input type="text" class="form-control" id="promotion_name" name="promotion_name" required>
             </div>
             <div class="mb-3">
                 <label for="price" class="form-label">ราคาส่วนลด (บาท) *</label>
@@ -45,6 +81,7 @@
                         $('input[name="datetimes"]').daterangepicker({
                             timePicker: true,
                             opens: 'left',
+                            minDate: date,
                             startDate: moment().startOf('hour'),
                             endDate: moment().startOf('hour').add(32, 'hour'),
                             locale: {
@@ -54,9 +91,18 @@
                     });
                 </script>
             </div>
+            {{-- <div class="mb-3">
+                <label for="status" class="form-label">สถานะการใช้งาน *</label>
+                <select class="form-select" id="status" name="status" required>
+                    <option selected hidden>สถานะการใช้งาน</option>
+                    <option value="1">ใช้งาน</option>
+                    <option value="2">ปรับปรุง</option>
+                    <option value="3">ยกเลิกใช้งาน</option>
+                </select>
+            </div> --}}
             <div class="mb-3">
-                <label for="details" class="form-label">รายละเอียด *</label>
-                <textarea class="form-control" id="details" name="details" rows="3" required></textarea>
+                <label for="promotion_detail" class="form-label">รายละเอียด *</label>
+                <textarea class="form-control" id="promotion_detail" name="promotion_detail" rows="3" required></textarea>
             </div>
             <input type="submit" class="btn btn-success" value="เพิ่มโปรโมชั่น">
         </form>
@@ -67,8 +113,8 @@
                     <thead>
                         <tr>
                             <th style="width: 10%">ลำดับ</th>
-                            <th style="width: 25%">ชื่อโปรโมชั่น</th>
-                            <th style="width: 10%">ระยะเวลา</th>
+                            <th style="width: 10%">ชื่อโปรโมชั่น</th>
+                            <th style="width: 25%">ระยะเวลา</th>
                             <th style="width: 25%">รายละเอียด / แก้ไข</th>
                             <th style="width: 10%">ลบโปรโมชั่น</th>
                         </tr>
@@ -78,24 +124,25 @@
             <div class="table100-body js-pscroll">
                 <table>
                     <tbody>
-
-                        <tr>
-                            <td style="width: 10%">1</td>
-                            <td style="width: 25%">โปรโมชั่นหน้าหนาว</td>
-
-                            <td style="width: 10%">1/11/2022 - 1/01/2023</td>
-
-                            <td style="width: 25%"><a class="link-primary" href="">รายละเอียด /
-                                    แก้ไข</a>
-                            </td>
-                            <td style="width: 10%">
-                                <form action="" method="POST" id="" class="m-0">
-                                    @csrf
-                                    <a onclick="" class="m-0 link-danger">ลบโปรโมชั่น</a>
-                                </form>
-                            </td>
-                        </tr>
-
+                        @foreach ($promotions as $promotion)
+                            <tr>
+                                <td style="width: 10%">{{ $loop->iteration }}</td>
+                                <td style="width: 10%">{{ $promotion->promotion_name }}</td>
+                                <?php
+                                $start_date = date('d-m-Y', strtotime($promotion->start_date));
+                                $end_date = date('d-m-Y', strtotime($promotion->end_date));
+                                ?>
+                                <td style="width: 25%">{{ $start_date }} - {{ $end_date }}</td>
+                                <td style="width: 25%"><a class="link-primary" href="{{ route('promotion-detail', ['id' => $promotion->id]) }}">รายละเอียด / แก้ไข</a></td>
+                                <td style="width: 10%">
+                                    <form action="{{route('delete-promotion', ['id' => $promotion->id])}}" method="POST" id="del-promo{{ $promotion->id }}" class="m-0">
+                                        @csrf
+                                        <a onclick="showModelDelPromo({{ $promotion->id }},'{{ $promotion->promotion_name }}')"
+                                            class="m-0 link-danger">ลบโปรโมชั่น</a>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

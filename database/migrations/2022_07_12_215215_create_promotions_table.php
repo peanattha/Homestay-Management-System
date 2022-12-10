@@ -20,6 +20,8 @@ class CreatePromotionsTable extends Migration
             $table->date('end_date');
             $table->time('start_time');
             $table->time('end_time');
+            $table->string('promotion_detail');
+            $table->char('status',1);
             $table->float('discount_price');
             $table->timestamps();
             $table->softDeletes();

@@ -97,8 +97,6 @@
                     required />
                 <script>
                     $(function() {
-                        var today = new Date();
-                        var date = (today.getDate()) + '-' + (today.getMonth() + 1) + '-' + today.getFullYear()
                         $('input[name="dateRange"]').daterangepicker({
                             opens: 'left',
                             minDate: date,

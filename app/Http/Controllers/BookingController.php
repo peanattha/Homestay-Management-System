@@ -30,12 +30,11 @@ class BookingController extends Controller
     }
     public function history_details($id)
     {
-        
+
         return view('user.booking-history-details');
     }
 
-    ////////////////////
-
+    // Admin
     public function booking_admin()
     {
         $bookings = booking::all();

@@ -104,12 +104,7 @@ class MenuController extends Controller
         return redirect()->back();
     }
     public function search_set_menu(Request $request){
-        if (isset($request->set_menu_id)) {
-            $set_menus = set_menu::where('id', $request->set_menu_id)->get();
-            if (($set_menus->count() == 0)) {
-                return redirect()->route('manage-menu')->with('error', 'ไม่มีรายการค้นหา');;
-            }
-        } else if (isset($request->set_menu_name)) {
+        if (isset($request->set_menu_name)) {
             $set_menus = set_menu::where('set_menu_name', $request->set_menu_name)->get();
             if (($set_menus->count() == 0)) {
                 return redirect()->route('manage-menu')->with('error', 'ไม่มีรายการค้นหา');;

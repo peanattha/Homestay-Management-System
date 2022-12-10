@@ -128,12 +128,6 @@
         <form action="{{ route('search-set-menu') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
-                <label for="set_menu_id" class="form-label">ค้นหาชุดเมนูอาหาร</label>
-                <input type="text" class="form-control" id="set_menu_id" name="set_menu_id"
-                    placeholder="รหัสชุดเมนูอาหาร">
-                <div id="help" class="form-text">กรอกรหัสชุดเมนูอาหารเพื่อทำการค้นหาชุดเมนูอาหาร</div>
-            </div>
-            <div class="mb-3">
                 <input type="text" class="form-control" id="set_menu_name" name="set_menu_name"
                     placeholder="ชื่อชุดเมนูอาหาร">
                 <div id="help" class="form-text">กรอกชื่อชุดเมนูอาหารเพื่อทำการค้นหาชุดเมนูอาหาร</div>

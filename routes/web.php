@@ -126,6 +126,11 @@ Route::group(['middleware' => ['auth', 'verified', 'CheckAdmin']], function () {
         Route::get('/manage-promotion', "manage_promotion")->name('manage-promotion');
         Route::get('/promotion-admin', "promotion_admin")->name('promotion-admin');
         Route::get('/promotion-detail/{id}', "promotion_detail")->name('promotion-detail');
+        Route::post('/add-promotion', "add_promotion")->name('add-promotion');
+        Route::post('/edit-promotion/{id}', "edit_promotion")->name('edit-promotion');
+        Route::post('/delete-promotion/{id}', "delete_promotion")->name('delete-promotion');
+        Route::post('/search-promotion', "search_promotion")->name('search-promotion');
+        Route::post('/promotion-filter', "promotion_filter")->name('promotion-filter');
     });
 
     Route::controller(ReviewController::class)->group(function () {
@@ -142,7 +147,7 @@ Route::group(['middleware' => ['auth', 'verified', 'CheckAdmin']], function () {
     Route::controller(WindenController::class)->group(function () {
         Route::get('/winden-appliance-booking', "manage_appliance_booking")->name('manage-appliance-booking');
         Route::get('/winden-appliance-homestay', "manage_appliance_homestay")->name('manage-appliance-homestay');
-        
+
         Route::get('/appliance-homestay-detail/{id}', "appliance_homestay_detail")->name('appliance-homestay-detail');
         Route::get('/appliance-booking-detail/{id}', "appliance_booking_detail")->name('appliance-booking-detail');
     });
