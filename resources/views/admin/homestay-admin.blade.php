@@ -16,7 +16,6 @@
 @endif
 
 @section('content')
-    <h3>รายการที่พัก</h3>
     {{-- Model Delete homestay --}}
     <div class="modal fade" id="modal-del-homestay" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -48,21 +47,25 @@
             </div>
         </div>
     </div>
+    <div class="bg-white p-4 rounded-3 border border-1 shadow-lg">
+        <h3>รายการที่พัก</h3>
+        <form action="{{ route('search-homestay-admin') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="mb-3">
+                <label for="homestay" class="form-label">ค้นหารายการที่พัก</label>
+                <input type="text" class="form-control" id="homestay" name="homestay_name" placeholder="ชื่อที่พัก">
+                <div id="help" class="form-text">กรอกชื่อที่พักเพื่อทำการค้นหารายการที่พัก</div>
+            </div>
+            <div class="mb-3">
+                <input type="text" class="form-control" id="homestay" name="homestay_type"
+                    placeholder="ชื่อประเภทที่พัก">
+                <div id="help" class="form-text">กรอกชื่อประเภทที่พักเพื่อทำการค้นหารายการที่พัก</div>
+            </div>
+            <input type="submit" class="btn btn-success" value="ค้นหารายการที่พัก">
+        </form>
+    </div>
 
-    <form action="{{ route('search-homestay-admin') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <div class="mb-3">
-            <label for="homestay" class="form-label">ค้นหารายการที่พัก</label>
-            <input type="text" class="form-control" id="homestay" name="homestay_name" placeholder="ชื่อที่พัก">
-            <div id="help" class="form-text">กรอกชื่อที่พักเพื่อทำการค้นหารายการที่พัก</div>
-        </div>
-        <div class="mb-3">
-            <input type="text" class="form-control" id="homestay" name="homestay_type" placeholder="ชื่อประเภทที่พัก">
-            <div id="help" class="form-text">กรอกชื่อประเภทที่พักเพื่อทำการค้นหารายการที่พัก</div>
-        </div>
-        <input type="submit" class="btn btn-success" value="ค้นหารายการที่พัก">
-    </form>
-    <div class="table100 ver2 mb-4">
+    <div class="table100 ver2 mb-4 mt-4">
         <div class="table100-head">
             <table>
                 <thead>

@@ -117,8 +117,8 @@
     </div>
 
     {{-- Table & Manage homestay Type --}}
-    <div>
-        <h3>รายการที่พัก > เพิ่ม/ลบ/แก้ใข ประเภทที่พัก</h3>
+    <div class="bg-white p-4 rounded-3 border border-1 shadow-lg">
+        <h3>เพิ่ม/ลบ/แก้ใข ประเภทที่พัก</h3>
         <form action="{{ route('add-homestay-type') }}" method="POST" id="add-homestay-type">
             @csrf
             <div class="mb-3">
@@ -129,44 +129,44 @@
             <button type="button" class="btn btn-success" onclick="showModelAddhomestayType()"
                 value="เพิ่มประเภทที่พัก">เพิ่มประเภทที่พัก</button>
         </form>
-        <div class="table100 ver2">
-            <div class="table100-head">
-                <table>
-                    <thead>
+    </div>
+    <div class="table100 ver2 mb-4 mt-4">
+        <div class="table100-head">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 25%">ลำดับ</th>
+                        <th style="width: 25%">ประเภทที่พัก</th>
+                        <th style="width: 25%">เเก้ไขประเภทที่พัก</th>
+                        <th style="width: 25%">ลบประเภทที่พัก</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="table100-body js-pscroll">
+            <table>
+                <tbody>
+                    @foreach ($homestay_types as $homestay_type)
                         <tr>
-                            <th style="width: 25%">ลำดับ</th>
-                            <th style="width: 25%">ประเภทที่พัก</th>
-                            <th style="width: 25%">เเก้ไขประเภทที่พัก</th>
-                            <th style="width: 25%">ลบประเภทที่พัก</th>
+                            <td style="width: 25%">{{ $loop->iteration }}</td>
+                            <td style="width: 25%">{{ $homestay_type->homestay_type_name }}</td>
+                            <td style="width: 25%">
+                                <a class="m-0 link-primary"
+                                    onclick="showModelEdithomestayType({{ $homestay_type->id }},'{{ $homestay_type->homestay_type_name }}')">
+                                    แก้ไขประเภทที่พัก</a>
+                            </td>
+                            <td style="width: 25%">
+                                <form action="{{ route('delete-homestay-type', ['id' => $homestay_type->id]) }}"
+                                    method="POST" id="del-homestay-type{{ $homestay_type->id }}" class="m-0 ">
+                                    @csrf
+                                    <a onclick="showModelDelhomestayType({{ $homestay_type->id }},'{{ $homestay_type->homestay_type_name }}')"
+                                        class="m-0 link-danger">ลบประเภทที่พัก</a>
+                                </form>
+                            </td>
                         </tr>
-                    </thead>
-                </table>
-            </div>
-            <div class="table100-body js-pscroll">
-                <table>
-                    <tbody>
-                        @foreach ($homestay_types as $homestay_type)
-                            <tr>
-                                <td style="width: 25%">{{ $loop->iteration }}</td>
-                                <td style="width: 25%">{{ $homestay_type->homestay_type_name }}</td>
-                                <td style="width: 25%">
-                                    <a class="m-0 link-primary"
-                                        onclick="showModelEdithomestayType({{ $homestay_type->id }},'{{ $homestay_type->homestay_type_name }}')">
-                                        แก้ไขประเภทที่พัก</a>
-                                </td>
-                                <td style="width: 25%">
-                                    <form action="{{ route('delete-homestay-type', ['id' => $homestay_type->id]) }}"
-                                        method="POST" id="del-homestay-type{{ $homestay_type->id }}" class="m-0 ">
-                                        @csrf
-                                        <a onclick="showModelDelhomestayType({{ $homestay_type->id }},'{{ $homestay_type->homestay_type_name }}')"
-                                            class="m-0 link-danger">ลบประเภทที่พัก</a>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
 @endsection

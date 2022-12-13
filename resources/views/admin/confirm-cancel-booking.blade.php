@@ -19,7 +19,7 @@
     }
 </script>
 @section('content')
-    <h3>รายการจองที่ยืนยันการยกเลิก</h3>
+
     <div class="modal fade" id="modal-search-none" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -34,25 +34,29 @@
             </div>
         </div>
     </div>
-    <form action="{{ route('search-confirm-cancel') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <div class="mb-3">
-            <label class="form-label">ค้นหารายการจอง</label>
-            <input type="text" class="form-control" style="margin-right: 10px" id="booking_id" name="booking_id"
-                placeholder="รหัสการจอง">
-            <div id="help" class="form-text">กรอกรหัสการจองเพื่อทำการค้นหารายการจอง</div>
-        </div>
-        <div class="mb-3">
-            <div class="d-flex flex-row">
-                <input type="text" class="form-control" style="margin-right: 10px" id="firstName" name="firstName"
-                    placeholder="ชื่อผู้จอง">
-                <input type="text" class="form-control" style="margin-left: 10px" id="lastName" name="lastName"
-                    placeholder="นามสกุลผู้จอง">
+    <div class="bg-white p-4 rounded-3 border border-1 shadow-lg">
+        <h3>รายการจองที่ยืนยันการยกเลิก</h3>
+        <form action="{{ route('search-confirm-cancel') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="mb-3">
+                <label class="form-label">ค้นหารายการจอง</label>
+                <input type="text" class="form-control" style="margin-right: 10px" id="booking_id" name="booking_id"
+                    placeholder="รหัสการจอง">
+                <div id="help" class="form-text">กรอกรหัสการจองเพื่อทำการค้นหารายการจอง</div>
             </div>
-            <div id="help" class="form-text">กรอกชื่อผู้จองเพื่อทำการค้นหารายการจอง</div>
-        </div>
-        <input type="submit" class="btn btn-success" value="ค้นหารายการจอง">
-    </form>
+            <div class="mb-3">
+                <div class="d-flex flex-row">
+                    <input type="text" class="form-control" style="margin-right: 10px" id="firstName" name="firstName"
+                        placeholder="ชื่อผู้จอง">
+                    <input type="text" class="form-control" style="margin-left: 10px" id="lastName" name="lastName"
+                        placeholder="นามสกุลผู้จอง">
+                </div>
+                <div id="help" class="form-text">กรอกชื่อผู้จองเพื่อทำการค้นหารายการจอง</div>
+            </div>
+            <input type="submit" class="btn btn-success" value="ค้นหารายการจอง">
+        </form>
+    </div>
+
     <div class="table100 ver2 mb-4 mt-4">
         <div class="table100-head">
             <table>

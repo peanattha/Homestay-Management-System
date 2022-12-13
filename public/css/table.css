@@ -105,13 +105,11 @@ td {
     text-align: center;
 }
 .table100.ver2 {
-    border-radius: 10px;
+    border-radius: 0.3rem;
     overflow: hidden;
-    box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.15);
-    -moz-box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.15);
-    -webkit-box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.15);
-    -o-box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.15);
-    -ms-box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.15);
+    border: 1px solid #dee2e6;
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175)
+
 }
 .table100.ver2 .ps__rail-y {
     right: 5px;

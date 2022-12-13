@@ -91,8 +91,8 @@
     </div>
 
     {{-- Table & manage Menu --}}
-    <div>
-        <h3>จัดการชุดเมนูอาหาร</h3>
+    <div class="bg-white p-4 rounded-3 border border-1 shadow-lg">
+        <h3>เพิ่มชุดเมนูอาหาร</h3>
         <form action="{{ route('add-menu') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
@@ -121,9 +121,9 @@
             </div>
             <input type="submit" class="btn btn-success" value="เพิ่มชุดเมนูอาหาร">
         </form>
-        <br>
-        <hr>
-        <br>
+    </div>
+    <hr class="mb-4 mt-4">
+    <div class="bg-white p-4 rounded-3 border border-1 shadow-lg">
         <h3>ชุดเมนูอาหาร</h3>
         <form action="{{ route('search-set-menu') }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -134,49 +134,49 @@
             </div>
             <input type="submit" class="btn btn-success" value="ค้นหาชุดเมนูอาหาร">
         </form>
-        <div class="table100 ver2 mb-4">
-            <div class="table100-head">
-                <table>
-                    <thead>
+    </div>
+    <div class="table100 ver2 mb-4 mt-4">
+        <div class="table100-head">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 10%">ลำดับ</th>
+                        <th style="width: 25%">ชื่อชุดเมนูอาหาร</th>
+                        <th style="width: 10%">สถานะการใช้งาน</th>
+                        <th style="width: 25%">รายละเอียด / แก้ไข</th>
+                        <th style="width: 10%">ลบชุดเมนู</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="table100-body js-pscroll">
+            <table>
+                <tbody>
+                    @foreach ($set_menus as $set_menu)
                         <tr>
-                            <th style="width: 10%">ลำดับ</th>
-                            <th style="width: 25%">ชื่อชุดเมนูอาหาร</th>
-                            <th style="width: 10%">สถานะการใช้งาน</th>
-                            <th style="width: 25%">รายละเอียด / แก้ไข</th>
-                            <th style="width: 10%">ลบชุดเมนู</th>
+                            <td style="width: 10%">{{ $loop->iteration }}</td>
+                            <td style="width: 25%">{{ $set_menu->set_menu_name }}</td>
+                            @if ($set_menu->status == 1)
+                                <td style="width: 10%">ใช้งาน</td>
+                            @else
+                                <td style="width: 10%">ยกเลิกใช้งาน</td>
+                            @endif
+                            <td style="width: 25%"><a class="link-primary"
+                                    href="{{ route('menu-details', ['id' => $set_menu->id]) }}">รายละเอียด /
+                                    แก้ไข</a>
+                            </td>
+                            <td style="width: 10%">
+                                <form action="{{ route('delete-menu', ['id' => $set_menu->id]) }}" method="POST"
+                                    id="del-menu{{ $set_menu->id }}" class="m-0">
+                                    @csrf
+                                    <a onclick="showModelDelMenu({{ $set_menu->id }},'{{ $set_menu->set_menu_name }}')"
+                                        class="m-0 link-danger">ลบชุดเมนู</a>
+                                </form>
+                            </td>
                         </tr>
-                    </thead>
-                </table>
-            </div>
-            <div class="table100-body js-pscroll">
-                <table>
-                    <tbody>
-                        @foreach ($set_menus as $set_menu)
-                            <tr>
-                                <td style="width: 10%">{{ $loop->iteration }}</td>
-                                <td style="width: 25%">{{ $set_menu->set_menu_name }}</td>
-                                @if ($set_menu->status == 1)
-                                    <td style="width: 10%">ใช้งาน</td>
-                                @else
-                                    <td style="width: 10%">ยกเลิกใช้งาน</td>
-                                @endif
-                                <td style="width: 25%"><a class="link-primary"
-                                        href="{{ route('menu-details', ['id' => $set_menu->id]) }}">รายละเอียด /
-                                        แก้ไข</a>
-                                </td>
-                                <td style="width: 10%">
-                                    <form action="{{ route('delete-menu', ['id' => $set_menu->id]) }}" method="POST"
-                                        id="del-menu{{ $set_menu->id }}" class="m-0">
-                                        @csrf
-                                        <a onclick="showModelDelMenu({{ $set_menu->id }},'{{ $set_menu->set_menu_name }}')"
-                                            class="m-0 link-danger">ลบชุดเมนู</a>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
 @endsection

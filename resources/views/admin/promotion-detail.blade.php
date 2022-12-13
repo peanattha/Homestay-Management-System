@@ -9,8 +9,8 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
 @section('content')
-    <div>
-        <h3>จัดการโปรโมชั่น > แก้ใข โปรโมชั่น</h3>
+    <div class="bg-white p-4 rounded-3 border border-1 shadow-lg">
+        <h3>แก้ใข โปรโมชั่น</h3>
         <form action="{{route('edit-promotion', ['id' => $promotion->id])}}" method="POST">
             @csrf
             <div class="mb-3">

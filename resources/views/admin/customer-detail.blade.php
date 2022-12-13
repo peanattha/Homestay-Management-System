@@ -6,7 +6,7 @@
 
 @section('content')
     <h3>รายละเอียดลูกค้า</h3>
-    <div class="container rounded bg-white">
+    <div class="container bg-white rounded-3 border border-1 shadow-lg">
         <div class="d-flex justify-content-around">
             <div class="col-md-3 border-right">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5">
@@ -89,7 +89,7 @@
             </div>
         </div>
     </div>
-
+    <hr class="mt-4 mb-4">
     <h3 class="mt-4">รายการจองของลูกค้า</h3>
     <div class="table100 ver2 mb-4 mt-4">
         <div class="table100-head">

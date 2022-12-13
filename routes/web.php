@@ -120,11 +120,12 @@ Route::group(['middleware' => ['auth', 'verified', 'CheckAdmin']], function () {
         Route::get('/manage-customer', "manage_customer")->name('manage-customer');
         Route::post('/search-customer', "search_customer")->name('search-customer');
         Route::get('/customer-detail/{id}', "customer_detail")->name('customer-detail');
+        Route::post('/add-customer', "add_customer")->name('add-customer');
+        Route::post('/delete-customer/{id}', "delete_customer")->name('delete-customer');
     });
 
     Route::controller(PromotionController::class)->group(function () {
         Route::get('/manage-promotion', "manage_promotion")->name('manage-promotion');
-        Route::get('/promotion-admin', "promotion_admin")->name('promotion-admin');
         Route::get('/promotion-detail/{id}', "promotion_detail")->name('promotion-detail');
         Route::post('/add-promotion', "add_promotion")->name('add-promotion');
         Route::post('/edit-promotion/{id}', "edit_promotion")->name('edit-promotion');

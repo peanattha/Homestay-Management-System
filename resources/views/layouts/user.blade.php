@@ -355,7 +355,7 @@
         @endauth
     @endif
 
-    <a href="#" id="toTopBtn" class="cd-top text-replace" data-abc="true"></a>
+    <a href="#" id="toTopBtn" class="cd-top text-replace rounded-3 border border-1" data-abc="true"></a>
 
 </body>
 

@@ -51,8 +51,8 @@
     </div>
 
     {{-- Table & manage homestay --}}
-    <div>
-        <h3>รายการที่พัก > เพิ่ม/ลบ/แก้ใข ที่พัก</h3>
+    <div class="bg-white p-4 rounded-3 border border-1 shadow-lg">
+        <h3>เพิ่ม/ลบ/แก้ใข ที่พัก</h3>
         <form action="{{ route('add-homestay') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
@@ -107,45 +107,45 @@
             </div>
             <input type="submit" class="btn btn-success" value="เพิ่มที่พัก">
         </form>
-        <div class="table100 ver2 mb-4">
-            <div class="table100-head">
-                <table>
-                    <thead>
+    </div>
+    <div class="table100 ver2 mb-4 mt-4">
+        <div class="table100-head">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 10%">ลำดับ</th>
+                        <th style="width: 25%">ชื่อที่พัก</th>
+                        <th style="width: 25%">ประเภทที่พัก</th>
+                        <th style="width: 25%">รายละเอียด / แก้ไข</th>
+                        <th style="width: 10%">ลบที่พัก</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="table100-body js-pscroll">
+            <table>
+                <tbody>
+                    @foreach ($homestays as $homestay)
                         <tr>
-                            <th style="width: 10%">ลำดับ</th>
-                            <th style="width: 25%">ชื่อที่พัก</th>
-                            <th style="width: 25%">ประเภทที่พัก</th>
-                            <th style="width: 25%">รายละเอียด / แก้ไข</th>
-                            <th style="width: 10%">ลบที่พัก</th>
+                            <td style="width: 10%">{{ $loop->iteration }}</td>
+                            <td style="width: 25%">{{ $homestay->homestay_name }}</td>
+                            <td style="width: 25%">{{ $homestay->homestay_type->homestay_type_name }}</td>
+                            <td style="width: 25%"><a class="link-primary"
+                                    href="{{ route('homestay-details-admin', ['id' => $homestay->id]) }}">รายละเอียด /
+                                    แก้ไข</a>
+                            </td>
+                            <td style="width: 10%">
+                                <form action="{{ route('delete-homestay', ['id' => $homestay->id]) }}" method="POST"
+                                    id="del-homestay{{ $homestay->id }}" class="m-0">
+                                    @csrf
+                                    <a onclick="showModelDelhomestay({{ $homestay->id }},'{{ $homestay->homestay_name }}')"
+                                        class="m-0 link-danger">ลบที่พัก</a>
+                                </form>
+                            </td>
                         </tr>
-                    </thead>
-                </table>
-            </div>
-            <div class="table100-body js-pscroll">
-                <table>
-                    <tbody>
-                        @foreach ($homestays as $homestay)
-                            <tr>
-                                <td style="width: 10%">{{ $loop->iteration }}</td>
-                                <td style="width: 25%">{{ $homestay->homestay_name }}</td>
-                                <td style="width: 25%">{{ $homestay->homestay_type->homestay_type_name }}</td>
-                                <td style="width: 25%"><a class="link-primary"
-                                        href="{{ route('homestay-details-admin', ['id' => $homestay->id]) }}">รายละเอียด /
-                                        แก้ไข</a>
-                                </td>
-                                <td style="width: 10%">
-                                    <form action="{{ route('delete-homestay', ['id' => $homestay->id]) }}" method="POST"
-                                        id="del-homestay{{ $homestay->id }}" class="m-0">
-                                        @csrf
-                                        <a onclick="showModelDelhomestay({{ $homestay->id }},'{{ $homestay->homestay_name }}')"
-                                            class="m-0 link-danger">ลบที่พัก</a>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
 @endsection

@@ -139,17 +139,12 @@
                 </ul>
             </li>
             <li>
-                <div class="iocn-link">
-                    <a href="{{route('promotion-admin')}}">
-                        <i class='bx bx-collection'></i>
-                        <span class="link_name">จัดการโปรโมชั่น</span>
-                    </a>
-                    <i class='bx bxs-chevron-down arrow'></i>
-                </div>
-                <ul class="sub-menu">
-                    <li><a class="link_name" href="{{route('promotion-admin')}}">จัดการโปรโมชั่น</a></li>
-                    <li><a href="{{route('promotion-admin')}}">โปรโมชั่น</a></li>
-                    <li><a href="{{route('manage-promotion')}}">เพิ่ม/ลบ/แก้ใข โปรโมชั่น</a></li>
+                <a href="{{route('manage-promotion')}}">
+                    <i class='bx bx-collection'></i>
+                    <span class="link_name">จัดการโปรโมชั่น</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="{{route('manage-promotion')}}">จัดการโปรโมชั่น</a></li>
                 </ul>
             </li>
             <li>
@@ -196,7 +191,7 @@
         </div>
     </section>
 
-    <a href="#" id="toTopBtn" class="cd-top text-replace" data-abc="true"></a>
+    <a href="#" id="toTopBtn" class="cd-top text-replace rounded-3 border border-1" data-abc="true"></a>
 
 </body>
 

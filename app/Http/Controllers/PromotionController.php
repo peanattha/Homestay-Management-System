@@ -87,10 +87,10 @@ class PromotionController extends Controller
     {
         $promotions = promotion::where('promotion_name', $request->promotion_name)->get();
         if ($promotions->count() == 0) {
-            return redirect()->route('promotion-admin')->with('error', 'ไม่มีรายการค้นหา');
+            return redirect()->route('manage-promotion')->with('error', 'ไม่มีรายการค้นหา');
         } else {
             $promotion_name = $request->promotion_name;
-            return view('admin.promotion-admin', compact('promotions', 'promotion_name'));
+            return view('admin.manage-promotion', compact('promotions', 'promotion_name'));
         }
         return redirect()->route('promotion-detail');
     }
@@ -101,10 +101,10 @@ class PromotionController extends Controller
             $promotion_name = $request->promotion_name;
             $promotions = promotion::where('promotion_name', $request->promotion_name)
                 ->where('status', $request->status)->get();
-            return view('admin.promotion-admin', compact('promotions', 'promotion_name', 'status'));
+            return view('admin.manage-promotion', compact('promotions', 'promotion_name', 'status'));
         } else {
             $promotions = promotion::where('status', $request->status)->get();
-            return view('admin.promotion-admin', compact('promotions', 'status'));
+            return view('admin.manage-promotion', compact('promotions', 'status'));
         }
     }
 }
