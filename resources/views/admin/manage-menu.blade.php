@@ -31,32 +31,24 @@
     //Close Model
     function closeModel() {
         $("#modal-del-menu").modal("hide");
-        $('#modal-search-none').modal('hide');
     }
 </script>
-@if (Session::get('sameName') == true)
-    <script>
-        $(window).on('load', function() {
-            $('#sameName').modal('show');
-        });
-    </script>
-@endif
 
 @section('content')
-    <div class="modal fade" id="modal-search-none" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">แจ้งเตือน</h5>
-                </div>
-                <div class="modal-body" id="textModelSearchNone">ไม่มีรายการตรงกับที่คุณค้นหา</div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success" onclick="closeModel()">ยืนยัน</button>
-                </div>
-            </div>
+    {{-- Alert Message --}}
+    @if (Session::has('message'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ Session::get('message') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    </div>
+    @endif
+    @if (Session::has('warning'))
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ Session::get('warning') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+   
     {{-- Model Ples Input --}}
     <div class="modal fade" id="modal-plese-input" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">

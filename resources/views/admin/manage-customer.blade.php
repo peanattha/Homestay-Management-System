@@ -6,23 +6,15 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-@if (Session::has('message'))
-    <script>
-        $(window).on('load', function() {
-            $('#modal-message').modal('show');
-        });
-    </script>
-@endif
-
 <script>
     function closeModel() {
-        $('#modal-message').modal('hide');
         $("#modal-del-customer").modal("hide");
     }
+
     function showModelCustomer(id, firstName, lastName) {
         window.id_customer = id;
         document.getElementById("textModelCustomer").innerHTML =
-            "คุณเเน่ใจที่จะลบข้อมูลลูกค้า " + firstName +" "+lastName;
+            "คุณเเน่ใจที่จะลบข้อมูลลูกค้า " + firstName + " " + lastName;
         $("#modal-del-customer").modal("show");
     }
 
@@ -32,24 +24,19 @@
 </script>
 
 @section('content')
-    <div class="modal fade" id="modal-message" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">แจ้งเตือน</h5>
-                </div>
-                <div class="modal-body" id="textModel">
-                    @if (Session::has('message'))
-                        {{ Session::get('message') }}
-                    @endif
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success" onclick="closeModel()">ยืนยัน</button>
-                </div>
-            </div>
+    {{-- Alert Message --}}
+    @if (Session::has('message'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ Session::get('message') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    </div>
+    @endif
+    @if (Session::has('warning'))
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ Session::get('warning') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     {{-- Model Delete Customer --}}
     <div class="modal fade" id="modal-del-customer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">

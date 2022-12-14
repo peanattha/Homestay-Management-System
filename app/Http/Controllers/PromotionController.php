@@ -52,12 +52,12 @@ class PromotionController extends Controller
         $add_promotion->end_time = $end_time;
 
         $add_promotion->save();
-        return redirect()->back();
+        return redirect()->back()->with('message', 'เพิ่มโปรโมชั่น '.$request->promotion_name.' เสร็จสิ้น');
     }
     public function delete_promotion($id)
     {
         promotion::find($id)->delete();
-        return redirect()->back();
+        return redirect()->back()->with('message', 'ลบโปรโมชั่นเสร็จสิ้น');
     }
     public function edit_promotion(Request $request, $id)
     {
@@ -81,13 +81,13 @@ class PromotionController extends Controller
         $edit_promotion->end_time = $end_time;
 
         $edit_promotion->save();
-        return redirect()->route('promotion-detail', $id);
+        return redirect()->route('promotion-detail', $id)->with('message', 'แก้ใขโปรโมชั่น '.$request->promotion_name.' เสร็จสิ้น');
     }
     public function search_promotion(Request $request)
     {
         $promotions = promotion::where('promotion_name', $request->promotion_name)->get();
         if ($promotions->count() == 0) {
-            return redirect()->route('manage-promotion')->with('error', 'ไม่มีรายการค้นหา');
+            return redirect()->route('manage-promotion')->with('warning', 'ไม่มีรายการค้นหา');
         } else {
             $promotion_name = $request->promotion_name;
             return view('admin.manage-promotion', compact('promotions', 'promotion_name'));

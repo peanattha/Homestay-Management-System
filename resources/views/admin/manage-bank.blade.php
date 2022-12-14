@@ -24,7 +24,15 @@
         $("#showModelDelBank").modal("hide");
     }
 </script>
+
 @section('content')
+    {{-- Alert Message --}}
+    @if (Session::has('message'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ Session::get('message') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     {{-- Model Delete Bank --}}
     <div class="modal fade" id="showModelDelBank" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -41,18 +49,20 @@
             </div>
         </div>
     </div>
-    <div class="bg-white p-4 rounded-3 border border-1 shadow-lg">
+    <div class="bg-white p-4 rounded-3 border border-1 shadow-lg mb-4">
         <h3>วิธีการชำระเงิน</h3>
         @if ($banks->isEmpty())
             <form action="{{ route('add-bank') }}" method="POST" enctype="multipart/form-data" id="form-addBank">
                 @csrf
-                <div class="mb-3">
-                    <label for="firstName" class="form-label">ชื่อ *</label>
-                    <input type="text" class="form-control" id="firstName" name="firstName" required>
-                </div>
-                <div class="mb-3">
-                    <label for="lastName" class="form-label">นามสกุล *</label>
-                    <input type="text" class="form-control" id="lastName" name="lastName" required>
+                <div class="row mt-2">
+                    <div class="col-md-6">
+                        <label class="labels">ชื่อ *</label>
+                        <input type="text" name="firstName" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="labels">นามสกุล *</label>
+                        <input type="text" name="lastName" class="form-control" required>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="bank_name" class="form-label">ธนาคาร *</label>

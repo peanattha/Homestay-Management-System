@@ -41,16 +41,15 @@ class BankController extends Controller
         }
 
         $add_bank_detail->save();
-        return redirect()->back();
+        return redirect()->back()->with('message', "เพิ่มบัญชีชำระเงินเสร็จสิ้น");
     }
     public function delete_bank($id)
     {
         bank_admin::find($id)->delete();
-        return redirect()->back();
+        return redirect()->back()->with('message', "ลบบัญชีชำระเงินเสร็จสิ้น");
     }
     public function edit_bank($id,Request $request)
     {
-
         $update_bank = bank_admin::find($id);
         $update_bank->firstName = $request->firstName;
         $update_bank->lastName = $request->lastName;
@@ -72,7 +71,7 @@ class BankController extends Controller
         }
 
         $update_bank->save();
-        return redirect()->back();
+        return redirect()->back()->with('message', "แก้ใขบัญชีชำระเงินเสร็จสิ้น");
 
     }
 }

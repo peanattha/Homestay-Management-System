@@ -10,37 +10,21 @@
 
 <script type="text/javascript" src="{{ asset('js/manage-admin.js') }}"></script>
 
-@if (Session::get('notEmail') == true)
-    <script>
-        $(window).on('load', function() {
-            $('#notEmail').modal('show');
-        });
-    </script>
-@endif
 
 @section('content')
-    {{-- Model Email Admin --}}
-    <div class="modal fade" id="notEmail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">แจ้งเตือน</h5>
-                </div>
-                <div class="modal-body">
-                    @if (Session::has('email'))
-                        <p>ไม่มีอีเมล์ {{ Session::get('email') }} ในฐานข้อมูล</p>
-                    @endif
-                    @if (Session::has('emailAdmin'))
-                        <p>อีเมล์ {{ Session::get('emailAdmin') }} มีสิทธิ์ผู้ดูเเลระบบเเล้ว</p>
-                    @endif
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success" onclick="closeModel()">ตกลง</button>
-                </div>
-            </div>
+    {{-- Alert Message --}}
+    @if (Session::has('message'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ Session::get('message') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    </div>
-
+    @endif
+    @if (Session::has('warning'))
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ Session::get('warning') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     {{-- Model Delete Admin --}}
     <div class="modal fade" id="modal-del" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -105,6 +89,7 @@
         </form>
     </div>
     <hr class="mb-4 mt-4">
+
     {{-- Table & Manage Admin --}}
     <div class="table100 ver2 mb-4">
         <div class="table100-head">

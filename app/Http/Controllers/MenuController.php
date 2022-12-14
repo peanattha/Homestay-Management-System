@@ -37,12 +37,12 @@ class MenuController extends Controller
 
         $add_set_menu->menu_img = json_encode($data);
         $add_set_menu->save();
-        return redirect()->back();
+        return redirect()->back()->with('message', 'เพิ่มชุดเมนูอาหารเสร็จสิ้น');
     }
     public function delete_menu($id)
     {
         set_menu::find($id)->delete();
-        return redirect()->back();
+        return redirect()->route('manage-menu')->with('message', 'ลบชุดเมนูอาหารเสร็จสิ้น');
     }
     public function menu_details($id){
         $set_menu = set_menu::find($id);
@@ -101,13 +101,13 @@ class MenuController extends Controller
         }
 
         $update_set_menu->save();
-        return redirect()->back();
+        return redirect()->back()->with('message', 'แก้ใขชุดเมนูอาหารเสร็จสิ้น');
     }
     public function search_set_menu(Request $request){
         if (isset($request->set_menu_name)) {
             $set_menus = set_menu::where('set_menu_name', $request->set_menu_name)->get();
             if (($set_menus->count() == 0)) {
-                return redirect()->route('manage-menu')->with('error', 'ไม่มีรายการค้นหา');;
+                return redirect()->route('manage-menu')->with('warning', 'ไม่มีรายการค้นหา');
             }
         } else {
             $set_menus = set_menu::all();

@@ -25,20 +25,8 @@
     //Close Model
     function closeModel() {
         $("#modal-del-promo").modal("hide");
-        $('#modal-search-none').modal('hide');
     }
-    // $(window).on('load', function() {
-    //     var y = $(window).scrollTop();
-    //     $(window).scrollTop(y + 3000);
-    // });
 </script>
-@if (Session::has('error'))
-    <script>
-        $(window).on('load', function() {
-            $('#modal-search-none').modal('show');
-        });
-    </script>
-@endif
 <style>
     .aa {
         width: 150px;
@@ -51,21 +39,19 @@
     }
 </style>
 @section('content')
-    {{-- Model search none --}}
-    <div class="modal fade" id="modal-search-none" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">แจ้งเตือน</h5>
-                </div>
-                <div class="modal-body" id="textModelSearchNone">ไม่มีรายการตรงกับที่คุณค้นหา</div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success" onclick="closeModel()">ยืนยัน</button>
-                </div>
-            </div>
+    {{-- Alert Message --}}
+    @if (Session::has('message'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ Session::get('message') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    </div>
+    @endif
+    @if (Session::has('warning'))
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ Session::get('warning') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     {{-- Model Delete Promotion --}}
     <div class="modal fade" id="modal-del-promo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">

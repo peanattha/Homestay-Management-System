@@ -25,10 +25,10 @@ class CustomerController extends Controller
     }
     public function search_customer(Request $request)
     {
-        $firstName = user::where('firstName', $request->firstName)->get();
-        $lastName = user::where('lastName', $request->lastName)->get();
-        if (($firstName->count() == 0) || ($lastName->count() == 0)) {
-            return redirect()->route('manage-customer')->with('message', 'ไม่มีรายการค้นหา');
+        $userInfo = user::where('firstName', $request->firstName)
+        ->where('lastName', $request->lastName)->get();
+        if ($userInfo->count() == 0) {
+            return redirect()->route('manage-customer')->with('warning', 'ไม่มีรายการค้นหา');
         } else {
             $user_id = DB::table('users')
                 ->where('firstName', $request->firstName)
@@ -55,14 +55,14 @@ class CustomerController extends Controller
             ->where("email", $request->email)->get();
 
         if ($checkInfoUser->count() != 0) {
-            return redirect()->back()->with('message', 'ข้อมูลนี้ได้เป็นสมาชิกอยู่เเล้ว');
+            return redirect()->route('manage-customer')->with('warning', 'ข้อมูลนี้ได้เป็นสมาชิกอยู่เเล้ว');
         } else {
             if ($info->count() != 0) {
-                return redirect()->back()->with('message', 'ชื่อเเละนามสกุลมีในฐานข้อมูลเเล้ว');
+                return redirect()->route('manage-customer')->with('warning', 'ชื่อเเละนามสกุลมีในฐานข้อมูลเเล้ว');
             } else {
                 $dupEmail = user::where("email", $request->email)->get();
                 if ($dupEmail->count() != 0) {
-                    return redirect()->back()->with('message', 'อีเมลซ้ำในฐานข้อมูล');
+                    return redirect()->route('manage-customer')->with('warning', 'อีเมลซ้ำในฐานข้อมูล');
                 } else {
                     $add_user = new user();
                     $add_user->firstName =  $request->firstName;
@@ -92,7 +92,7 @@ class CustomerController extends Controller
                     $add_user->password =  Hash::make($request->password);
 
                     $add_user->save();
-                    return redirect()->back()->with('message', 'เพิ่มข้อมูลลูกค้าเสร็จสิ้น');
+                    return redirect()->route('manage-customer')->with('message', 'เพิ่มข้อมูลลูกค้าเสร็จสิ้น');
                 }
             }
         }
@@ -100,6 +100,6 @@ class CustomerController extends Controller
     public function delete_customer($id)
     {
         user::find($id)->delete();
-        return redirect()->back()->with('message', 'ลบข้อมูลลูกค้าเสร็จสิ้น');
+        return redirect()->route('manage-customer')->with('message', 'ลบข้อมูลลูกค้าเสร็จสิ้น');
     }
 }

@@ -9,9 +9,16 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
 @section('content')
+    {{-- Alert Message --}}
+    @if (Session::has('message'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ Session::get('message') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     <div class="bg-white p-4 rounded-3 border border-1 shadow-lg">
         <h3>แก้ใข โปรโมชั่น</h3>
-        <form action="{{route('edit-promotion', ['id' => $promotion->id])}}" method="POST">
+        <form action="{{ route('edit-promotion', ['id' => $promotion->id]) }}" method="POST">
             @csrf
             <div class="mb-3">
                 <label for="promotion_name" class="form-label">ชื่อโปรโมชั่น *</label>
@@ -68,16 +75,16 @@
             </div>
             <div class="mb-3">
                 <label for="num_use" class="form-label">จำนวนผู้ใช้ส่วนลดนี้</label>
-                <input type="text" class="form-control" id="num_use" name="num_use"
-                    value="{{$bookings->count()}}" required disabled>
+                <input type="text" class="form-control" id="num_use" name="num_use" value="{{ $bookings->count() }}"
+                    required disabled>
             </div>
             <?php
-            $price_use = ($bookings->count())*$promotion->discount_price;
+            $price_use = $bookings->count() * $promotion->discount_price;
             ?>
             <div class="mb-3">
                 <label for="price_use" class="form-label">ราคารวมการใช้งานส่วนลด (บาท)</label>
-                <input type="text" class="form-control" id="price_use" name="price_use"
-                    value="{{$price_use}}" required disabled>
+                <input type="text" class="form-control" id="price_use" name="price_use" value="{{ $price_use }}"
+                    required disabled>
             </div>
             <input type="submit" class="btn btn-success" value="แก้ใขโปรโมชั่น">
         </form>

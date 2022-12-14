@@ -48,7 +48,7 @@ class ProfileController extends Controller
         }
 
         $update_user->save();
-        return redirect()->back();
+        return redirect()->back()->with("message","แก้ใขข้อมูลโปรไฟล์เสร็จสิ้น");
     }
     public function delete(){
         user::destroy(Auth::user()->id);
@@ -58,7 +58,7 @@ class ProfileController extends Controller
 
     public function changePassword(Request $request) {
         if (!(Hash::check($request->get('current-password'), Auth::user()->password))) {
-            return redirect()->back()->with("error","รหัสผ่านปัจจุบันของคุณ ไม่ตรงกับรหัสผ่านที่ใช้อยู่.");
+            return redirect()->back()->with("message","รหัสผ่านปัจจุบันของคุณ ไม่ตรงกับรหัสผ่านที่ใช้อยู่.");
         }
 
         if(strcmp($request->get('current-password'), $request->get('new-password')) == 0){

@@ -5,6 +5,13 @@
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
 
 @section('content')
+    {{-- Alert Message --}}
+    @if (Session::has('message'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ Session::get('message') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     <div class="bg-white p-4 rounded-3 border border-1 shadow-lg">
         <h3>แก้ไขรายละเอียดชุดเมนูอาหาร</h3>
         <form action="{{ route('edit-menu', ['id' => $set_menu->id]) }}" method="POST" id="form_edit_menu"
