@@ -33,28 +33,28 @@ class homestayController extends Controller
     public function add_homestay_type(Request $request)
     {
         if (homestay_type::where('homestay_type_name', $request->homestay_type_name)->exists()) {
-            return redirect()->back()->with('sameName', true)->with('name', $request->homestay_type_name);
+            return redirect()->back()->with('warning', "มีประเภทที่พัก ".$request->homestay_type_name." ในฐานข้อมูลเเล้ว");
         } else {
             $add_homestay_type = new homestay_type;
             $add_homestay_type->homestay_type_name = $request->homestay_type_name;
             $add_homestay_type->save();
-            return redirect()->back();
+            return redirect()->back()->with('message', "เพิ่มประเภทที่พักเสร็จสิ้น");
         }
     }
     public function delete_homestay_type($id)
     {
         homestay_type::find($id)->delete();
-        return redirect()->back();
+        return redirect()->back()->with('message', "ลบประเภทที่พักเสร็จสิ้น");
     }
     public function edit_homestay_type(Request $request)
     {
         if (homestay_type::where('homestay_type_name', $request->homestay_type_name)->exists()) {
-            return redirect()->back()->with('sameName', true)->with('name', $request->homestay_type_name);
+            return redirect()->back()->with('warning', "มีประเภทที่พัก ".$request->homestay_type_name." ในฐานข้อมูลเเล้ว");
         } else {
             $update_homestay_type = homestay_type::find($request->id);
             $update_homestay_type->homestay_type_name = $request->homestay_type_name;
             $update_homestay_type->save();
-            return redirect()->back();
+            return redirect()->back()->with('message', "แก้ใขประเภทที่พักเสร็จสิ้น");
         }
     }
 
@@ -82,13 +82,13 @@ class homestayController extends Controller
 
         $add_homestay->homestay_img = json_encode($data);
         $add_homestay->save();
-        return redirect()->back();
+        return redirect()->back()->with('message', "เพิ่มที่พักเสร็จสิ้น");
     }
 
     public function delete_homestay($id)
     {
         homestay::find($id)->delete();
-        return redirect()->back();
+        return redirect()->back()->with('message', "ลบที่พักเสร็จสิ้น");
     }
 
     public function homestay_details_admin($id)
@@ -156,7 +156,7 @@ class homestayController extends Controller
         }
 
         $update_homestay->save();
-        return redirect()->back();
+        return redirect()->back()->with('message', "แก้ใขที่พักเสร็จสิ้น");
     }
     public function homestay_admin()
     {
@@ -168,13 +168,13 @@ class homestayController extends Controller
         if (isset($request->homestay_name)) {
             $homestays = homestay::where('homestay_name', $request->homestay_name)->get();
             if ($homestays->count() == 0) {
-                return redirect()->route('homestay-admin')->with('error', 'ไม่มีรายการค้นหา');
+                return redirect()->route('homestay-admin')->with('warning', 'ไม่มีรายการค้นหา');
             }
         } else if (isset($request->homestay_type)) {
             $homestay_type_id = homestay_type::where('homestay_type_name', $request->homestay_type)->first()->id;
             $homestays = homestay::where('homestay_type_id', $homestay_type_id)->get();
             if ($homestays->count() == 0) {
-                return redirect()->route('homestay-admin')->with('error', 'ไม่มีรายการค้นหา');
+                return redirect()->route('homestay-admin')->with('warning', 'ไม่มีรายการค้นหา');
             }
         } else {
             $homestays = homestay::all();
@@ -184,7 +184,7 @@ class homestayController extends Controller
             $homestay_type_id = homestay_type::where('homestay_type_name', $request->homestay_type)->first()->id;
             $homestays = homestay::where('homestay_type_id', $homestay_type_id)->where('homestay_name', $request->homestay_name)->get();
             if ($homestays->count() == 0) {
-                return redirect()->route('homestay-admin')->with('error', 'ไม่มีรายการค้นหา');
+                return redirect()->route('homestay-admin')->with('warning', 'ไม่มีรายการค้นหา');
             }
         }
 

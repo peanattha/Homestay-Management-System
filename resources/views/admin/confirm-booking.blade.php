@@ -88,7 +88,7 @@
                             <td style="width: 10%">{{ $booking->number_guests }}</td>
                             {{-- {{ asset('storage/images/' . $img) }} --}}
                             <td style="width: 15%"><a href="">สลิปจ่ายเงิน</a></td>
-                            <td style="width: 15%"><a href="#"class="link-primary">รายละเอียด</a></td>
+                            <td style="width: 15%"><a href="#"class="btn btn-primary">รายละเอียด</a></td>
                             <td style="width: 20%">
                                 <a href="{{ route('confirm-pay-admin', $booking->id) }}"
                                     onclick="return confirm('คุณเเน่ใจที่จะ ยืนยันการชำระเงิน')"

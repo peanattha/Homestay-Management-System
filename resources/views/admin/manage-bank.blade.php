@@ -19,10 +19,6 @@
     function confirmDelBank() {
         document.getElementById("form-delBank").submit();
     }
-    // Close Model
-    function closeModel() {
-        $("#showModelDelBank").modal("hide");
-    }
 </script>
 
 @section('content')
@@ -40,11 +36,12 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">แจ้งเตือน</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="textModelDelBank"></div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" onclick="closeModel()">ยกเลิก</button>
                     <button type="button" class="btn btn-success" onclick="confirmDelBank()">ยืนยัน</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
                 </div>
             </div>
         </div>
@@ -130,9 +127,11 @@
                 <form action="{{ route('delete-bank', $banks[0]->id) }}" method="POST" id="form-delBank"
                     class="m-0">
                     @csrf
-                    <input type="button" class="btn btn-danger" value="ลบบัญชีธนาคาร"
-                        onclick="showModelDelBank('{{ $banks[0]->acc_number }}')" class="m-0 link-danger">
                 </form>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#showModelDelBank"
+                onclick="showModelDelBank('{{ $banks[0]->acc_number }}')">
+                ลบบัญชีธนาคาร
+                </button>
             </div>
         @endif
     </div>

@@ -66,7 +66,6 @@
                         <th style="width: 15%">ชื่อผู้จอง</th>
                         <th style="width: 10%">ชื่อที่พัก</th>
                         <th style="width: 10%">จำนวนผู้เข้าพัก</th>
-                        {{-- <th style="width: 10%">สถานะการจ่ายเงิน</th> --}}
                         <th style="width: 10%">สถานะ</th>
                         <th style="width: 15%">เข้าพัก</th>
                         <th style="width: 15%">รายละเอียดเพิ่มเติม</th>
@@ -88,31 +87,14 @@
                                 @endforeach
                             </td>
                             <td style="width: 10%">{{ $booking->number_guests }}</td>
-
-                            {{-- <td style="width: 10%">ชำระเงินเเล้ว</td> --}}
-                            @if ($booking->status == 1)
-                                <td style="width: 10%">Checkin</td>
-                            @elseif ($booking->status == 2)
-                                <td style="width: 10%">Check Out</td>
-                            @elseif ($booking->status == 3)
-                                <td style="width: 10%">รอ Check In</td>
-                            @elseif ($booking->status == 4)
-                                <td style="width: 10%">ยกเลิกการจอง</td>
-                            @elseif ($booking->status == 5)
-                                <td style="width: 10%">รอชำระเงิน</td>
-                            @elseif ($booking->status == 6)
-                                <td style="width: 10%">รอยืนยันการชำระเงิน</td>
-                            @elseif ($booking->status == 7)
-                                <td style="width: 10%">รอยืนยันยกเลิกการจอง</td>
-                            @endif
-
+                            <td style="width: 10%"><span class="badge bg-success">Check In</span></td>
                             <?php
                             $start_date = date('d-m-Y', strtotime($booking->start_date));
                             $end_date = date('d-m-Y', strtotime($booking->end_date));
                             $valueDate = $start_date . ' - ' . $end_date;
                             ?>
                             <td style="width: 15%">{{ $valueDate }}</td>
-                            <td style="width: 15%"><a href="#" class="link-primary">รายละเอียด</a></td>
+                            <td style="width: 15%"><a href="#" class="btn btn-primary">รายละเอียด</a></td>
                             <td style="width: 15%"><a href="{{ route('check-out', $booking->id) }}"
                                     onclick="return confirm('คุณเเน่ใจที่จะ Check Out')"
                                     class="btn btn-danger">Check-Out</a></td>

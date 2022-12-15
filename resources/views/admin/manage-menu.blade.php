@@ -7,13 +7,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script type="text/javascript" src="{{ asset('js/manage-menu.js') }}"></script>
-@if (Session::has('error'))
-    <script>
-        $(window).on('load', function() {
-            $('#modal-search-none').modal('show');
-        });
-    </script>
-@endif
 
 <script>
     // Delete menu
@@ -26,11 +19,6 @@
 
     function confirmDelmenu() {
         document.getElementById("del-menu" + window.id_menu).submit();
-    }
-
-    //Close Model
-    function closeModel() {
-        $("#modal-del-menu").modal("hide");
     }
 </script>
 
@@ -48,22 +36,6 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
-   
-    {{-- Model Ples Input --}}
-    <div class="modal fade" id="modal-plese-input" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">แจ้งเตือน</h5>
-                </div>
-                <div class="modal-body" id="textModelPleseInput"></div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success" onclick="closeModel()">ยืนยัน</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     {{-- Model Delete menu --}}
     <div class="modal fade" id="modal-del-menu" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -72,11 +44,12 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">แจ้งเตือน</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="textModelDelMenu"></div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" onclick="closeModel()">ยกเลิก</button>
                     <button type="button" class="btn btn-success" onclick="confirmDelmenu()">ยืนยัน</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
                 </div>
             </div>
         </div>
@@ -153,17 +126,20 @@
                             @else
                                 <td style="width: 10%">ยกเลิกใช้งาน</td>
                             @endif
-                            <td style="width: 25%"><a class="link-primary"
+                            <td style="width: 25%"><a class="btn btn-primary"
                                     href="{{ route('menu-details', ['id' => $set_menu->id]) }}">รายละเอียด /
                                     แก้ไข</a>
                             </td>
                             <td style="width: 10%">
                                 <form action="{{ route('delete-menu', ['id' => $set_menu->id]) }}" method="POST"
-                                    id="del-menu{{ $set_menu->id }}" class="m-0">
+                                    id="del-menu{{ $set_menu->id }}">
                                     @csrf
-                                    <a onclick="showModelDelMenu({{ $set_menu->id }},'{{ $set_menu->set_menu_name }}')"
-                                        class="m-0 link-danger">ลบชุดเมนู</a>
                                 </form>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#modal-del-menu"
+                                    onclick="showModelDelMenu({{ $set_menu->id }},'{{ $set_menu->set_menu_name }}')">
+                                    ลบชุดเมนู
+                                </button>
                             </td>
                         </tr>
                     @endforeach

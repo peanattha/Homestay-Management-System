@@ -7,10 +7,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script>
-    function closeModel() {
-        $("#modal-del-customer").modal("hide");
-    }
-
     function showModelCustomer(id, firstName, lastName) {
         window.id_customer = id;
         document.getElementById("textModelCustomer").innerHTML =
@@ -44,11 +40,12 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">แจ้งเตือน</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="textModelCustomer"></div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" onclick="closeModel()">ยกเลิก</button>
                     <button type="button" class="btn btn-success" onclick="confirmDelCustomer()">ยืนยัน</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
                 </div>
             </div>
         </div>
@@ -155,14 +152,17 @@
                                 <td style="width: 10%">{{ $user->tel }}</td>
                             @endif
                             <td style="width: 15%"><a href="{{ route('customer-detail', $user->id) }}"
-                                    class="link-primary">รายละเอียด</a></td>
+                                    class="btn btn-primary">รายละเอียด</a></td>
                             <td style="width: 10%">
                                 <form action="{{ route('delete-customer', ['id' => $user->id]) }}" method="POST"
                                     id="del-customer{{ $user->id }}" class="m-0 ">
                                     @csrf
-                                    <a onclick="showModelCustomer({{ $user->id }},'{{ $user->firstName }}','{{ $user->lastName }}')"
-                                        class="m-0 link-danger">ลบข้อมูลลูกค้า</a>
                                 </form>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#modal-del-customer"
+                                    onclick="showModelCustomer({{ $user->id }},'{{ $user->firstName }}','{{ $user->lastName }}')">
+                                    ลบข้อมูลลูกค้า
+                                </button>
                             </td>
                         </tr>
                     @endforeach

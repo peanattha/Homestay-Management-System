@@ -83,7 +83,7 @@
                     </li>
                     <li>
                         <a href="{{ route('confirm-booking') }}">
-                            รายการจองที่ต้องยืนยัน
+                            ยืนยันการจอง
                             @if (Session::get('noti')['cWaitConfirm'] != 0)
                                 <span class="ms-2 top-50 translate-middle badge rounded-pill bg-danger">
                                     {{ Session::get('noti')['cWaitConfirm'] }}
@@ -94,7 +94,7 @@
                     </li>
                     <li>
                         <a href="{{ route('confirm-cancel-booking') }}">
-                            รายการจองที่ยืนยันการยกเลิก
+                            ยืนยันการยกเลิกการจอง
                             @if (Session::get('noti')['cWaitcancel'] != 0)
                                 <span class="ms-2 top-50 translate-middle badge rounded-pill bg-danger">
                                     {{ Session::get('noti')['cWaitcancel'] }}

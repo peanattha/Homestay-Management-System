@@ -13,7 +13,6 @@
 
 @section('content')
     {{-- Alert Message --}}
-    {{-- {{ dd(session()->all()) }} --}}
     @if (Session::has('message'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ Session::get('message') }}
@@ -36,8 +35,8 @@
                 </div>
                 <div class="modal-body" id="textModelDel"></div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" onclick="closeModel()">ยกเลิก</button>
                     <button type="button" class="btn btn-success" onclick="confirmDel()">ยืนยัน</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
                 </div>
             </div>
         </div>
@@ -53,8 +52,8 @@
                 </div>
                 <div class="modal-body" id="textModelAdd"></div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" onclick="closeModel()">ยกเลิก</button>
                     <button type="button" class="btn btn-success" onclick="confirmAdd()">ยืนยัน</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
                 </div>
             </div>
         </div>
@@ -67,10 +66,11 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">แจ้งเตือน</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">กรุณากรอกอีเมล</div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" onclick="closeModel()">ยืนยัน</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยืนยัน</button>
                 </div>
             </div>
         </div>
@@ -121,13 +121,16 @@
                             @endif
                             <td style="width: 15%">
                                 <form action="{{ route('delete-admin') }}" method="POST"
-                                    id="del-admin-form{{ $admin->id }}" class="m-0 ">
+                                    id="del-admin-form{{ $admin->id }}">
                                     @csrf
                                     <input type="text" name="id" value="{{ $admin->id }}"
                                         style="display: none">
-                                    <a onclick="showModelDel({{ $admin->id }},'{{ $admin->email }}')"
-                                        class="m-0 link-danger">ลบสิทธิ์ผู้ดูเเลระบบ</a>
                                 </form>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#modal-del"
+                                    onclick="showModelDel({{ $admin->id }},'{{ $admin->email }}')">
+                                    ลบโปรโมชั่น
+                                </button>
                             </td>
                         </tr>
                     @endforeach

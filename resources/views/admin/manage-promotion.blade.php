@@ -10,7 +10,6 @@
 
 
 <script>
-    // Delete Promotion
     function showModelDelPromo(id, name) {
         window.id_promo = id;
         document.getElementById("textModelDelPromo").innerHTML =
@@ -20,11 +19,6 @@
 
     function confirmDelPromo() {
         document.getElementById("del-promo" + window.id_promo).submit();
-    }
-
-    //Close Model
-    function closeModel() {
-        $("#modal-del-promo").modal("hide");
     }
 </script>
 <style>
@@ -52,6 +46,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
+
     {{-- Model Delete Promotion --}}
     <div class="modal fade" id="modal-del-promo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -59,11 +54,12 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">แจ้งเตือน</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="textModelDelPromo"></div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" onclick="closeModel()">ยกเลิก</button>
                     <button type="button" class="btn btn-success" onclick="confirmDelPromo()">ยืนยัน</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
                 </div>
             </div>
         </div>
@@ -192,21 +188,25 @@
                             $end_date = date('d-m-Y', strtotime($promotion->end_date));
                             ?>
                             <td style="width: 25%">{{ $start_date }} - {{ $end_date }}</td>
-                            <td style="width: 25%"><a class="link-primary"
+                            <td style="width: 25%"><a class="btn btn-primary"
                                     href="{{ route('promotion-detail', ['id' => $promotion->id]) }}">รายละเอียด /
                                     แก้ไข</a>
                             </td>
                             <td style="width: 10%">
                                 <form action="{{ route('delete-promotion', ['id' => $promotion->id]) }}" method="POST"
-                                    id="del-promo{{ $promotion->id }}" class="m-0">
+                                    id="del-promo{{ $promotion->id }}">
                                     @csrf
-                                    <a onclick="showModelDelPromo({{ $promotion->id }},'{{ $promotion->promotion_name }}')"
-                                        class="m-0 link-danger">ลบโปรโมชั่น</a>
                                 </form>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#modal-del-promo"
+                                    onclick="showModelDelPromo({{ $promotion->id }},'{{ $promotion->promotion_name }}')">
+                                    ลบโปรโมชั่น
+                                </button>
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
-    @endsection
+    </div>
+@endsection

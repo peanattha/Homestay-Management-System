@@ -18,7 +18,6 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
-    <h3>รายละเอียดลูกค้า</h3>
     <div class="container bg-white rounded-3 border border-1 shadow-lg">
         <div class="d-flex justify-content-around">
             <div class="col-md-3 border-right">
@@ -40,7 +39,7 @@
             <div class="col-md-5">
                 <div class="p-3 py-5">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h4 class="text-right">โปรไฟล์</h4>
+                        <h4 class="text-right">รายละเอียดลูกค้า</h4>
                     </div>
                     <form action="{{ route('edit-profile', ['id' => $user->id]) }}" method="POST"
                         enctype="multipart/form-data">
@@ -152,7 +151,7 @@
                                 <td style="width: 20%">รอยืนยันยกเลิกการจอง</td>
                             @endif
                             <td style="width: 15%"><a href="{{ route('booking-detail', $booking->id) }}"
-                                    class="link-primary">รายละเอียด</a></td>
+                                    class="btn btn-primary">รายละเอียด</a></td>
                         </tr>
                     @endforeach
                 </tbody>

@@ -7,6 +7,19 @@
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
 
 @section('content')
+    {{-- Alert Message --}}
+    @if (Session::has('message'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ Session::get('message') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+    @if (Session::has('warning'))
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ Session::get('warning') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     <div class="bg-white p-4 rounded-3 border border-1 shadow-lg">
         <h3>แก้ไขรายละเอียดที่พัก</h3>
         <form action="{{ route('edit-homestay', ['id' => $detail->id]) }}" method="POST" id="form_edit_homestay"

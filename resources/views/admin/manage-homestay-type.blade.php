@@ -10,34 +10,20 @@
 
 <script type="text/javascript" src="{{ asset('js/manage-homestay.js') }}"></script>
 
-@if (Session::get('sameName') == true)
-    <script>
-        $(window).on('load', function() {
-            $('#sameName').modal('show');
-        });
-    </script>
-@endif
-
 @section('content')
-    {{-- Model Duplicate homestay Type Name --}}
-    <div class="modal fade" id="sameName" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">แจ้งเตือน</h5>
-                </div>
-                <div class="modal-body">
-                    @if (Session::has('name'))
-                        <p>มีประเภทที่พัก {{ Session::get('name') }} ในฐานข้อมูลเเล้ว</p>
-                    @endif
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success" onclick="closeModel()">ตกลง</button>
-                </div>
-            </div>
+    {{-- Alert Message --}}
+    @if (Session::has('message'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ Session::get('message') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    </div>
+    @endif
+    @if (Session::has('warning'))
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ Session::get('warning') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
 
     {{-- Model Ples Input --}}
     <div class="modal fade" id="modal-plese-input" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -46,10 +32,11 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">แจ้งเตือน</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="textModelPleseInput"></div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" onclick="closeModel()">ยืนยัน</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยืนยัน</button>
                 </div>
             </div>
         </div>
@@ -62,11 +49,12 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">แจ้งเตือน</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="textModelAddhomestayType"></div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" onclick="closeModel()">ยกเลิก</button>
                     <button type="button" class="btn btn-success" onclick="confirmAddhomestayType()">ยืนยัน</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
                 </div>
             </div>
         </div>
@@ -79,11 +67,12 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">แจ้งเตือน</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="textModelDelhomestayType"></div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" onclick="closeModel()">ยกเลิก</button>
                     <button type="button" class="btn btn-success" onclick="confirmDelhomestayType()">ยืนยัน</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
                 </div>
             </div>
         </div>
@@ -96,6 +85,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalCenterTitle">แก้ใขประเภทที่พัก</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form action="{{ route('edit-homestay-type') }}" method="POST" class="m-0">
@@ -103,12 +93,13 @@
                         <div class="form-group">
                             <label for="exampleInputEmail1" class="mb-2">ประเภทที่พัก</label>
                             <input type="text" style="display: none" name="id" id="edit-homestay-type-id">
-                            <input type="text" class="form-control mb-2" name="homestay_type_name" id="edit-homestay-type">
+                            <input type="text" class="form-control mb-2" name="homestay_type_name"
+                                id="edit-homestay-type">
                             <small id="emailHelp" class="form-text text-muted mb-2">แก้ใขประเภทที่พัก</small>
                         </div>
                         <div class="mb-2 mt-2">
-                            <button type="button" class="btn btn-danger" onclick="closeModel()">ยกเลิก</button>
                             <button type="submit" class="btn btn-success">ยืนยัน</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
                         </div>
                     </form>
                 </div>
@@ -151,17 +142,21 @@
                             <td style="width: 25%">{{ $loop->iteration }}</td>
                             <td style="width: 25%">{{ $homestay_type->homestay_type_name }}</td>
                             <td style="width: 25%">
-                                <a class="m-0 link-primary"
+                                <button type="button" class="btn btn-primary"
                                     onclick="showModelEdithomestayType({{ $homestay_type->id }},'{{ $homestay_type->homestay_type_name }}')">
-                                    แก้ไขประเภทที่พัก</a>
+                                    แก้ไขประเภทที่พัก
+                                </button>
                             </td>
                             <td style="width: 25%">
                                 <form action="{{ route('delete-homestay-type', ['id' => $homestay_type->id]) }}"
                                     method="POST" id="del-homestay-type{{ $homestay_type->id }}" class="m-0 ">
                                     @csrf
-                                    <a onclick="showModelDelhomestayType({{ $homestay_type->id }},'{{ $homestay_type->homestay_type_name }}')"
-                                        class="m-0 link-danger">ลบประเภทที่พัก</a>
                                 </form>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#modal-del-homestay-type"
+                                    onclick="showModelDelhomestayType({{ $homestay_type->id }},'{{ $homestay_type->homestay_type_name }}')">
+                                    ลบประเภทที่พัก
+                                </button>
                             </td>
                         </tr>
                     @endforeach

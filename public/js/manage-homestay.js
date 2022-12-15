@@ -48,14 +48,3 @@ function showModelDelhomestay(id, name) {
 function confirmDelhomestay() {
     document.getElementById("del-homestay" + window.id_homestay).submit();
 }
-
-//Close Model
-function closeModel() {
-    $("#modal-plese-input").modal("hide");
-    $("#modal-del-homestay-type").modal("hide");
-    $("#sameName").modal("hide");
-    $("#modal-del-homestay").modal("hide");
-    $("#modelEdithomestayType").modal("hide");
-    $("#modal-add-homestay-type").modal("hide");
-    $('#modal-search-none').modal('hide');
-}

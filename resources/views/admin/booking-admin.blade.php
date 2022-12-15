@@ -13,11 +13,6 @@
     </script>
 @endif
 
-<script>
-    function closeModel() {
-        $('#modal-search-none').modal('hide');
-    }
-</script>
 @section('content')
     <div class="modal fade" id="modal-search-none" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -25,10 +20,11 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">แจ้งเตือน</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="textModelSearchNone">ไม่มีรายการตรงกับที่คุณค้นหา</div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" onclick="closeModel()">ยืนยัน</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยืนยัน</button>
                 </div>
             </div>
         </div>
@@ -86,22 +82,22 @@
                             <td style="width: 10%">{{ $booking->number_guests }}</td>
                             {{-- <td style="width: 15%">ชำระเงินเเล้ว</td> --}}
                             @if ($booking->status == 1)
-                                <td style="width: 20%">Checkin</td>
+                                <td style="width: 20%"><span class="badge bg-success">Check In</span></td>
                             @elseif ($booking->status == 2)
-                                <td style="width: 20%">Check Out</td>
+                                <td style="width: 20%"><span class="badge bg-success">Check Out</span></td>
                             @elseif ($booking->status == 3)
-                                <td style="width: 20%">รอ Check In</td>
+                                <td style="width: 20%"><span class="badge bg-warning text-dark">รอ Check In</span></td>
                             @elseif ($booking->status == 4)
-                                <td style="width: 20%">ยกเลิกการจอง</td>
+                                <td style="width: 20%"><span class="badge bg-danger">ยกเลิกการจอง</span></td>
                             @elseif ($booking->status == 5)
-                                <td style="width: 20%">รอชำระเงิน</td>
+                                <td style="width: 20%"><span class="badge bg-warning text-dark">รอชำระเงิน</span></td>
                             @elseif ($booking->status == 6)
-                                <td style="width: 20%">รอยืนยันการชำระเงิน</td>
+                                <td style="width: 20%"><span class="badge bg-warning text-dark">รอยืนยันการชำระเงิน</span></td>
                             @elseif ($booking->status == 7)
-                                <td style="width: 20%">รอยืนยันยกเลิกการจอง</td>
+                                <td style="width: 20%"><span class="badge bg-warning text-dark">รอยืนยันยกเลิกการจอง</span></td>
                             @endif
                             <td style="width: 15%"><a href="{{ route('booking-detail', $booking->id) }}"
-                                    class="link-primary">รายละเอียด</a></td>
+                                    class="btn btn-primary">รายละเอียด</a></td>
                         </tr>
                     @endforeach
                 </tbody>

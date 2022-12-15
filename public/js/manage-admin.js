@@ -25,10 +25,3 @@ function showModelAdd() {
 function confirmAdd() {
     document.getElementById("add-admin-form").submit();
 }
-
-// Close Model
-function closeModel() {
-    $("#modal-plese-input").modal("hide");
-    $("#modal-del").modal("hide");
-    $("#modal-add").modal("hide");
-}
