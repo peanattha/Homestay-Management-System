@@ -13,6 +13,7 @@
 
 @section('content')
     {{-- Alert Message --}}
+    {{-- {{ dd(session()->all()) }} --}}
     @if (Session::has('message'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ Session::get('message') }}
@@ -77,7 +78,7 @@
 
     {{-- Form Add Admin --}}
     <div class="bg-white p-4 rounded-3 border border-1 mb-4 shadow-lg">
-        <h3>ผู้ดูเเลระบบ</h3>
+        <h3>เพิ่มผู้ดูเเลระบบ</h3>
         <form action="{{ route('add-admin') }}" method="POST" id="add-admin-form">
             @csrf
             <div class="mb-3">

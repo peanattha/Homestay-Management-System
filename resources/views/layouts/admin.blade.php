@@ -44,7 +44,15 @@
                 <div class="iocn-link">
                     <a href="{{ route('booking-admin') }}">
                         <i class='bx bx-collection'></i>
-                        <span class="link_name">รายการจอง</span>
+                        <span class="link_name">
+                            รายการจอง
+                            @if (Session::get('noti')['cBookings'] != 0)
+                                <span class="ms-2 top-50 translate-middle badge rounded-pill bg-danger">
+                                    {{ Session::get('noti')['cBookings'] }}
+                                    <span class="visually-hidden">unread messages</span>
+                                </span>
+                            @endif
+                        </span>
                     </a>
                     <i class='bx bxs-chevron-down arrow'></i>
                 </div>
@@ -52,12 +60,52 @@
                     <li><a class="link_name" href="{{ route('booking-admin') }}">รายการจอง</a></li>
                     <li><a href="{{ route('booking-admin') }}">รายการจองทั้งหมด</a></li>
                     <li><a href="#">เพิ่มรายการจอง</a></li>
-                    <li><a href="{{ route('check-in-admin') }}">Check In</a></li>
-                    <li><a href="{{ route('check-out-admin') }}">Check Out</a></li>
-                    <li><a href="{{ route('confirm-booking') }}">รายการจองที่ต้องยืนยัน</a></li>
-                    <li><a href="{{ route('confirm-cancel-booking') }}">รายการจองที่ยืนยันการยกเลิก</a></li>
+                    <li>
+                        <a href="{{ route('check-in-admin') }}">
+                            Check In
+                            @if (Session::get('noti')['cCheckIn'] != 0)
+                                <span class="ms-2 top-50 translate-middle badge rounded-pill bg-danger">
+                                    {{ Session::get('noti')['cCheckIn'] }}
+                                    <span class="visually-hidden">unread messages</span>
+                                </span>
+                            @endif
+                        </a>
+                    </li>
+                    <li><a href="{{ route('check-out-admin') }}">
+                            Check Out
+                            @if (Session::get('noti')['cCheckOut'] != 0)
+                                <span class="ms-2 top-50 translate-middle badge rounded-pill bg-danger">
+                                    {{ Session::get('noti')['cCheckOut'] }}
+                                    <span class="visually-hidden">unread messages</span>
+                                </span>
+                            @endif
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('confirm-booking') }}">
+                            รายการจองที่ต้องยืนยัน
+                            @if (Session::get('noti')['cWaitConfirm'] != 0)
+                                <span class="ms-2 top-50 translate-middle badge rounded-pill bg-danger">
+                                    {{ Session::get('noti')['cWaitConfirm'] }}
+                                    <span class="visually-hidden">unread messages</span>
+                                </span>
+                            @endif
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('confirm-cancel-booking') }}">
+                            รายการจองที่ยืนยันการยกเลิก
+                            @if (Session::get('noti')['cWaitcancel'] != 0)
+                                <span class="ms-2 top-50 translate-middle badge rounded-pill bg-danger">
+                                    {{ Session::get('noti')['cWaitcancel'] }}
+                                    <span class="visually-hidden">unread messages</span>
+                                </span>
+                            @endif
+                        </a>
+                    </li>
                 </ul>
             </li>
+
             <li>
                 <div class="iocn-link">
                     <a href="{{ route('homestay-admin') }}">
@@ -111,40 +159,50 @@
             </li>
             <li>
                 <div class="iocn-link">
-                    <a href="{{route('manage-appliance')}}">
+                    <a href="{{ route('manage-appliance') }}">
                         <i class='bx bx-collection'></i>
                         <span class="link_name">จัดการของในคลัง</span>
                     </a>
                     <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
-                    <li><a class="link_name" href="{{route('manage-appliance')}}">จัดการของในคลัง</a></li>
-                    <li><a href="{{route('manage-appliance-booking')}}">เบิก/คืน ของจากการจอง</a></li>
-                    <li><a href="{{route('manage-appliance-homestay')}}">เบิก/คืน ของเข้าบ้านพัก</a></li>
-                    <li><a href="{{route('manage-appliance')}}">เพิ่ม/ลบ/เเก้ใข ของในคลัง</a></li>
+                    <li><a class="link_name" href="{{ route('manage-appliance') }}">จัดการของในคลัง</a></li>
+                    <li><a href="{{ route('manage-appliance-booking') }}">เบิก/คืน ของจากการจอง</a></li>
+                    <li><a href="{{ route('manage-appliance-homestay') }}">เบิก/คืน ของเข้าบ้านพัก</a></li>
+                    <li><a href="{{ route('manage-appliance') }}">เพิ่ม/ลบ/เเก้ใข ของในคลัง</a></li>
                 </ul>
             </li>
             <li>
                 <div class="iocn-link">
-                    <a href="{{route('review-admin')}}">
+                    <a href="{{ route('review-admin') }}">
                         <i class='bx bx-collection'></i>
                         <span class="link_name">จัดการการรีวิวบ้านพัก</span>
                     </a>
                     <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
-                    <li><a class="link_name" href="{{route('review-admin')}}">จัดการการรีวิวบ้านพัก</a></li>
-                    <li><a href="{{route('review-admin')}}">การรีวิวบ้านพัก</a></li>
-                    <li><a href="{{route('manage-review')}}">ตอบกลับรีวิวบ้านพัก</a></li>
+                    <li><a class="link_name" href="{{ route('review-admin') }}">จัดการการรีวิวบ้านพัก</a></li>
+                    <li><a href="{{ route('review-admin') }}">การรีวิวบ้านพัก</a></li>
+                    <li>
+                        <a href="{{ route('manage-review') }}">
+                            ตอบกลับรีวิวบ้านพัก
+                            @if (Session::get('noti')['cWaitReply'] != 0)
+                                <span class="ms-2 top-50 translate-middle badge rounded-pill bg-danger">
+                                    {{ Session::get('noti')['cWaitReply'] }}
+                                    <span class="visually-hidden">unread messages</span>
+                                </span>
+                            @endif
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li>
-                <a href="{{route('manage-promotion')}}">
+                <a href="{{ route('manage-promotion') }}">
                     <i class='bx bx-collection'></i>
                     <span class="link_name">จัดการโปรโมชั่น</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="{{route('manage-promotion')}}">จัดการโปรโมชั่น</a></li>
+                    <li><a class="link_name" href="{{ route('manage-promotion') }}">จัดการโปรโมชั่น</a></li>
                 </ul>
             </li>
             <li>

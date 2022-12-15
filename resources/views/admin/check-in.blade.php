@@ -86,22 +86,7 @@
                                 @endforeach
                             </td>
                             <td style="width: 10%">{{ $booking->number_guests }}</td>
-                            {{-- <td style="width: 10%">ชำระเงินเเล้ว</td> --}}
-                            @if ($booking->status == 1)
-                                <td style="width: 10%">Checkin</td>
-                            @elseif ($booking->status == 2)
-                                <td style="width: 10%">Check Out</td>
-                            @elseif ($booking->status == 3)
-                                <td style="width: 10%">รอ Check In</td>
-                            @elseif ($booking->status == 4)
-                                <td style="width: 10%">ยกเลิกการจอง</td>
-                            @elseif ($booking->status == 5)
-                                <td style="width: 10%">รอชำระเงิน</td>
-                            @elseif ($booking->status == 6)
-                                <td style="width: 10%">รอยืนยันการชำระเงิน</td>
-                            @elseif ($booking->status == 7)
-                                <td style="width: 10%">รอยืนยันยกเลิกการจอง</td>
-                            @endif
+                            <td style="width: 10%"><span class="badge bg-warning text-dark">รอ Check In</span></td>
                             <?php
                             $start_date = date('d-m-Y', strtotime($booking->start_date));
                             $end_date = date('d-m-Y', strtotime($booking->end_date));

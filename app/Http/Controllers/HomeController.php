@@ -16,7 +16,7 @@ class HomeController extends Controller
                 return redirect('email/verify');
             } else {
                 if (Auth::user()->role == 2) {
-                    return view('admin.dashboard');
+                    return redirect()->route('admin-dashboard');
                 } else {
                     return view('home');
                 }
