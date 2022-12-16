@@ -10,7 +10,8 @@
 }
 
 .sidebar.close {
-    width: 78px;
+    /* width: 0px; */
+    display: none;
     transition: all 0.5s ease;
 }
 
@@ -42,7 +43,8 @@
 }
 
 .sidebar.close .nav-links {
-    overflow: visible;
+    /* overflow: hidden; */
+    display: none;
 }
 
 .sidebar .nav-links::-webkit-scrollbar {
@@ -62,7 +64,8 @@
 }
 
 .sidebar.close .nav-links li .iocn-link {
-    display: block;
+    /* display: block; */
+    display: none;
 }
 
 .sidebar .nav-links li i {
@@ -184,7 +187,8 @@
 }
 
 .sidebar.close .profile-details {
-    width: 78px;
+    display: none;
+    /* width: 78px; */
 }
 
 .sidebar .profile-details .profile-content {
@@ -226,8 +230,8 @@
 }
 
 .sidebar.close~.home-section {
-    left: 78px;
-    width: calc(100% - 78px);
+    left: 0px;
+    width: calc(100%);
 }
 
 .home-section .home-content {
@@ -276,23 +280,14 @@
     .sidebar.close .nav-links li .sub-menu {
         display: none;
     }
-
     .sidebar {
+        position: fixed;
+        height: 100%;
         width: 250px;
     }
-
-    .sidebar.close {
-        width: 0;
-    }
-
-    .home-section {
-        left: 250px;
-        width: calc(100% - 250px);
-        z-index: 100;
-    }
-
     .sidebar.close~.home-section {
-        width: 100%;
+        width: 100vw;
         left: 0;
     }
+
 }

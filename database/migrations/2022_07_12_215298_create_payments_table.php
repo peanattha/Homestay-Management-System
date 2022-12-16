@@ -18,7 +18,7 @@ class CreatePaymentsTable extends Migration
             $table->foreignId('bank_admin_id')->nullable()->references('id')->on('bank_admins')->onDelete('cascade');
             $table->foreignId('booking_id')->references('id')->on('bookings')->onDelete('cascade');
             $table->char('payment_type',1);
-            $table->string('slip_img', 10240);
+            $table->string('slip_img', 10240)->nullable();
             $table->float('total_price');
             $table->float('pay_price')->nullable();
             $table->float('change')->nullable();

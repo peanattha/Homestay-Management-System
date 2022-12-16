@@ -27,8 +27,11 @@
             </div>
             <div class="mb-3">
                 <label for="price" class="form-label">ราคาส่วนลด (บาท) *</label>
-                <input type="text" class="form-control" id="price" name="price"
-                    value="{{ $promotion->discount_price }}" required>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="price" name="price"
+                        value="{{ $promotion->discount_price }}" required>
+                    <span class="input-group-text">บาท</span>
+                </div>
             </div>
             <div class="mb-3">
                 <label for="datetimes" class="form-label">ช่วงวันโปรโมชั่น *</label>
@@ -83,8 +86,11 @@
             ?>
             <div class="mb-3">
                 <label for="price_use" class="form-label">ราคารวมการใช้งานส่วนลด (บาท)</label>
-                <input type="text" class="form-control" id="price_use" name="price_use" value="{{ $price_use }}"
-                    required disabled>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="price_use" name="price_use" value="{{ $price_use }}"
+                        required disabled>
+                    <span class="input-group-text">บาท</span>
+                </div>
             </div>
             <input type="submit" class="btn btn-success" value="แก้ใขโปรโมชั่น">
         </form>

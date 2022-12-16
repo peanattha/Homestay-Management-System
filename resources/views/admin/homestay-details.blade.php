@@ -44,9 +44,12 @@
                 </select>
             </div>
             <div class="mb-3">
-                <label for="peice" class="form-label">ราคา (บาท) *</label>
+                <label for="peice" class="form-label">ราคา *</label>
+                <div class="input-group">
                 <input type="text" class="form-control" id="price" name="price" placeholder="ราคาต่อ 1 คืน"
                     value="{{ $detail->homestay_price }}" form="form_edit_homestay" required>
+                    <span class="input-group-text">บาท</span>
+                </div>
             </div>
             <div class="mb-3">
                 <label for="number_guests" class="form-label">จำนวนผู้เข้าพักสูงสุด*</label>

@@ -94,7 +94,7 @@
                             <label for="exampleInputEmail1" class="mb-2">ประเภทที่พัก</label>
                             <input type="text" style="display: none" name="id" id="edit-homestay-type-id">
                             <input type="text" class="form-control mb-2" name="homestay_type_name"
-                                id="edit-homestay-type">
+                                id="edit-homestay-type" required>
                             <small id="emailHelp" class="form-text text-muted mb-2">แก้ใขประเภทที่พัก</small>
                         </div>
                         <div class="mb-2 mt-2">

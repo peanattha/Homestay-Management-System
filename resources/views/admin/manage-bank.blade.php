@@ -84,15 +84,17 @@
             <form action="{{ route('edit-bank', $banks[0]->id) }}" method="POST" enctype="multipart/form-data"
                 id="form-editBank">
                 @csrf
-                <div class="mb-3">
-                    <label for="firstName" class="form-label">ชื่อ *</label>
-                    <input type="text" class="form-control" id="firstName" name="firstName"
-                        value="{{ $banks[0]->firstName }}" required>
-                </div>
-                <div class="mb-3">
-                    <label for="lastName" class="form-label">นามสกุล *</label>
-                    <input type="text" class="form-control" id="lastName" name="lastName"
-                        value="{{ $banks[0]->lastName }}" required>
+                <div class="row mt-2">
+                    <div class="col-md-6">
+                        <label class="labels">ชื่อ *</label>
+                        <input type="text" class="form-control" id="firstName" name="firstName"
+                            value="{{ $banks[0]->firstName }}" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="labels">นามสกุล *</label>
+                        <input type="text" class="form-control" id="lastName" name="lastName"
+                            value="{{ $banks[0]->lastName }}" required>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="bank_name" class="form-label">ธนาคาร *</label>
@@ -129,8 +131,8 @@
                     @csrf
                 </form>
                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#showModelDelBank"
-                onclick="showModelDelBank('{{ $banks[0]->acc_number }}')">
-                ลบบัญชีธนาคาร
+                    onclick="showModelDelBank('{{ $banks[0]->acc_number }}')">
+                    ลบบัญชีธนาคาร
                 </button>
             </div>
         @endif

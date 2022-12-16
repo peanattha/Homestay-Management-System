@@ -24,8 +24,11 @@
             </div>
             <div class="mb-3">
                 <label for="price" class="form-label">ราคา (บาท) *</label>
-                <input type="text" class="form-control" id="price" name="price" value="{{ $set_menu->price }}"
-                    required>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="price" name="price" value="{{ $set_menu->price }}"
+                        required>
+                    <span class="input-group-text">บาท</span>
+                </div>
             </div>
             <div class="mb-3">
                 <label for="status" class="form-label">สถานะการใช้งาน *</label>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\booking;
 use App\Models\homestay_type;
 use App\Models\homestay;
+use App\Models\payment;
 use App\Models\user;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -49,12 +50,14 @@ class BookingController extends Controller
     }
     public function confirm_booking()
     {
-        $bookings = booking::where('status', 6)->get(); //รอยืนยันการชำระเงิน
+        $bookings = booking::where('status', 6)
+        ->orderBy('created_at', 'asc')->get(); //รอยืนยันการชำระเงิน
         return view('admin.confirm-booking', compact('bookings'));
     }
     public function confirm_cancel_booking()
     {
-        $bookings = booking::where('status', 7)->get(); //รอยืนยันยกเลิกการจอง
+        $bookings = booking::where('status', 7)
+        ->orderBy('start_date', 'asc')->get(); //รอยืนยันยกเลิกการจอง
         return view('admin.confirm-cancel-booking', compact('bookings'));
     }
     public function confirm_pay_admin($id)
@@ -62,13 +65,13 @@ class BookingController extends Controller
         $update_homestay = booking::find($id);
         $update_homestay->status = 3; //รอ check in ชำระเงินมัดจำเสร็จสิ้น
         $update_homestay->save();
-        return redirect()->back();
+        return redirect()->back()->with('message', "ยืนยันการจองเสร็จสิ้น");
     }
     public function cancel_pay_admin($id)
     {
         $update_homestay = booking::find($id);
         $update_homestay->status = 4;  //ยกเลิกการจอง
-        $update_homestay->save();
+        $update_homestay->save()->with('message', "ยกเลิกการจองเสร็จสิ้น");
 
         return redirect()->back();
     }
@@ -210,11 +213,6 @@ class BookingController extends Controller
         }
         return view('admin.booking-admin', compact('bookings'));
     }
-    public function show_check_in(Request $request)
-    {
-        $bookings = booking::where('status', 3)->get();  //รอ Check-In ยืนยันจ่ายเงินเเล้ว
-        return view('admin.check-in', compact('bookings'));
-    }
     public function search_check_in(Request $request)
     {
         if (isset($request->booking_id)) {
@@ -266,11 +264,6 @@ class BookingController extends Controller
         }
         return view('admin.check-in', compact('bookings'));
     }
-    public function show_check_out(Request $request)
-    {
-        $bookings = booking::where('status', 1)->get(); //Check-In เเล้ว
-        return view('admin.check-out', compact('bookings'));
-    }
     public function search_check_out(Request $request)
     {
         if (isset($request->booking_id)) {
@@ -319,22 +312,45 @@ class BookingController extends Controller
         }
         return view('admin.check-out', compact('bookings'));
     }
-    public function check_in($id)
+    public function show_check_out(Request $request)
+    {
+        $bookings = booking::where('status', 1)
+        ->orderBy('end_date', 'asc')->get(); //Check-In เเล้ว
+        return view('admin.check-out', compact('bookings'));
+    }
+    public function show_check_in(Request $request)
+    {
+        $bookings = booking::where('status', 3)
+        ->where('start_date',Carbon::today())->get();  //รอ Check-In ยืนยันจ่ายเงินเเล้ว
+        return view('admin.check-in', compact('bookings'));
+    }
+    public function check_in(Request $request)
     {
         $now = Carbon::now();
-        $update_homestay = booking::find($id);
-        $update_homestay->check_in = $now;
-        $update_homestay->status = 1; //Check In
-        $update_homestay->save();
-        return redirect()->back();
+        $update_booking = booking::find($request->idCheckIn);
+        $update_booking->check_in = $now;
+        $update_booking->check_in_by = Auth::user()->firstName . " " . Auth::user()->lastName;
+        $update_booking->status = 1; //Check In
+        $update_booking->save();
+
+        $new_payment = new payment();
+        $new_payment->booking_id = $request->idCheckIn;
+        $new_payment->payment_type = 2;
+        $new_payment->total_price = $request->toPay;
+        $new_payment->pay_price = $request->payPrice;
+        $new_payment->change = $request->change;
+        $new_payment->save();
+
+        return redirect()->back()->with('message', "Check In เสร็จสิ้น");
     }
     public function check_out($id)
     {
         $now = Carbon::now();
-        $update_homestay = booking::find($id);
-        $update_homestay->check_out = $now;
-        $update_homestay->status = 2; //Check Out
-        $update_homestay->save();
-        return redirect()->back();
+        $update_booking = booking::find($id);
+        $update_booking->check_out = $now;
+        $update_booking->check_out_by = Auth::user()->firstName . " " . Auth::user()->lastName;
+        $update_booking->status = 2; //Check Out
+        $update_booking->save();
+        return redirect()->back()->with('message', "Check Out เสร็จสิ้น");
     }
 }

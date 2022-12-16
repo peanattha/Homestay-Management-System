@@ -74,7 +74,10 @@
             </div>
             <div class="mb-3">
                 <label for="price" class="form-label">ราคาส่วนลด (บาท) *</label>
-                <input type="text" class="form-control" id="price" name="price" required>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="price" name="price" required>
+                    <span class="input-group-text">บาท</span>
+                </div>
             </div>
             <div class="mb-3">
                 <label for="datetimes" class="form-label">ช่วงวันโปรโมชั่น *</label>

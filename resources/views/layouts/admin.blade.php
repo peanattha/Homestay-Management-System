@@ -158,15 +158,24 @@
                 </ul>
             </li>
             <li>
+                <a href="{{ route('manage-promotion') }}">
+                    <i class='bx bx-collection'></i>
+                    <span class="link_name">จัดการโปรโมชั่น</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="{{ route('manage-promotion') }}">จัดการโปรโมชั่น</a></li>
+                </ul>
+            </li>
+            <li>
                 <div class="iocn-link">
                     <a href="{{ route('manage-appliance') }}">
                         <i class='bx bx-collection'></i>
-                        <span class="link_name">จัดการของในคลัง</span>
+                        <span class="link_name">ของในคลัง</span>
                     </a>
                     <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
-                    <li><a class="link_name" href="{{ route('manage-appliance') }}">จัดการของในคลัง</a></li>
+                    <li><a class="link_name" href="{{ route('manage-appliance') }}">ของในคลัง</a></li>
                     <li><a href="{{ route('manage-appliance-booking') }}">เบิก/คืน ของจากการจอง</a></li>
                     <li><a href="{{ route('manage-appliance-homestay') }}">เบิก/คืน ของเข้าบ้านพัก</a></li>
                     <li><a href="{{ route('manage-appliance') }}">เพิ่ม/ลบ/เเก้ใข ของในคลัง</a></li>
@@ -176,12 +185,12 @@
                 <div class="iocn-link">
                     <a href="{{ route('review-admin') }}">
                         <i class='bx bx-collection'></i>
-                        <span class="link_name">จัดการการรีวิวบ้านพัก</span>
+                        <span class="link_name">การรีวิวบ้านพัก</span>
                     </a>
                     <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
-                    <li><a class="link_name" href="{{ route('review-admin') }}">จัดการการรีวิวบ้านพัก</a></li>
+                    <li><a class="link_name" href="{{ route('review-admin') }}">การรีวิวบ้านพัก</a></li>
                     <li><a href="{{ route('review-admin') }}">การรีวิวบ้านพัก</a></li>
                     <li>
                         <a href="{{ route('manage-review') }}">
@@ -194,15 +203,6 @@
                             @endif
                         </a>
                     </li>
-                </ul>
-            </li>
-            <li>
-                <a href="{{ route('manage-promotion') }}">
-                    <i class='bx bx-collection'></i>
-                    <span class="link_name">จัดการโปรโมชั่น</span>
-                </a>
-                <ul class="sub-menu blank">
-                    <li><a class="link_name" href="{{ route('manage-promotion') }}">จัดการโปรโมชั่น</a></li>
                 </ul>
             </li>
             <li>

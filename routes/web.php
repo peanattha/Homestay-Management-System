@@ -109,7 +109,7 @@ Route::group(['middleware' => ['auth', 'verified', 'CheckAdmin']], function () {
         Route::post('/search-booking-admin', "search_booking_admin")->name('search-booking-admin');
         Route::get('/check-in-admin', "show_check_in")->name('check-in-admin');
         Route::get('/check-out-admin', "show_check_out")->name('check-out-admin');
-        Route::get('/check-in/{id}', "check_in")->name('check-in');
+        Route::post('/check-in', "check_in")->name('check-in');
         Route::get('/check-out/{id}', "check_out")->name('check-out');
         Route::post('/search-check-in', "search_check_in")->name('search-check-in');
         Route::post('/search-check-out', "search_check_out")->name('search-check-out');

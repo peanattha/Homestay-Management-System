@@ -86,8 +86,14 @@
                                 @endforeach
                             </td>
                             <td style="width: 10%">{{ $booking->number_guests }}</td>
-                            {{-- {{ asset('storage/images/' . $img) }} --}}
-                            <td style="width: 15%"><a href="">สลิปจ่ายเงิน</a></td>
+                            @for ($i = 0; $i < $booking->payments->count(); $i++)
+                                @if ($booking->payments[$i]->payment_type == 1)
+                                    <td style="width: 15%">
+                                        <a
+                                            href="{{ asset('storage/images/' . $booking->payments[$i]->slip_img) }}">สลิปจ่ายเงิน</a>
+                                    </td>
+                                @endif
+                            @endfor
                             <td style="width: 15%"><a href="#"class="btn btn-primary">รายละเอียด</a></td>
                             <td style="width: 20%">
                                 <a href="{{ route('confirm-pay-admin', $booking->id) }}"
