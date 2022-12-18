@@ -12,7 +12,13 @@
         });
     </script>
 @endif
-
+@section('page-name')
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb m-0">
+      <li class="breadcrumb-item active" aria-current="page">รายการจองทั้งหมด</li>
+    </ol>
+  </nav>
+@endsection
 @section('content')
     <div class="modal fade" id="modal-search-none" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -29,27 +35,33 @@
             </div>
         </div>
     </div>
-    <div class="bg-white p-4 rounded-3 border border-1 shadow-lg">
-        <h3>รายการจองทั้งหมด</h3>
-        <form action="{{ route('search-booking-admin') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <div class="mb-3">
-                <label class="form-label">ค้นหารายการจอง</label>
-                <input type="text" class="form-control" style="margin-right: 10px" id="booking_id" name="booking_id"
-                    placeholder="รหัสการจอง">
-                <div id="help" class="form-text">กรอกรหัสการจองเพื่อทำการค้นหารายการจอง</div>
-            </div>
-            <div class="mb-3">
-                <div class="d-flex flex-row">
-                    <input type="text" class="form-control" style="margin-right: 10px" id="firstName" name="firstName"
-                        placeholder="ชื่อผู้จอง">
-                    <input type="text" class="form-control" style="margin-left: 10px" id="lastName" name="lastName"
-                        placeholder="นามสกุลผู้จอง">
+    <div class="card rounded-3 border border-1 shadow-lg">
+        <div class="card-header">
+            รายการจองทั้งหมด
+        </div>
+        <div class="card-body">
+            <form action="{{ route('search-booking-admin') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="mb-3">
+                    <label class="form-label">ค้นหารายการจอง</label>
+                    <input type="text" class="form-control" id="booking_id" name="booking_id"
+                        placeholder="รหัสการจอง">
+                    <div id="help" class="form-text">กรอกรหัสการจองเพื่อทำการค้นหารายการจอง</div>
                 </div>
-                <div id="help" class="form-text">กรอกชื่อผู้จองเพื่อทำการค้นหารายการจอง</div>
-            </div>
-            <input type="submit" class="btn btn-success" value="ค้นหารายการจอง">
-        </form>
+                <div class="mb-3">
+                    <div class="row mt-3">
+                    <div class="col-md-6">
+                        <input type="text" name="firstName" class="form-control" placeholder="ชื่อผู้จอง" required>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" name="lastName" class="form-control" placeholder="นามสกุลผู้จอง" required>
+                    </div>
+                </div>
+                    <div id="help" class="form-text">กรอกชื่อผู้จองเพื่อทำการค้นหารายการจอง</div>
+                </div>
+                <input type="submit" class="btn btn-success" value="ค้นหา">
+            </form>
+        </div>
     </div>
     <div class="table100 ver2 mb-4 mt-4">
         <div class="table100-head">
@@ -92,9 +104,11 @@
                             @elseif ($booking->status == 5)
                                 <td style="width: 20%"><span class="badge bg-warning text-dark">รอชำระเงิน</span></td>
                             @elseif ($booking->status == 6)
-                                <td style="width: 20%"><span class="badge bg-warning text-dark">รอยืนยันการชำระเงิน</span></td>
+                                <td style="width: 20%"><span class="badge bg-warning text-dark">รอยืนยันการชำระเงิน</span>
+                                </td>
                             @elseif ($booking->status == 7)
-                                <td style="width: 20%"><span class="badge bg-warning text-dark">รอยืนยันยกเลิกการจอง</span></td>
+                                <td style="width: 20%"><span class="badge bg-warning text-dark">รอยืนยันยกเลิกการจอง</span>
+                                </td>
                             @endif
                             <td style="width: 15%"><a href="{{ route('booking-detail', $booking->id) }}"
                                     class="btn btn-primary">รายละเอียด</a></td>

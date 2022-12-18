@@ -9,6 +9,15 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
+@section('page-name')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">รายการจอง</a></li>
+            <li class="breadcrumb-item"><a href="#">Library</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Data</li>
+        </ol>
+    </nav>
+@endsection
 @section('content')
     <h3>รายการจอง</h3>
     <input type="button" id="edit-btn" class="btn btn-success" value="แก้ใขรายการจอง">
@@ -27,7 +36,8 @@
             </div>
             <div class="mb-3">
                 <label for="homestay_name" class="form-label">ชื่อที่พัก *</label>
-                <select class="form-select" id="homestay_name" name="homestay_name" form="form_edit_homestay" disabled required>
+                <select class="form-select" id="homestay_name" name="homestay_name" form="form_edit_homestay" disabled
+                    required>
                     @foreach ($homestays as $homestay)
                         {{-- @if ($booking->homestay->homestay_name == $homestay->homestay_name)
                             <option value="{{ $booking->homestay_id }}" selected>
@@ -40,7 +50,8 @@
             </div>
             <div class="mb-3">
                 <label for="homestay_type" class="form-label">ประเภทที่พัก *</label>
-                <select class="form-select" id="homestay_type" name="homestay_type" form="form_edit_homestay" disabled required>
+                <select class="form-select" id="homestay_type" name="homestay_type" form="form_edit_homestay" disabled
+                    required>
                     @foreach ($homestay_types as $homestay_type)
                         {{-- @if ($booking->homestay->homestay_type->homestay_type_name == $homestay_type->homestay_type_name)
                             <option value="{{ $booking->homestay_type_id }}" selected>
@@ -93,8 +104,7 @@
                 $end_date = date('d-m-Y', strtotime($booking->end_date));
                 $valueDate = $start_date . ' - ' . $end_date;
                 ?>
-                <input type="text" name="dateRange" value="{{ $valueDate }}" class="form-control" disabled
-                    required />
+                <input type="text" name="dateRange" value="{{ $valueDate }}" class="form-control" disabled required />
                 <script>
                     $(function() {
                         $('input[name="dateRange"]').daterangepicker({

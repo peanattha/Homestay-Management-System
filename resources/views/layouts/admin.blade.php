@@ -29,8 +29,10 @@
     <div class="sidebar" id="sidebar">
         <div class="logo-details">
             <div class="logo_name">{{ config('app.name') }}</div>
+            <button type="button" class="btn-close" id="btnClose"></button>
         </div>
-        <ul class="nav-links">
+        <hr class="mt-2 mb-0">
+        <ul class="nav-links" data-bs-spy="scroll" data-bs-target="#sidebar" data-bs-offset="0" tabindex="0">
             <li>
                 <a href="{{ route('admin-dashboard') }}">
                     <i class='bx bx-pie-chart-alt-2'></i>
@@ -57,7 +59,6 @@
                     <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
-                    <li><a class="link_name" href="{{ route('booking-admin') }}">รายการจอง</a></li>
                     <li><a href="{{ route('booking-admin') }}">รายการจองทั้งหมด</a></li>
                     <li><a href="#">เพิ่มรายการจอง</a></li>
                     <li>
@@ -115,7 +116,6 @@
                     <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
-                    <li><a class="link_name" href="{{ route('homestay-admin') }}">รายการที่พัก</a></li>
                     <li><a href="{{ route('homestay-admin') }}">รายการที่พัก</a></li>
                     <li><a href="{{ route('manage-homestay-type') }}">เพิ่ม/ลบ/แก้ ประเภทที่พัก</a></li>
                     <li><a href="{{ route('manage-homestay') }}">เพิ่ม/ลบ/แก้ ที่พัก</a></li>
@@ -175,7 +175,6 @@
                     <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
-                    <li><a class="link_name" href="{{ route('manage-appliance') }}">ของในคลัง</a></li>
                     <li><a href="{{ route('manage-appliance-booking') }}">เบิก/คืน ของจากการจอง</a></li>
                     <li><a href="{{ route('manage-appliance-homestay') }}">เบิก/คืน ของเข้าบ้านพัก</a></li>
                     <li><a href="{{ route('manage-appliance') }}">เพิ่ม/ลบ/เเก้ใข ของในคลัง</a></li>
@@ -190,7 +189,6 @@
                     <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
-                    <li><a class="link_name" href="{{ route('review-admin') }}">การรีวิวบ้านพัก</a></li>
                     <li><a href="{{ route('review-admin') }}">การรีวิวบ้านพัก</a></li>
                     <li>
                         <a href="{{ route('manage-review') }}">
@@ -235,8 +233,8 @@
         </ul>
     </div>
 
-    <section class=" home-section">
-        <div class="home-content">
+    <section class="home-section">
+        <div class="home-content ">
             <i class='bx bx-menu'></i>
             @section('page-name')
 

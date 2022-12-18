@@ -10,6 +10,14 @@
 
 <script type="text/javascript" src="{{ asset('js/manage-homestay.js') }}"></script>
 
+@section('page-name')
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb m-0">
+      <li class="breadcrumb-item"><a href="{{route('homestay-admin')}}">รายการที่พัก</a></li>
+      <li class="breadcrumb-item active" aria-current="page">จัดการประเภทที่พัก</li>
+    </ol>
+  </nav>
+@endsection
 @section('content')
     {{-- Alert Message --}}
     @if (Session::has('message'))
@@ -84,7 +92,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">แก้ใขประเภทที่พัก</h5>
+                    <p class="modal-title" id="exampleModalCenterTitle">แก้ใขประเภทที่พัก</p>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -108,18 +116,22 @@
     </div>
 
     {{-- Table & Manage homestay Type --}}
-    <div class="bg-white p-4 rounded-3 border border-1 shadow-lg">
-        <h3>เพิ่ม/ลบ/แก้ใข ประเภทที่พัก</h3>
-        <form action="{{ route('add-homestay-type') }}" method="POST" id="add-homestay-type">
-            @csrf
-            <div class="mb-3">
-                <label for="homestay_type_name" class="form-label">ประเภทที่พัก *</label>
-                <input type="text" class="form-control" id="homestay_type_name" name="homestay_type_name">
-                <div id="emailHelp" class="form-text">กรอกประเภทที่พักเพื่อเพิ่มประเภทที่พัก</div>
-            </div>
-            <button type="button" class="btn btn-success" onclick="showModelAddhomestayType()"
-                value="เพิ่มประเภทที่พัก">เพิ่มประเภทที่พัก</button>
-        </form>
+    <div class="card rounded-3 border border-1 shadow-lg">
+        <div class="card-header">
+            เพิ่ม/ลบ/แก้ใข ประเภทที่พัก
+        </div>
+        <div class="card-body">
+            <form action="{{ route('add-homestay-type') }}" method="POST" id="add-homestay-type">
+                @csrf
+                <div class="mb-3">
+                    <label for="homestay_type_name" class="form-label">ประเภทที่พัก *</label>
+                    <input type="text" class="form-control" id="homestay_type_name" name="homestay_type_name">
+                    <div id="emailHelp" class="form-text">กรอกประเภทที่พักเพื่อเพิ่มประเภทที่พัก</div>
+                </div>
+                <button type="button" class="btn btn-success" onclick="showModelAddhomestayType()"
+                    value="เพิ่มประเภทที่พัก">เพิ่มประเภทที่พัก</button>
+            </form>
+        </div>
     </div>
     <div class="table100 ver2 mb-4 mt-4">
         <div class="table100-head">

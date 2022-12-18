@@ -21,7 +21,13 @@
         document.getElementById("del-menu" + window.id_menu).submit();
     }
 </script>
-
+@section('page-name')
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb m-0">
+      <li class="breadcrumb-item active">จัดการชุดเมนูอาหาร</li>
+    </ol>
+  </nav>
+@endsection
 @section('content')
     {{-- Alert Message --}}
     @if (Session::has('message'))
@@ -56,52 +62,60 @@
     </div>
 
     {{-- Table & manage Menu --}}
-    <div class="bg-white p-4 rounded-3 border border-1 shadow-lg">
-        <h3>เพิ่มชุดเมนูอาหาร</h3>
-        <form action="{{ route('add-menu') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <div class="mb-3">
-                <label for="set_menu_name" class="form-label">ชุดเมนูอาหาร *</label>
-                <input type="text" class="form-control" id="set_menu_name" name="set_menu_name" required>
-            </div>
-            <div class="mb-3">
-                <label for="price" class="form-label">ราคา (บาท) *</label>
-                <div class="input-group">
-                    <input type="text" class="form-control" id="price" name="price" required>
-                    <span class="input-group-text">บาท</span>
+    <div class="card rounded-3 border border-1 shadow-lg">
+        <div class="card-header">
+            เพิ่มชุดเมนูอาหาร
+        </div>
+        <div class="card-body">
+            <form action="{{ route('add-menu') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="mb-3">
+                    <label for="set_menu_name" class="form-label">ชุดเมนูอาหาร *</label>
+                    <input type="text" class="form-control" id="set_menu_name" name="set_menu_name" required>
                 </div>
-            </div>
-            <div class="mb-3">
-                <label for="status" class="form-label">สถานะการใช้งาน *</label>
-                <select class="form-select" id="status" name="status" required>
-                    <option selected hidden>สถานะการใช้งาน</option>
-                    <option value="1">ใช้งาน</option>
-                    <option value="2">ยกเลิกใช้งาน</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="details" class="form-label">รายละเอียด *</label>
-                <textarea class="form-control" id="details" name="details" rows="3" required></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="FileImgMultiple" class="form-label">รูปภาพ (Multiple files input) *</label>
-                <input class="form-control" type="file" id="FileImgMultiple" name="menu_img[]" multiple required>
-            </div>
-            <input type="submit" class="btn btn-success" value="เพิ่มชุดเมนูอาหาร">
-        </form>
+                <div class="mb-3">
+                    <label for="price" class="form-label">ราคา (บาท) *</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="price" name="price" required>
+                        <span class="input-group-text">บาท</span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="status" class="form-label">สถานะการใช้งาน *</label>
+                    <select class="form-select" id="status" name="status" required>
+                        <option selected hidden>สถานะการใช้งาน</option>
+                        <option value="1">ใช้งาน</option>
+                        <option value="2">ยกเลิกใช้งาน</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="details" class="form-label">รายละเอียด *</label>
+                    <textarea class="form-control" id="details" name="details" rows="3" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="FileImgMultiple" class="form-label">รูปภาพ (Multiple files input) *</label>
+                    <input class="form-control" type="file" id="FileImgMultiple" name="menu_img[]" multiple required>
+                </div>
+                <input type="submit" class="btn btn-success" value="เพิ่มชุดเมนูอาหาร">
+            </form>
+        </div>
     </div>
     <hr class="mb-4 mt-4">
-    <div class="bg-white p-4 rounded-3 border border-1 shadow-lg">
-        <h3>ชุดเมนูอาหาร</h3>
-        <form action="{{ route('search-set-menu') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <div class="mb-3">
-                <input type="text" class="form-control" id="set_menu_name" name="set_menu_name"
-                    placeholder="ชื่อชุดเมนูอาหาร">
-                <div id="help" class="form-text">กรอกชื่อชุดเมนูอาหารเพื่อทำการค้นหาชุดเมนูอาหาร</div>
-            </div>
-            <input type="submit" class="btn btn-success" value="ค้นหาชุดเมนูอาหาร">
-        </form>
+    <div class="card rounded-3 border border-1 shadow-lg">
+        <div class="card-header">
+            ชุดเมนูอาหาร
+        </div>
+        <div class="card-body">
+            <form action="{{ route('search-set-menu') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="set_menu_name" name="set_menu_name"
+                        placeholder="ชื่อชุดเมนูอาหาร">
+                    <div id="help" class="form-text">กรอกชื่อชุดเมนูอาหารเพื่อทำการค้นหาชุดเมนูอาหาร</div>
+                </div>
+                <input type="submit" class="btn btn-success" value="ค้นหาชุดเมนูอาหาร">
+            </form>
+        </div>
     </div>
     <div class="table100 ver2 mb-4 mt-4">
         <div class="table100-head">

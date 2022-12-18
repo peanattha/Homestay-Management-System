@@ -18,7 +18,13 @@
         document.getElementById("del-customer" + window.id_customer).submit();
     }
 </script>
-
+@section('page-name')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item active" aria-current="page">จัดการลูกค้า</li>
+        </ol>
+    </nav>
+@endsection
 @section('content')
     {{-- Alert Message --}}
     @if (Session::has('message'))
@@ -50,73 +56,80 @@
             </div>
         </div>
     </div>
-    <div class="bg-white p-4 rounded-3 border border-1 shadow-lg">
-        <h3>เพิ่มข้อมูลลูกค้า</h3>
-        <form action="{{ route('add-customer') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <div class="row mt-2">
-                <div class="col-md-6">
-                    <label class="labels">ชื่อ *</label>
-                    <input type="text" name="firstName" class="form-control" required>
+    <div class="card rounded-3 border border-1 shadow-lg">
+        <div class="card-header">
+            เพิ่มข้อมูลลูกค้า
+        </div>
+        <div class="card-body">
+            <form action="{{ route('add-customer') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label class="labels">ชื่อ *</label>
+                        <input type="text" name="firstName" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="labels">นามสกุล *</label>
+                        <input type="text" name="lastName" class="form-control" required>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <label class="labels">นามสกุล *</label>
-                    <input type="text" name="lastName" class="form-control" required>
-                </div>
-            </div>
-            <div class="row mt-3">
-                <div class="col-md-12 mb-2">
-                    <label class="labels">อีเมล *</label>
-                    <input type="email" name="email" class="form-control" required>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-12 mb-2">
+                <div class="row">
+                    <div class="col-md-12 mt-3">
+                        <label class="labels">อีเมล *</label>
+                        <input type="email" name="email" class="form-control" required>
+                    </div>
+                    <div class="col-md-12 mt-3">
                         <label class="labels">รหัสผ่าน *</label>
                         <input id="password" type="password" class="form-control" name="password" pattern="[\s\S]{8,}"
                             required>
                     </div>
+                    <div class="col-md-12 mt-3">
+                        <label class="labels">เบอร์โทรศัพท์</label>
+                        <input type="text" name="tel" class="form-control" placeholder="099-XXX-XXXX"
+                            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                    </div>
+                    <div class="col-md-12 mt-3">
+                        <label class="labels">เพศ</label>
+                        <select class="form-select" name="gender">
+                            <option selected hidden value="">เพศ</option>
+                            <option value="M">ชาย</option>
+                            <option value="F">หญิง</option>
+                            <option value="O">ไม่ต้องการระบุ</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="col-md-12 mb-2">
-                    <label class="labels">เบอร์โทรศัพท์</label>
-                    <input type="text" name="tel" class="form-control" placeholder="099-XXX-XXXX"
-                        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                <div class="mt-3">
+                    <label for="img_profile" class="form-label">รูปโปรไฟล์</label>
+                    <input class="form-control" type="file" id="img_profile" name="img_profile">
                 </div>
-                <div class="col-md-12">
-                    <label class="labels">เพศ</label>
-                    <select class="form-select" name="gender">
-                        <option selected hidden value="">เพศ</option>
-                        <option value="M">ชาย</option>
-                        <option value="F">หญิง</option>
-                        <option value="O">ไม่ต้องการระบุ</option>
-                    </select>
+                <div class="mt-3">
+                    <button class="btn btn-success" type="submit">เพิ่มข้อมูลลูกค้า</button>
                 </div>
-            </div>
-            <div class="mt-3">
-                <label for="img_profile" class="form-label">รูปโปรไฟล์</label>
-                <input class="form-control" type="file" id="img_profile" name="img_profile">
-            </div>
-            <div class="mt-3">
-                <button class="btn btn-success" type="submit">เพิ่มข้อมูลลูกค้า</button>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
     <hr class="mt-4 mb-4">
-    <div class="bg-white p-4 rounded-3 border border-1 shadow-lg">
-        <h3>รายการข้อมูลลูกค้า</h3>
-        <form action="{{ route('search-customer') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <div class="mb-3">
-                <label class="form-label">ค้นหาลูกค้า</label>
-                <div class="d-flex flex-row">
-                    <input type="text" class="form-control" style="margin-right: 10px" id="firstName"
-                        name="firstName" placeholder="ชื่อลูกค้า*" required>
-                    <input type="text" class="form-control" style="margin-left: 10px" id="lastName" name="lastName"
-                        placeholder="นามสกุลลูกค้า*" required>
+
+    <div class="card rounded-3 border border-1 shadow-lg">
+        <div class="card-header">
+            รายการข้อมูลลูกค้า
+        </div>
+        <div class="card-body">
+            <form action="{{ route('search-customer') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="mb-3">
+                    <label class="form-label">ค้นหาลูกค้า</label>
+                    <div class="d-flex flex-row">
+                        <input type="text" class="form-control" style="margin-right: 10px" id="firstName"
+                            name="firstName" placeholder="ชื่อลูกค้า*" required>
+                        <input type="text" class="form-control" style="margin-left: 10px" id="lastName"
+                            name="lastName" placeholder="นามสกุลลูกค้า*" required>
+                    </div>
+                    <div id="help" class="form-text">กรอกชื่อลูกค้าเพื่อทำการค้นหา</div>
                 </div>
-                <div id="help" class="form-text">กรอกชื่อลูกค้าเพื่อทำการค้นหา</div>
-            </div>
-            <input type="submit" class="btn btn-success" value="ค้นหาลูกค้า">
-        </form>
+                <input type="submit" class="btn btn-success" value="ค้นหาลูกค้า">
+            </form>
+        </div>
     </div>
     <div class="table100 ver2 mb-4 mt-4">
         <div class="table100-head">

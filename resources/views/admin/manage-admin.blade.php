@@ -10,7 +10,13 @@
 
 <script type="text/javascript" src="{{ asset('js/manage-admin.js') }}"></script>
 
-
+@section('page-name')
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb m-0">
+      <li class="breadcrumb-item active">จัดการผู้ดูเเลระบบ</li>
+    </ol>
+  </nav>
+@endsection
 @section('content')
     {{-- Alert Message --}}
     @if (Session::has('message'))
@@ -77,17 +83,21 @@
     </div>
 
     {{-- Form Add Admin --}}
-    <div class="bg-white p-4 rounded-3 border border-1 mb-4 shadow-lg">
-        <h3>เพิ่มผู้ดูเเลระบบ</h3>
-        <form action="{{ route('add-admin') }}" method="POST" id="add-admin-form">
-            @csrf
-            <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">อีเมล *</label>
-                <input type="email" class="form-control" name="email" id="InputAddAdmin" required>
-                <div id="help" class="form-text">กรอกอีเมลผู้ใช้เพื่อเพิ่มสิทธิ์ผู้ดูเเลระบบ</div>
-            </div>
-            <button type="button" class="btn btn-success" onclick="showModelAdd()">เพิ่มผู้ดูเเลระบบ</button>
-        </form>
+    <div class="card rounded-3 border border-1 shadow-lg">
+        <div class="card-header">
+            เพิ่มผู้ดูเเลระบบ
+        </div>
+        <div class="card-body">
+            <form action="{{ route('add-admin') }}" method="POST" id="add-admin-form">
+                @csrf
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">อีเมล *</label>
+                    <input type="email" class="form-control" name="email" id="InputAddAdmin" required>
+                    <div id="help" class="form-text">กรอกอีเมลผู้ใช้เพื่อเพิ่มสิทธิ์ผู้ดูเเลระบบ</div>
+                </div>
+                <button type="button" class="btn btn-success" onclick="showModelAdd()">เพิ่มผู้ดูเเลระบบ</button>
+            </form>
+        </div>
     </div>
     <hr class="mb-4 mt-4">
 
@@ -129,7 +139,7 @@
                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                                     data-bs-target="#modal-del"
                                     onclick="showModelDel({{ $admin->id }},'{{ $admin->email }}')">
-                                    ลบโปรโมชั่น
+                                    ลบผู้ดูเเลระบบ
                                 </button>
                             </td>
                         </tr>

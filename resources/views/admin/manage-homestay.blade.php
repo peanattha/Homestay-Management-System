@@ -8,7 +8,14 @@
 
 <script type="text/javascript" src="{{ asset('js/manage-homestay.js') }}"></script>
 
-
+@section('page-name')
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb m-0">
+      <li class="breadcrumb-item"><a href="{{route('homestay-admin')}}">รายการที่พัก</a></li>
+      <li class="breadcrumb-item active" aria-current="page">จัดการที่พัก</li>
+    </ol>
+  </nav>
+@endsection
 @section('content')
     {{-- Alert Message --}}
     @if (Session::has('message'))
@@ -43,69 +50,74 @@
     </div>
 
     {{-- Table & manage homestay --}}
-    <div class="bg-white p-4 rounded-3 border border-1 shadow-lg">
-        <h3>เพิ่ม/ลบ/แก้ใข ที่พัก</h3>
-        <form action="{{ route('add-homestay') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <div class="row md-2">
-                <div class="col-md-6">
-                    <label for="homestay" class="form-label">ที่พัก *</label>
-                    <input type="text" class="form-control" id="homestay" name="homestay_name" required>
+    <div class="card rounded-3 border border-1 shadow-lg">
+        <div class="card-header">
+            เพิ่ม/ลบ/แก้ใข ที่พัก
+        </div>
+        <div class="card-body">
+            <form action="{{ route('add-homestay') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="row md-2">
+                    <div class="col-md-6">
+                        <label for="homestay" class="form-label">ที่พัก *</label>
+                        <input type="text" class="form-control" id="homestay" name="homestay_name" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="homestay_type" class="form-label">ประเภทที่พัก *</label>
+                        <select class="form-select" id="homestay_type" name="homestay_type" required>
+                            <option selected hidden>เลือกประเภทที่พัก</option>
+                            @foreach ($homestay_types as $homestay_type)
+                                <option value="{{ $homestay_type->id }}">{{ $homestay_type->homestay_type_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <label for="homestay_type" class="form-label">ประเภทที่พัก *</label>
-                    <select class="form-select" id="homestay_type" name="homestay_type" required>
-                        <option selected hidden>เลือกประเภทที่พัก</option>
-                        @foreach ($homestay_types as $homestay_type)
-                            <option value="{{ $homestay_type->id }}">{{ $homestay_type->homestay_type_name }}</option>
-                        @endforeach
+                <div class="mb-3">
+                    <label for="price" class="form-label">ราคา *</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="price" name="price" placeholder="ราคาต่อ 1 คืน"
+                            required>
+                        <span class="input-group-text">บาท</span>
+                    </div>
+                </div>
+                <div class="row md-2">
+                    <div class="col-md-4">
+                        <label for="number_guests" class="form-label">จำนวนผู้เข้าพักสูงสุด*</label>
+                        <input type="number" min="1" step="1" pattern="\d*" class="form-control"
+                            id="number_guests" name="number_guests" placeholder="จำนวนผู้เข้าพักสูงสุด" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="bedroom" class="form-label">จำนวนห้องนอน*</label>
+                        <input type="number" min="1" step="1" pattern="\d*" class="form-control"
+                            id="bedroom" name="bedroom" placeholder="จำนวนห้องนอน" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="bathroom" class="form-label">จำนวนห้องน้ำ*</label>
+                        <input type="number" min="1" step="1" pattern="\d*" class="form-control"
+                            id="bathroom" name="bathroom" placeholder="จำนวนห้องน้ำ" required>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="details" class="form-label">รายละเอียด *</label>
+                    <textarea class="form-control" id="details" name="details" rows="3" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="status" class="form-label">สถานะการใช้งาน *</label>
+                    <select class="form-select" id="status" name="status" required>
+                        <option selected hidden>สถานะการใช้งาน</option>
+                        <option value="1">ใช้งาน</option>
+                        <option value="2">ปรับปรุง</option>
+                        <option value="3">ยกเลิกใช้งาน</option>
                     </select>
                 </div>
-            </div>
-            <div class="mb-3">
-                <label for="price" class="form-label">ราคา *</label>
-                <div class="input-group">
-                    <input type="text" class="form-control" id="price" name="price" placeholder="ราคาต่อ 1 คืน"
+                <div class="mb-3">
+                    <label for="FileImgMultiple" class="form-label">รูปภาพ (Multiple files input) *</label>
+                    <input class="form-control" type="file" id="FileImgMultiple" name="homestay_img[]" multiple
                         required>
-                    <span class="input-group-text">บาท</span>
                 </div>
-            </div>
-            <div class="row md-2">
-                <div class="col-md-4">
-                    <label for="number_guests" class="form-label">จำนวนผู้เข้าพักสูงสุด*</label>
-                    <input type="number" min="1" step="1" pattern="\d*" class="form-control" id="number_guests"
-                        name="number_guests" placeholder="จำนวนผู้เข้าพักสูงสุด" required>
-                </div>
-                <div class="col-md-4">
-                    <label for="bedroom" class="form-label">จำนวนห้องนอน*</label>
-                    <input type="number" min="1" step="1" pattern="\d*" class="form-control" id="bedroom"
-                        name="bedroom" placeholder="จำนวนห้องนอน" required>
-                </div>
-                <div class="col-md-4">
-                    <label for="bathroom" class="form-label">จำนวนห้องน้ำ*</label>
-                    <input type="number" min="1" step="1" pattern="\d*" class="form-control" id="bathroom"
-                        name="bathroom" placeholder="จำนวนห้องน้ำ" required>
-                </div>
-            </div>
-            <div class="mb-3">
-                <label for="details" class="form-label">รายละเอียด *</label>
-                <textarea class="form-control" id="details" name="details" rows="3" required></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="status" class="form-label">สถานะการใช้งาน *</label>
-                <select class="form-select" id="status" name="status" required>
-                    <option selected hidden>สถานะการใช้งาน</option>
-                    <option value="1">ใช้งาน</option>
-                    <option value="2">ปรับปรุง</option>
-                    <option value="3">ยกเลิกใช้งาน</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="FileImgMultiple" class="form-label">รูปภาพ (Multiple files input) *</label>
-                <input class="form-control" type="file" id="FileImgMultiple" name="homestay_img[]" multiple required>
-            </div>
-            <input type="submit" class="btn btn-success" value="เพิ่มที่พัก">
-        </form>
+                <input type="submit" class="btn btn-success" value="เพิ่มที่พัก">
+            </form>
+        </div>
     </div>
     <div class="table100 ver2 mb-4 mt-4">
         <div class="table100-head">

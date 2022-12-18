@@ -3,7 +3,14 @@
 @section('title', 'Profile')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
-
+@section('page-name')
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb m-0">
+      <li class="breadcrumb-item"><a href="{{route('manage-customer')}}">จัดการลูกค้า</a></li>
+      <li class="breadcrumb-item active" aria-current="page">รายละเอียดลูกค้า</li>
+    </ol>
+  </nav>
+@endsection
 @section('content')
     {{-- Alert Message --}}
     @if (Session::has('message'))

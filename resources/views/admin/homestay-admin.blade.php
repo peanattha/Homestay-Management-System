@@ -14,7 +14,13 @@
         });
     </script>
 @endif
-
+@section('page-name')
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb m-0">
+      <li class="breadcrumb-item active" aria-current="page">รายการที่พัก</li>
+    </ol>
+  </nav>
+@endsection
 @section('content')
     {{-- Alert Message --}}
     @if (Session::has('message'))
@@ -62,22 +68,26 @@
             </div>
         </div>
     </div>
-    <div class="bg-white p-4 rounded-3 border border-1 shadow-lg">
-        <h3>รายการที่พัก</h3>
-        <form action="{{ route('search-homestay-admin') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <div class="mb-3">
-                <label for="homestay" class="form-label">ค้นหารายการที่พัก</label>
-                <input type="text" class="form-control" id="homestay" name="homestay_name" placeholder="ชื่อที่พัก">
-                <div id="help" class="form-text">กรอกชื่อที่พักเพื่อทำการค้นหารายการที่พัก</div>
-            </div>
-            <div class="mb-3">
-                <input type="text" class="form-control" id="homestay" name="homestay_type"
-                    placeholder="ชื่อประเภทที่พัก">
-                <div id="help" class="form-text">กรอกชื่อประเภทที่พักเพื่อทำการค้นหารายการที่พัก</div>
-            </div>
-            <input type="submit" class="btn btn-success" value="ค้นหารายการที่พัก">
-        </form>
+    <div class="card rounded-3 border border-1 shadow-lg">
+        <div class="card-header">
+            รายการที่พัก
+        </div>
+        <div class="card-body">
+            <form action="{{ route('search-homestay-admin') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="mb-3">
+                    <label for="homestay" class="form-label">ค้นหารายการที่พัก</label>
+                    <input type="text" class="form-control" id="homestay" name="homestay_name" placeholder="ชื่อที่พัก">
+                    <div id="help" class="form-text">กรอกชื่อที่พักเพื่อทำการค้นหารายการที่พัก</div>
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="homestay" name="homestay_type"
+                        placeholder="ชื่อประเภทที่พัก">
+                    <div id="help" class="form-text">กรอกชื่อประเภทที่พักเพื่อทำการค้นหารายการที่พัก</div>
+                </div>
+                <input type="submit" class="btn btn-success" value="ค้นหา">
+            </form>
+        </div>
     </div>
 
     <div class="table100 ver2 mb-4 mt-4">
