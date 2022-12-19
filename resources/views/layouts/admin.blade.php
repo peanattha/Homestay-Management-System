@@ -32,7 +32,7 @@
             <button type="button" class="btn-close" id="btnClose"></button>
         </div>
         <hr class="mt-2 mb-0">
-        <ul class="nav-links" data-bs-spy="scroll" data-bs-target="#sidebar" data-bs-offset="0" tabindex="0">
+        <ul class="nav-links">
             <li>
                 <a href="{{ route('admin-dashboard') }}">
                     <i class='bx bx-pie-chart-alt-2'></i>

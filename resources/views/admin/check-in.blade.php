@@ -5,33 +5,42 @@
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-@if (Session::has('error'))
-    <script>
-        $(window).on('load', function() {
-            $('#modal-search-none').modal('show');
-        });
-    </script>
-@endif
 
 <script>
-    function showModelCheckIn(booking) {
-        // Object.keys(booking).forEach(key => {
-        //     console.log(key, booking[key]);
-        // });
+    function showModelConfirmPay(booking, promotions, set_menus) {
+        Object.keys(booking).forEach(key => {
+            console.log(key, booking[key]);
+        });
 
+        Object.keys(set_menus).forEach(key => {
+            console.log(key, set_menus[key]);
+        });
         $("#idCheckIn").val(booking.id);
         $("#firstNameCheckin").val(booking.user.firstName);
         $("#lastNameCheckin").val(booking.user.lastName);
         $("#date").val(booking.start_date + " - " + booking.end_date);
 
         var result = "";
+        var price = 0;
         for (let i = 0; i <= (booking.booking_details).length - 1; i++) {
             var string = booking.booking_details[i].homestay.homestay_name;
             var result = result.concat(string);
+
+            var price = price + booking.booking_details[i].homestay.homestay_price;
             if (i == (booking.booking_details).length - 1) {
                 $("#homestay").val(result);
+                $("#homestayPrice").val(price);
             }
         }
+        for (let i = 0; i <= (set_menus).length - 1; i++) {
+            if (booking.set_menu_id == set_menus[i].id) {
+                $("#nameMenu").val(set_menus[i].set_menu_name);
+
+                $("#priceMenu").val(set_menus[i].price);
+            }
+        }
+
+        $("#numMenu").val(booking.num_menu);
         $("#num_guests").val(booking.number_guests);
         $("#total_price").val(booking.total_price);
         $("#discount").val(booking.total_price - booking.total_price_discount);
@@ -39,7 +48,7 @@
         $("#deposit").val(booking.deposit);
         $("#toPay").val(booking.total_price_discount - booking.deposit);
 
-        $("#checkInModel").modal("show");
+        $("#confirmPayModel").modal("show");
 
         const payPrice = document.getElementById('payPrice');
         const change = document.getElementById('result');
@@ -63,12 +72,12 @@
     }
 </script>
 @section('page-name')
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb m-0">
-      <li class="breadcrumb-item"><a href="#">รายการจอง</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Check-In</li>
-    </ol>
-  </nav>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a href="#">รายการจอง</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Check-In</li>
+        </ol>
+    </nav>
 @endsection
 @section('content')
     {{-- Alert Message --}}
@@ -110,14 +119,42 @@
                         <label class="labels">ช่วงวันเข้าพัก *</label>
                         <input type="text" name="date" id="date" readonly class="form-control" required>
                         <div class="row mt-2">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label class="labels">บ้านพัก *</label>
                                 <input type="text" name="homestay" id="homestay" readonly class="form-control" required>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label class="labels">จำนวนผู้เข้าพัก *</label>
                                 <input type="text" name="num_guests" id="num_guests" readonly class="form-control"
                                     required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="labels">ราคา *</label>
+                                <div class="input-group">
+                                    <input type="text" name="homestayPrice" id="homestayPrice" readonly
+                                        class="form-control" required>
+                                    <span class="input-group-text">บาท</span>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-4">
+                                <label class="labels">ชุดเมนูอาหาร *</label>
+                                <input type="text" name="nameMenu" id="nameMenu" readonly required class="form-control">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="labels">จำนวนชุดเมนูอาหาร *</label>
+                                <input type="text" name="numMenu" id="numMenu" readonly class="form-control" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="labels">ราคาชุดเมนูอาหาร *</label>
+                                <div class="input-group">
+                                    <input type="text" name="priceMenu" id="priceMenu" readonly required
+                                        class="form-control">
+                                    <span class="input-group-text">บาท</span>
+                                </div>
                             </div>
                         </div>
                         <hr class="mt-4 mb-4">
@@ -194,22 +231,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modal-search-none" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">แจ้งเตือน</h5>
-                </div>
-                <div class="modal-body" id="textModelSearchNone">ไม่มีรายการตรงกับที่คุณค้นหา</div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {{-- ค้นหาCheckIn --}}
+    {{-- ค้นหา Check In --}}
     <div class="card rounded-3 border border-1 shadow-lg">
         <div class="card-header">
             Check-In
@@ -236,6 +258,8 @@
             </form>
         </div>
     </div>
+
+    {{-- Table รายการ Check In --}}
     <div class="table100 ver2 mb-4 mt-4">
         <div class="table100-head">
             <table>
@@ -245,7 +269,6 @@
                         <th style="width: 15%">ชื่อผู้จอง</th>
                         <th style="width: 10%">ชื่อที่พัก</th>
                         <th style="width: 10%">จำนวนผู้เข้าพัก</th>
-                        {{-- <th style="width: 10%">สถานะการจ่ายเงิน</th> --}}
                         <th style="width: 10%">สถานะ</th>
                         <th style="width: 15%">เข้าพัก</th>
                         <th style="width: 15%">รายละเอียดเพิ่มเติม</th>
@@ -277,7 +300,7 @@
                             <td style="width: 15%"><a href="#" class="btn btn-primary">รายละเอียด</a></td>
                             <td style="width: 15%">
                                 <button type="button" class="btn btn-success"
-                                    onclick="showModelCheckIn({{ $booking }})">
+                                    onclick="showModelCheckIn({{ $booking }},{{ $promotions }},{{ $set_menus }})">
                                     Check In
                                 </button>
                             </td>

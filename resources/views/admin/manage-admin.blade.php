@@ -17,6 +17,7 @@
     </ol>
   </nav>
 @endsection
+
 @section('content')
     {{-- Alert Message --}}
     @if (Session::has('message'))
@@ -31,6 +32,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
+    
     {{-- Model Delete Admin --}}
     <div class="modal fade" id="modal-del" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">

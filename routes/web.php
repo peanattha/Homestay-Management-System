@@ -101,8 +101,8 @@ Route::group(['middleware' => ['auth', 'verified', 'CheckAdmin']], function () {
     Route::controller(BookingController::class)->group(function () {
         Route::get('/booking-admin', "booking_admin")->name('booking-admin');
         Route::get('/confirm-booking', "confirm_booking")->name('confirm-booking');
-        Route::get('/confirm-pay-admin/{id}', "confirm_pay_admin")->name('confirm-pay-admin');
-        Route::get('/cancel-pay-admin/{id}', "cancel_pay_admin")->name('cancel-pay-admin');
+        Route::post('/confirm-pay-admin', "confirm_pay_admin")->name('confirm-pay-admin');
+        Route::post('/cancel-pay-admin/{id}', "cancel_pay_admin")->name('cancel-pay-admin');
         Route::get('/confirm-cancel-booking', "confirm_cancel_booking")->name('confirm-cancel-booking');
         Route::post('/search-confirm-booking', "search_confirm_booking")->name('search-confirm-booking');
         Route::post('/search-confirm-cancel', "search_confirm_cancel")->name('search-confirm-cancel');
