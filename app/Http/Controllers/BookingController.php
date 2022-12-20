@@ -86,7 +86,7 @@ class BookingController extends Controller
         // ถ้าค้นหาโดยid
         if (isset($request->booking_id)) {
             $bookings = booking::where('id', $request->booking_id)
-                ->where('status', 6)->get();
+                ->where('status', 6)->get(); //รอยืนยันการชำระเงิน
             // เจอ
             if (($bookings->count() == 0)) {
                 return redirect()->route('confirm-booking')->with('warning', 'ไม่มีรายการค้นหา');
@@ -156,7 +156,7 @@ class BookingController extends Controller
         // ถ้าค้นหาโดยid
         if (isset($request->booking_id)) {
             $bookings = booking::where('id', $request->booking_id)
-                ->where('status', 7)->get();
+                ->where('status', 7)->get(); //รอยืนยันยกเลิกการจอง
             // เจอ
             if (($bookings->count() == 0)) {
                 return redirect()->route('confirm-cancel-booking')->with('warning', 'ไม่มีรายการค้นหา');
@@ -177,7 +177,7 @@ class BookingController extends Controller
                 return redirect()->route('confirm-cancel-booking')->with('warning', 'ไม่มีรายการค้นหา');
                 // ถ้า ชื่อเเละนามสกลุตรง
             } else {
-                $bookings = booking::where('status', 7) //รอยืนยันการชำระเงิน
+                $bookings = booking::where('status', 7) //รอยืนยันยกเลิกการจอง
                     ->whereIn('user_id', $users)->get();
 
                 $set_menus = set_menu::all();
@@ -191,7 +191,7 @@ class BookingController extends Controller
             if ($users->count() == 0) {
                 return redirect()->route('confirm-cancel-booking')->with('warning', 'ไม่มีรายการค้นหาสำหรับชื่อนี้');
             } else {
-                $bookings = booking::where('status', 7) //รอยืนยันการชำระเงิน
+                $bookings = booking::where('status', 7) //รอยืนยันยกเลิกการจอง
                     ->whereIn('user_id', $users)->get();
 
                 $set_menus = set_menu::all();
@@ -205,7 +205,7 @@ class BookingController extends Controller
             if ($users->count() == 0) {
                 return redirect()->route('confirm-cancel-booking')->with('warning', 'ไม่มีรายการค้นหาสำหรับนามสกุลนี้');
             } else {
-                $bookings = booking::where('status', 7) //รอยืนยันการชำระเงิน
+                $bookings = booking::where('status', 7) //รอยืนยันยกเลิกการจอง
                     ->whereIn('user_id', $users)->get();
 
                 $set_menus = set_menu::all();
@@ -213,7 +213,7 @@ class BookingController extends Controller
                 return view('admin.confirm-cancel-booking', compact('bookings', 'promotions', 'set_menus'));
             }
         } else {
-            $bookings = booking::where('status', 7)->get(); //รอยืนยันการชำระเงิน
+            $bookings = booking::where('status', 7)->get(); //รอยืนยันยกเลิกการจอง
             $set_menus = set_menu::all();
             $promotions = promotion::all();
             return view('admin.confirm-cancel-booking', compact('bookings', 'promotions', 'set_menus'));
@@ -265,56 +265,74 @@ class BookingController extends Controller
         return view('admin.booking-admin', compact('bookings'));
     }
 
+    //ตรวจสอบเเล้ว 20/12/65
     public function search_check_in(Request $request)
     {
+        // ถ้าค้นหาโดยid
         if (isset($request->booking_id)) {
-            $bookings = booking::where('id', $request->booking_id)->get();
+            $bookings = booking::where('id', $request->booking_id)
+                ->where('status', 3)->get();
+            // เจอ
             if (($bookings->count() == 0)) {
-                return redirect()->route('check-in-admin')->with('error', 'ไม่มีรายการค้นหา');;
+                return redirect()->route('check-in-admin')->with('warning', 'ไม่มีรายการค้นหา');
+                // ไม่เจอ
+            } else {
+                $set_menus = set_menu::all();
+                $promotions = promotion::all();
+                return view('admin.check-in', compact('bookings', 'promotions', 'set_menus'));
             }
+            // ค้าหา ทั้งชื่อเเละนามสกุล
         } else if (isset($request->firstName) && isset($request->lastName)) {
-            $firstName = user::where('firstName', $request->firstName)->get();
-            $lastName = user::where('lastName', $request->lastName)->get();
-            if (($firstName->count() == 0) && ($firstName->count() == 0)) {
-                return redirect()->route('check-in-admin')->with('error', 'ไม่มีรายการค้นหา');;
+            $users = user::select('id')
+                ->where(DB::raw('lower(firstName)'), strtolower($request->firstName))
+                ->where(DB::raw('lower(lastName)'), strtolower($request->lastName))->get();
+
+            //ถ้าชื่อเเละนามสกุลไม่ตรง
+            if ($users->count() == 0) {
+                return redirect()->route('check-in-admin')->with('warning', 'ไม่มีรายการค้นหา');
+                // ถ้า ชื่อเเละนามสกลุตรง
             } else {
-                $user_id = DB::table('users')
-                    ->where('firstName', $request->firstName)
-                    ->where('lastName', $request->lastName)
-                    ->first()->id;
+                $bookings = booking::where('status', 3) //รอCheckIn
+                    ->whereIn('user_id', $users)->get();
+
+                $set_menus = set_menu::all();
+                $promotions = promotion::all();
+                return view('admin.check-in', compact('bookings', 'promotions', 'set_menus'));
             }
-            $bookings = booking::where('status', 3) //รอ Check-In
-                ->where('payment_status', 1) //รอยืนยันการชำระเงิน
-                ->where('user_id', $user_id)->get();
+            // ค้นหาเเค่ชื่อ
         } else if (isset($request->firstName)) {
-            $firstName = user::where('firstName', $request->firstName)->get();
-            if ($firstName->count() == 0) {
-                return redirect()->route('check-in-admin')->with('error', 'ไม่มีรายการค้นหา');;
+            $users = user::select('id')
+                ->where(DB::raw('lower(firstName)'), strtolower($request->firstName))->get();
+            if ($users->count() == 0) {
+                return redirect()->route('check-in-admin')->with('warning', 'ไม่มีรายการค้นหาสำหรับชื่อนี้');
             } else {
-                $user_id = DB::table('users')
-                    ->where('firstName', $request->firstName)
-                    ->first()->id;
+                $bookings = booking::where('status', 3) //รอCheckIn
+                    ->whereIn('user_id', $users)->get();
+
+                $set_menus = set_menu::all();
+                $promotions = promotion::all();
+                return view('admin.check-in', compact('bookings', 'promotions', 'set_menus'));
             }
-            $bookings = booking::where('status', 3) //รอ Check-In
-                ->where('payment_status', 1) //รอยืนยันการชำระเงิน
-                ->where('user_id', $user_id)->get();
+            // ค้นหาเเค่นามสกุล
         } else if (isset($request->lastName)) {
-            $lastName = user::where('lastName', $request->lastName)->get();
-            if ($lastName->count() == 0) {
-                return redirect()->route('check-in-admin')->with('error', 'ไม่มีรายการค้นหา');;
+            $users = user::select('id')
+                ->where(DB::raw('lower(lastName)'), strtolower($request->lastName))->get();
+            if ($users->count() == 0) {
+                return redirect()->route('check-in-admin')->with('warning', 'ไม่มีรายการค้นหาสำหรับนามสกุลนี้');
             } else {
-                $user_id = DB::table('users')
-                    ->where('lastName', $request->lastName)
-                    ->first()->id;
+                $bookings = booking::where('status', 3) //รอCheckIn
+                    ->whereIn('user_id', $users)->get();
+
+                $set_menus = set_menu::all();
+                $promotions = promotion::all();
+                return view('admin.check-in', compact('bookings', 'promotions', 'set_menus'));
             }
-            $bookings = booking::where('status', 3) //รอ Check-In
-                ->where('payment_status', 1) //รอยืนยันการชำระเงิน
-                ->where('user_id', $user_id)->get();
         } else {
-            $bookings = booking::where('status', 3) //รอ Check-In
-                ->where('payment_status', 1)->get(); //รอยืนยันการชำระเงิน
+            $bookings = booking::where('status', 3)->get(); //รอCheckIn
+            $set_menus = set_menu::all();
+            $promotions = promotion::all();
+            return view('admin.check-in', compact('bookings', 'promotions', 'set_menus'));
         }
-        return view('admin.check-in', compact('bookings'));
     }
 
     public function search_check_out(Request $request)
@@ -365,7 +383,7 @@ class BookingController extends Controller
         }
         return view('admin.check-out', compact('bookings'));
     }
-    
+
     public function show_check_out(Request $request)
     {
         $bookings = booking::where('status', 1)

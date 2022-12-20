@@ -22,7 +22,7 @@
 
     {{-- <link rel="icon" type="image/svg" href="{{ asset('images/Logo.svg') }}" /> --}}
 
-    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 
 <body>
@@ -31,31 +31,30 @@
             <div class="logo_name">{{ config('app.name') }}</div>
             <button type="button" class="btn-close" id="btnClose"></button>
         </div>
-        <hr class="mt-2 mb-0">
+        <hr class="m-2">
         <ul class="nav-links">
             <li>
                 <a href="{{ route('admin-dashboard') }}">
-                    <i class='bx bx-pie-chart-alt-2'></i>
+                    <i class='bx bx-bar-chart-alt-2'></i>
                     <span class="link_name">เเดชบอร์ด</span>
                 </a>
-                <ul class="sub-menu blank">
-                    <li><a class="link_name" href="{{ route('admin-dashboard') }}">เเดชบอร์ด</a></li>
-                </ul>
             </li>
             <li>
                 <div class="iocn-link">
                     <a href="{{ route('booking-admin') }}">
-                        <i class='bx bx-collection'></i>
+                        @if (Session::get('noti')['cBookings'] != 0)
+                            <i class='bx bx-collection bx-tada'></i>
+                        @else
+                            <i class='bx bx-collection'></i>
+                        @endif
+
                         <span class="link_name">
                             รายการจอง
-                            @if (Session::get('noti')['cBookings'] != 0)
-                                <span class="ms-2 top-50 translate-middle badge rounded-pill bg-danger">
-                                    {{ Session::get('noti')['cBookings'] }}
-                                    <span class="visually-hidden">unread messages</span>
-                                </span>
-                            @endif
                         </span>
                     </a>
+                    @if (Session::get('noti')['cBookings'] != 0)
+                        <span class="badge bg-secondary">{{ Session::get('noti')['cBookings'] }}</span>
+                    @endif
                     <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
@@ -64,45 +63,33 @@
                     <li>
                         <a href="{{ route('check-in-admin') }}">
                             Check In
-                            @if (Session::get('noti')['cCheckIn'] != 0)
-                                <span class="ms-2 top-50 translate-middle badge rounded-pill bg-danger">
-                                    {{ Session::get('noti')['cCheckIn'] }}
-                                    <span class="visually-hidden">unread messages</span>
-                                </span>
-                            @endif
                         </a>
+                        @if (Session::get('noti')['cCheckIn'] != 0)
+                            <span class="badge bg-secondary">{{ Session::get('noti')['cCheckIn'] }}</span>
+                        @endif
                     </li>
                     <li><a href="{{ route('check-out-admin') }}">
                             Check Out
-                            @if (Session::get('noti')['cCheckOut'] != 0)
-                                <span class="ms-2 top-50 translate-middle badge rounded-pill bg-danger">
-                                    {{ Session::get('noti')['cCheckOut'] }}
-                                    <span class="visually-hidden">unread messages</span>
-                                </span>
-                            @endif
                         </a>
+                        @if (Session::get('noti')['cCheckOut'] != 0)
+                            <span class="badge bg-secondary">{{ Session::get('noti')['cCheckOut'] }}</span>
+                        @endif
                     </li>
                     <li>
                         <a href="{{ route('confirm-booking') }}">
                             ยืนยันการจอง
-                            @if (Session::get('noti')['cWaitConfirm'] != 0)
-                                <span class="ms-2 top-50 translate-middle badge rounded-pill bg-danger">
-                                    {{ Session::get('noti')['cWaitConfirm'] }}
-                                    <span class="visually-hidden">unread messages</span>
-                                </span>
-                            @endif
                         </a>
+                        @if (Session::get('noti')['cWaitConfirm'] != 0)
+                            <span class="badge bg-secondary">{{ Session::get('noti')['cWaitConfirm'] }}</span>
+                        @endif
                     </li>
                     <li>
                         <a href="{{ route('confirm-cancel-booking') }}">
                             ยืนยันการยกเลิกการจอง
-                            @if (Session::get('noti')['cWaitcancel'] != 0)
-                                <span class="ms-2 top-50 translate-middle badge rounded-pill bg-danger">
-                                    {{ Session::get('noti')['cWaitcancel'] }}
-                                    <span class="visually-hidden">unread messages</span>
-                                </span>
-                            @endif
                         </a>
+                        @if (Session::get('noti')['cWaitcancel'] != 0)
+                            <span class="badge bg-secondary">{{ Session::get('noti')['cWaitcancel'] }}</span>
+                        @endif
                     </li>
                 </ul>
             </li>
@@ -110,7 +97,7 @@
             <li>
                 <div class="iocn-link">
                     <a href="{{ route('homestay-admin') }}">
-                        <i class='bx bx-collection'></i>
+                        <i class='bx bx-home'></i>
                         <span class="link_name">รายการที่พัก</span>
                     </a>
                     <i class='bx bxs-chevron-down arrow'></i>
@@ -123,53 +110,38 @@
             </li>
             <li>
                 <a href="{{ route('manage-menu') }}">
-                    <i class='bx bx-collection'></i>
+                    <i class='bx bx-bowl-rice'></i>
                     <span class="link_name">จัดการชุดเมนูอาหาร</span>
                 </a>
-                <ul class="sub-menu blank">
-                    <li><a class="link_name" href="{{ route('manage-menu') }}">จัดการชุดเมนูอาหาร</a></li>
-                </ul>
             </li>
             <li>
                 <a href="{{ route('manage-customer') }}">
-                    <i class='bx bx-collection'></i>
+                    <i class='bx bx-user'></i>
                     <span class="link_name">จัดการลูกค้า</span>
                 </a>
-                <ul class="sub-menu blank">
-                    <li><a class="link_name" href="{{ route('manage-customer') }}">จัดการลูกค้า</a></li>
-                </ul>
             </li>
             <li>
                 <a href="{{ route('manage-admin') }}">
-                    <i class='bx bx-collection'></i>
+                    <i class='bx bx-user-circle'></i>
                     <span class="link_name">ผู้ดูเเลระบบ</span>
                 </a>
-                <ul class="sub-menu blank">
-                    <li><a class="link_name" href="{{ route('manage-admin') }}">ผู้ดูเเลระบบ</a></li>
-                </ul>
             </li>
             <li>
                 <a href="{{ route('manage-bank') }}">
-                    <i class='bx bx-collection'></i>
+                    <i class='bx bx-money-withdraw'></i>
                     <span class="link_name">วิธีการชำระเงิน</span>
                 </a>
-                <ul class="sub-menu blank">
-                    <li><a class="link_name" href="{{ route('manage-bank') }}">วิธีการชำระเงิน</a></li>
-                </ul>
             </li>
             <li>
                 <a href="{{ route('manage-promotion') }}">
-                    <i class='bx bx-collection'></i>
+                    <i class='bx bxs-discount'></i>
                     <span class="link_name">จัดการโปรโมชั่น</span>
                 </a>
-                <ul class="sub-menu blank">
-                    <li><a class="link_name" href="{{ route('manage-promotion') }}">จัดการโปรโมชั่น</a></li>
-                </ul>
             </li>
             <li>
                 <div class="iocn-link">
                     <a href="{{ route('manage-appliance') }}">
-                        <i class='bx bx-collection'></i>
+                        <i class='bx bx-store'></i>
                         <span class="link_name">ของในคลัง</span>
                     </a>
                     <i class='bx bxs-chevron-down arrow'></i>
@@ -183,7 +155,12 @@
             <li>
                 <div class="iocn-link">
                     <a href="{{ route('review-admin') }}">
-                        <i class='bx bx-collection'></i>
+                        @if (Session::get('noti')['cWaitReply'] != 0)
+                            <i class='bx bx-message-rounded-dots bx-tada'></i>
+                        @else
+                            <i class='bx bx-message-rounded-dots'></i>
+                        @endif
+
                         <span class="link_name">การรีวิวบ้านพัก</span>
                     </a>
                     <i class='bx bxs-chevron-down arrow'></i>
@@ -193,13 +170,10 @@
                     <li>
                         <a href="{{ route('manage-review') }}">
                             ตอบกลับรีวิวบ้านพัก
-                            @if (Session::get('noti')['cWaitReply'] != 0)
-                                <span class="ms-2 top-50 translate-middle badge rounded-pill bg-danger">
-                                    {{ Session::get('noti')['cWaitReply'] }}
-                                    <span class="visually-hidden">unread messages</span>
-                                </span>
-                            @endif
                         </a>
+                        @if (Session::get('noti')['cWaitReply'] != 0)
+                            <span class="badge bg-secondary">{{ Session::get('noti')['cWaitReply'] }}</span>
+                        @endif
                     </li>
                 </ul>
             </li>
@@ -212,7 +186,7 @@
                             ?>
                             <img src="{{ $name }}">
                         @else
-                            <img src="{{ asset('storage/images/' . $user->image) }}">
+                            <img src="{{ asset('storage/images/' . Auth::user()->image) }}">
                         @endif
                     </div>
                     <div class="name-job">
@@ -234,7 +208,7 @@
     </div>
 
     <section class="home-section">
-        <div class="home-content ">
+        <div class="home-content container">
             <i class='bx bx-menu'></i>
             @section('page-name')
 

@@ -113,7 +113,10 @@
                         placeholder="ชื่อชุดเมนูอาหาร">
                     <div id="help" class="form-text">กรอกชื่อชุดเมนูอาหารเพื่อทำการค้นหาชุดเมนูอาหาร</div>
                 </div>
-                <input type="submit" class="btn btn-success" value="ค้นหาชุดเมนูอาหาร">
+                <button type="submit" class="btn btn-success">
+                    <i class='bx bx-search' ></i>
+                    ค้นหา
+                </button>
             </form>
         </div>
     </div>

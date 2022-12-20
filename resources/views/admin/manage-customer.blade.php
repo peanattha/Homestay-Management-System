@@ -127,7 +127,10 @@
                     </div>
                     <div id="help" class="form-text">กรอกชื่อลูกค้าเพื่อทำการค้นหา</div>
                 </div>
-                <input type="submit" class="btn btn-success" value="ค้นหาลูกค้า">
+                <button type="submit" class="btn btn-success">
+                    <i class='bx bx-search' ></i>
+                    ค้นหา
+                </button>
             </form>
         </div>
     </div>

@@ -85,7 +85,10 @@
                         placeholder="ชื่อประเภทที่พัก">
                     <div id="help" class="form-text">กรอกชื่อประเภทที่พักเพื่อทำการค้นหารายการที่พัก</div>
                 </div>
-                <input type="submit" class="btn btn-success" value="ค้นหา">
+                <button type="submit" class="btn btn-success">
+                    <i class='bx bx-search' ></i>
+                    ค้นหา
+                </button>
             </form>
         </div>
     </div>

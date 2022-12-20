@@ -7,7 +7,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script>
-    function showModelConfirmPay(booking, promotions, set_menus) {
+    function showModelCheckIn(booking, promotions, set_menus) {
         Object.keys(booking).forEach(key => {
             console.log(key, booking[key]);
         });
@@ -48,7 +48,7 @@
         $("#deposit").val(booking.deposit);
         $("#toPay").val(booking.total_price_discount - booking.deposit);
 
-        $("#confirmPayModel").modal("show");
+        $("#checkInModel").modal("show");
 
         const payPrice = document.getElementById('payPrice');
         const change = document.getElementById('result');
@@ -56,14 +56,14 @@
         const inputHandler = function(e) {
             if (isNaN(e.target.value)) {
                 $("#change").val("กรุณาใส่จำนวนเงินตัวเลขจำนวนเต็ม");
-                $("#subminCheckIn").prop("readonly", true);
+                $("#subminCheckIn").prop("disabled", true);
             } else {
                 if (((e.target.value)) < booking.deposit) {
                     $("#change").val("กรุณาใส่จำนวนเงินให้มากกว่าเงินที่ต้องจ่าย");
-                    $("#subminCheckIn").prop("readonly", true);
+                    $("#subminCheckIn").prop("disabled", true);
                 } else {
                     $("#change").val((e.target.value) - booking.deposit);
-                    $("#subminCheckIn").prop("readonly", false);
+                    $("#subminCheckIn").prop("disabled", false);
                 }
             }
         }
@@ -222,7 +222,7 @@
                         </div>
                         <div class="mb-2 mt-2">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
-                            <button type="submit" class="btn btn-success" id="subminCheckIn" readonly>ยืนยัน Check
+                            <button type="submit" class="btn btn-success" id="subminCheckIn" disabled>ยืนยัน Check
                                 In</button>
                         </div>
                     </form>
@@ -254,7 +254,10 @@
                     </div>
                     <div id="help" class="form-text">กรอกชื่อผู้จองเพื่อทำการค้นหารายการจอง</div>
                 </div>
-                <input type="submit" class="btn btn-success" value="ค้นหา">
+                <button type="submit" class="btn btn-success">
+                    <i class='bx bx-search' ></i>
+                    ค้นหา
+                </button>
             </form>
         </div>
     </div>

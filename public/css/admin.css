@@ -44,7 +44,6 @@
 }
 
 .sidebar.close .nav-links {
-    /* overflow: hidden; */
     display: none;
 }
 
@@ -56,6 +55,11 @@
     position: relative;
     list-style: none;
     transition: all 0.4s ease;
+}
+
+.sidebar .link_name:hover {
+    font-weight: bold;
+    transition: 0.3s;
 }
 
 .sidebar .nav-links li .iocn-link {
@@ -94,8 +98,8 @@
 }
 
 .sidebar .nav-links li a .link_name {
-    font-weight: 400;
     color: #000;
+    /* font-weight: 600; */
 }
 
 .sidebar .nav-links li .sub-menu {
@@ -111,15 +115,24 @@
 }
 
 .sidebar .nav-links li .sub-menu a {
-    color: rgb(117, 117, 117);
-    padding: 5px 0;
+    color: #000;
+    /* font-weight: 600; */
     width: min-content;
     white-space: nowrap;
     transition: all 0.3s ease;
 }
 
 .sidebar .nav-links li .sub-menu a:hover {
-    color: #000;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.sub-menu li {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
 }
 
 .sidebar.close .nav-links li .sub-menu {
@@ -199,9 +212,11 @@
     left: 0px;
     width: calc(100%);
 }
-section{
+
+section {
     margin: 0px;
 }
+
 .home-section .home-content {
     height: 60px;
     display: flex;
@@ -243,9 +258,11 @@ section{
     width: 40px;
     background: url(https://res.cloudinary.com/dxfq3iotg/image/upload/v1571057658/cd-top-arrow.svg) no-repeat center 50%;
 }
+
 .sidebar #btnClose {
     display: none;
 }
+
 @media (max-width: 414px) {
     .sidebar.close .nav-links li .sub-menu {
         display: none;
@@ -256,9 +273,11 @@ section{
         height: 100vh;
         width: 100vw;
     }
+
     .sidebar .profile-details {
         width: 100vw;
     }
+
     .sidebar #btnClose {
         display: block;
         position: absolute;
