@@ -72,6 +72,7 @@
         </div>
     </div>
 
+
     <div class="card rounded-3 border border-1 shadow-lg">
         <div class="card-header">
             เพิ่ม / ลบ / แก้ใข โปรโมชั่น
@@ -133,6 +134,8 @@
         </div>
     </div>
     <hr class="mb-4 mt-4">
+
+
     <div class="card rounded-3 border border-1 shadow-lg">
         <div class="card-header">
             รายการโปรโมชั่น
@@ -154,9 +157,11 @@
             </form>
         </div>
     </div>
+
+
     <div class="info mt-4">
         <div></div>
-        <form action="{{ route('promotion-filter') }}" method="POST" class="filter">
+        <form action="{{ route('promotion-filter') }}" method="POST" class="filter m-0">
             @csrf
             <div class="aa">
                 @if (!empty($promotion_name))
@@ -181,6 +186,7 @@
             </div>
         </form>
     </div>
+
     <div class="table100 ver2 mb-4 mt-4">
         <div class="table100-head">
             <table>

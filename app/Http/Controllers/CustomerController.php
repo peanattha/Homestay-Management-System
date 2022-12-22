@@ -23,19 +23,39 @@ class CustomerController extends Controller
         $users = user::all();
         return view('admin.manage-customer', compact('users'));
     }
+    
+    //ตรวจสอบ 22/12/65
     public function search_customer(Request $request)
     {
-        $userInfo = user::where('firstName', $request->firstName)
-        ->where('lastName', $request->lastName)->get();
-        if ($userInfo->count() == 0) {
-            return redirect()->route('manage-customer')->with('warning', 'ไม่มีรายการค้นหา');
-        } else {
-            $user_id = DB::table('users')
-                ->where('firstName', $request->firstName)
-                ->where('lastName', $request->lastName)
-                ->first()->id;
+        if (isset($request->firstName) && isset($request->lastName)) {
+            $users = user::where(DB::raw('lower(firstName)'), strtolower($request->firstName))
+                ->where(DB::raw('lower(lastName)'), strtolower($request->lastName))->get();
 
-            $users = user::where('id', $user_id)->get();
+            //ถ้าชื่อเเละนามสกุลไม่ตรง
+            if ($users->count() == 0) {
+                return redirect()->route('manage-customer')->with('warning', 'ไม่มีรายการค้นหา');
+                // ถ้า ชื่อเเละนามสกลุตรง
+            } else {
+                return view('admin.manage-customer', compact('users'));
+            }
+            // ค้นหาเเค่ชื่อ
+        } else if (isset($request->firstName)) {
+            $users = user::where(DB::raw('lower(firstName)'), strtolower($request->firstName))->get();
+            if ($users->count() == 0) {
+                return redirect()->route('manage-customer')->with('warning', 'ไม่มีรายการค้นหาสำหรับชื่อนี้');
+            } else {
+                return view('admin.manage-customer', compact('users'));
+            }
+            // ค้นหาเเค่นามสกุล
+        } else if (isset($request->lastName)) {
+            $users = user::where(DB::raw('lower(lastName)'), strtolower($request->lastName))->get();
+            if ($users->count() == 0) {
+                return redirect()->route('manage-customer')->with('warning', 'ไม่มีรายการค้นหาสำหรับนามสกุลนี้');
+            } else {
+                return view('admin.manage-customer', compact('users'));
+            }
+        } else {
+            $users = user::all();
             return view('admin.manage-customer', compact('users'));
         }
     }

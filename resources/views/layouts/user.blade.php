@@ -18,7 +18,7 @@
 
     <title>@yield('title') - {{ config('app.name') }}</title>
 
-    {{-- <link rel="icon" type="image/svg" href="{{ asset('images/logo.png') }}" /> --}}
+    <link rel="icon" type="image/svg" href="{{ asset('images/Logo.svg') }}" />
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
 

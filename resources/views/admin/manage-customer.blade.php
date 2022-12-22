@@ -121,9 +121,9 @@
                     <label class="form-label">ค้นหาลูกค้า</label>
                     <div class="d-flex flex-row">
                         <input type="text" class="form-control" style="margin-right: 10px" id="firstName"
-                            name="firstName" placeholder="ชื่อลูกค้า*" required>
+                            name="firstName" placeholder="ชื่อลูกค้า*">
                         <input type="text" class="form-control" style="margin-left: 10px" id="lastName"
-                            name="lastName" placeholder="นามสกุลลูกค้า*" required>
+                            name="lastName" placeholder="นามสกุลลูกค้า*">
                     </div>
                     <div id="help" class="form-text">กรอกชื่อลูกค้าเพื่อทำการค้นหา</div>
                 </div>

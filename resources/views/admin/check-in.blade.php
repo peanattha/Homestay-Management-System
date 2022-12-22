@@ -93,6 +93,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
+
     <div class="modal fade" id="checkInModel" tabindex="-1" aria-labelledby="checkInModelLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
@@ -300,7 +301,7 @@
                             $valueDate = $start_date . ' - ' . $end_date;
                             ?>
                             <td style="width: 15%">{{ $valueDate }}</td>
-                            <td style="width: 15%"><a href="#" class="btn btn-primary">รายละเอียด</a></td>
+                            <td style="width: 15%"><a href="{{ route('booking-detail', $booking->id) }}" class="btn btn-primary">รายละเอียด</a></td>
                             <td style="width: 15%">
                                 <button type="button" class="btn btn-success"
                                     onclick="showModelCheckIn({{ $booking }},{{ $promotions }},{{ $set_menus }})">

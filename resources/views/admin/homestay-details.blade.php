@@ -36,23 +36,25 @@
             <form action="{{ route('edit-homestay', ['id' => $detail->id]) }}" method="POST" id="form_edit_homestay"
                 enctype="multipart/form-data">
                 @csrf
-                <div class="mb-3">
-                    <label for="homestay" class="form-label">ที่พัก *</label>
-                    <input type="text" class="form-control" id="homestay" name="homestay_name"
+                <div class="row md-2">
+                    <div class="col-md-6">
+                        <label for="homestay" class="form-label">ที่พัก *</label>
+                        <input type="text" class="form-control" id="homestay" name="homestay_name"
                         value="{{ $detail->homestay_name }}" form="form_edit_homestay" required>
-                </div>
-                <div class="mb-3">
-                    <label for="homestay_type" class="form-label">ประเภทที่พัก *</label>
-                    <select class="form-select" id="homestay_type" name="homestay_type" form="form_edit_homestay" required>
-                        @foreach ($homestay_types as $homestay_type)
-                            @if ($detail->homestay_type->homestay_type_name == $homestay_type->homestay_type_name)
-                                <option value="{{ $detail->homestay_type_id }}" selected hidden>
-                                    {{ $detail->homestay_type->homestay_type_name }}</option>
-                            @else
-                                <option value="{{ $homestay_type->id }}">{{ $homestay_type->homestay_type_name }}</option>
-                            @endif
-                        @endforeach
-                    </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="homestay_type" class="form-label">ประเภทที่พัก *</label>
+                        <select class="form-select" id="homestay_type" name="homestay_type" form="form_edit_homestay" required>
+                            @foreach ($homestay_types as $homestay_type)
+                                @if ($detail->homestay_type->homestay_type_name == $homestay_type->homestay_type_name)
+                                    <option value="{{ $detail->homestay_type_id }}" selected hidden>
+                                        {{ $detail->homestay_type->homestay_type_name }}</option>
+                                @else
+                                    <option value="{{ $homestay_type->id }}">{{ $homestay_type->homestay_type_name }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="peice" class="form-label">ราคา *</label>
@@ -62,21 +64,22 @@
                         <span class="input-group-text">บาท</span>
                     </div>
                 </div>
-                <div class="mb-3">
-                    <label for="number_guests" class="form-label">จำนวนผู้เข้าพักสูงสุด*</label>
-                    <input type="number" min="1" step="1" pattern="\d*" class="form-control"
-                        id="number_guests" name="number_guests" placeholder="จำนวนผู้เข้าพักสูงสุด"
-                        value="{{ $detail->number_guests }}" required>
-                </div>
-                <div class="mb-3">
-                    <label for="bedroom" class="form-label">จำนวนห้องนอน*</label>
-                    <input type="number" min="1" step="1" pattern="\d*" class="form-control" id="bedroom"
-                        name="bedroom" placeholder="จำนวนห้องนอน"value="{{ $detail->num_bedroom }}" required>
-                </div>
-                <div class="mb-3">
-                    <label for="bathroom" class="form-label">จำนวนห้องน้ำ*</label>
-                    <input type="number" min="1" step="1" pattern="\d*" class="form-control" id="bathroom"
-                        name="bathroom" placeholder="จำนวนห้องน้ำ"value="{{ $detail->num_bathroom }}" required>
+                <div class="row md-2">
+                    <div class="col-md-4">
+                        <label for="number_guests" class="form-label">จำนวนผู้เข้าพักสูงสุด*</label>
+                        <input type="number" min="1" step="1" pattern="\d*" class="form-control"
+                            id="number_guests" name="number_guests" value="{{ $detail->number_guests }}"required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="bedroom" class="form-label">จำนวนห้องนอน*</label>
+                        <input type="number" min="1" step="1" pattern="\d*" class="form-control"
+                            id="bedroom" name="bedroom" value="{{ $detail->num_bedroom }}" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="bathroom" class="form-label">จำนวนห้องน้ำ*</label>
+                        <input type="number" min="1" step="1" pattern="\d*" class="form-control"
+                            id="bathroom" name="bathroom" value="{{ $detail->num_bathroom }}" required>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="status" class="form-label">สถานะการใช้งาน *</label>

@@ -10,7 +10,7 @@
 @section('page-name')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb m-0">
-            <li class="breadcrumb-item"><a href="{{route('manage-promotion')}}">จัดการโปรโมชั่น</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('manage-promotion') }}">จัดการโปรโมชั่น</a></li>
             <li class="breadcrumb-item active" aria-current="page">แก้ใข โปรโมชั่น</li>
         </ol>
     </nav>
@@ -25,7 +25,14 @@
     @endif
     <div class="card rounded-3 border border-1 shadow-lg">
         <div class="card-header">
-            แก้ใข โปรโมชั่น
+            แก้ใข {{ $promotion->promotion_name }}
+            @if ($promotion->status == 1)
+                <span class="badge bg-success">ใช้งาน</span>
+            @elseif($promotion->status == 2)
+                <span class="badge bg-danger">ยกเลิกใช้งาน</span></td>
+            @elseif($promotion->status == 3)
+                <span class="badge bg-warning text-dark">รอเปิดใช้งาน</span>
+            @endif
         </div>
         <div class="card-body">
             <form action="{{ route('edit-promotion', ['id' => $promotion->id]) }}" method="POST">
@@ -69,18 +76,6 @@
                             });
                         });
                     </script>
-                </div>
-                <div class="mb-3">
-                    <label for="status" class="form-label">สถานะการใช้งาน *</label>
-                    <select class="form-select" id="status" name="status" required>
-                        @if ($promotion->status == 1)
-                            <option selected hidden value="1">ใช้งาน</option>
-                            <option value="2">ยกเลิกใช้งาน</option>
-                        @elseif($promotion->status == 2)
-                            <option value="1">ใช้งาน</option>
-                            <option selected hidden value="2">ยกเลิกใช้งาน</option>
-                        @endif
-                    </select>
                 </div>
                 <div class="mb-3">
                     <label for="promotion_detail" class="form-label">รายละเอียด *</label>

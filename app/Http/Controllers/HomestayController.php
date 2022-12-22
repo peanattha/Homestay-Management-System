@@ -22,6 +22,7 @@ class homestayController extends Controller
     {
         $homestay_types = homestay_type::all();
         $homestays = homestay::all();
+
         return view('admin.manage-homestay', compact('homestay_types', 'homestays'));
     }
     public function manage_homestay_type()
@@ -96,6 +97,7 @@ class homestayController extends Controller
         $detail = homestay::find($id);
         $homestay_types = homestay_type::all();
         $set_menus = set_menu::all();
+
         return view('admin.homestay-details', compact('detail', 'homestay_types','set_menus'));
     }
 
@@ -161,7 +163,9 @@ class homestayController extends Controller
     public function homestay_admin()
     {
         $homestays = homestay::all();
-        return view('admin.homestay-admin', compact('homestays'));
+        $bookings = booking::all();
+
+        return view('admin.homestay-admin', compact('homestays','bookings'));
     }
     public function search_homestay_admin(Request $request)
     {

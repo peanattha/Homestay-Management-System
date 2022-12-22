@@ -28,7 +28,7 @@ class CreateBookingsTable extends Migration
             $table->integer('number_guests');
             $table->integer('num_menu');
             $table->float('total_price');
-            $table->float('total_price_discount')->nullable();
+            $table->float('total_price_discount');
             $table->float('deposit');
             $table->char('status',1);
             $table->timestamps();

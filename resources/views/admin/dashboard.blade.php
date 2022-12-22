@@ -3,8 +3,13 @@
 @section('title', 'Dashboard')
 
 @section('dashboard', 'active')
-
+@section('page-name')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item active" aria-current="page">แดชบอร์ด</li>
+        </ol>
+    </nav>
+@endsection
 @section('content')
-    <h3>แดชบอร์ด</h3>
     {{-- {{ dd(session()->all()) }} --}}
 @endsection

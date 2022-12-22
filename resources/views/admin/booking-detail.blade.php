@@ -11,120 +11,256 @@
 
 @section('page-name')
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">รายการจอง</a></li>
-            <li class="breadcrumb-item"><a href="#">Library</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Data</li>
+        <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a href="{{ route('booking-admin') }}">รายการจอง</a></li>
+            <li class="breadcrumb-item active" aria-current="page">รายละเอียดการจอง</li>
         </ol>
     </nav>
 @endsection
 @section('content')
-    <h3>รายการจอง</h3>
     <input type="button" id="edit-btn" class="btn btn-success" value="แก้ใขรายการจอง">
 
-    {{-- <input type="button" class="btn btn-success" value="ปริ้นใบรายการจอง"> --}}
+    <input type="button" class="btn btn-success" value="ปริ้นใบรายการจอง">
 
-    <form action="#" method="POST" id="form_edit_booking" enctype="multipart/form-data">
-        @csrf
-        <div class="mb-3">
-            <label for="homestay" class="form-label">ชื่อผู้จอง *</label>
-            <div class="d-flex flex-row">
-                <input type="text" class="form-control" style="margin-right: 10px" id="firstName" name="firstName"
-                    value="{{ $booking->user->firstName }}" disabled required>
-                <input type="text" class="form-control" style="margin-left: 10px" id="lastName" name="lastName"
-                    value="{{ $booking->user->lastName }}" disabled required>
-            </div>
-            <div class="mb-3">
-                <label for="homestay_name" class="form-label">ชื่อที่พัก *</label>
-                <select class="form-select" id="homestay_name" name="homestay_name" form="form_edit_homestay" disabled
-                    required>
-                    @foreach ($homestays as $homestay)
-                        {{-- @if ($booking->homestay->homestay_name == $homestay->homestay_name)
-                            <option value="{{ $booking->homestay_id }}" selected>
-                                {{ $booking->homestay->homestay_name }}</option>
-                        @else
-                            <option value="{{ $homestay->id }}">{{ $homestay->homestay_name }}</option>
-                        @endif --}}
-                    @endforeach
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="homestay_type" class="form-label">ประเภทที่พัก *</label>
-                <select class="form-select" id="homestay_type" name="homestay_type" form="form_edit_homestay" disabled
-                    required>
-                    @foreach ($homestay_types as $homestay_type)
-                        {{-- @if ($booking->homestay->homestay_type->homestay_type_name == $homestay_type->homestay_type_name)
-                            <option value="{{ $booking->homestay_type_id }}" selected>
-                                {{ $booking->homestay->homestay_type->homestay_type_name }}</option>
-                        @else
-                            <option value="{{ $homestay_type->id }}">{{ $homestay_type->homestay_type_name }}</option>
-                        @endif --}}
-                    @endforeach
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="number_guests" class="form-label">จำนวนผู้เข้าพัก</label>
-                <input type="number" min="1" step="1" pattern="\d*" class="form-control" id="number_guests"
-                    name="number_guests" placeholder="จำนวนผู้เข้าพัก" value="{{ $booking->number_guests }}" disabled
-                    required>
-            </div>
-            <div class="mt-3 ">
-                <label for="homestay" class="form-label">สถานะการจ่ายเงิน *</label>
-                {{-- @if ($booking->status == 1)
-                    <input type="text" class="form-control" style="margin-right: 10px" id="status"
-                        name="status" value="ชำระเงินเเล้ว" disabled required>
-                @elseif ($booking->status == 2)
-                    <input type="text" class="form-control" style="margin-right: 10px" id="status"
-                        name="status" value="รอชำระเงิน" disabled required>
-                @elseif ($booking->status == 3)
-                    <input type="text" class="form-control" style="margin-right: 10px" id="status"
-                        name="status" value="รอยืนยันการชำระเงิน" disabled required>
-                @elseif ($booking->status == 4)
-                    <input type="text" class="form-control" style="margin-right: 10px" id="status"
-                        name="status" value="คืนเงินเสร็จสิ้น" disabled required>
-                @elseif ($booking->status == 5)
-                    <input type="text" class="form-control" style="margin-right: 10px" id="status"
-                        name="status" value="รอคืนเงิน" disabled required>
-                @endif --}}
-            </div>
-            <div class="mt-3 ">
-                <label for="homestay" class="form-label">Check In *</label>
-                <input type="text" class="form-control" style="margin-right: 10px" id="check_in" name="check_in"
-                    value="{{ $booking->check_in }}" disabled required>
-            </div>
-            <div class="mt-3 ">
-                <label for="homestay" class="form-label">Check Out *</label>
-                <input type="text" class="form-control" style="margin-right: 10px" id="check_out" name="check_out"
-                    value="{{ $booking->check_out }}" disabled required>
-            </div>
-            <div class="mt-3">
-                <label for="dateRange" class="form-label">ช่วงวันที่เข้าพัก *</label>
-                <?php
-                $start_date = date('d-m-Y', strtotime($booking->start_date));
-                $end_date = date('d-m-Y', strtotime($booking->end_date));
-                $valueDate = $start_date . ' - ' . $end_date;
-                ?>
-                <input type="text" name="dateRange" value="{{ $valueDate }}" class="form-control" disabled required />
-                <script>
-                    $(function() {
-                        $('input[name="dateRange"]').daterangepicker({
-                            opens: 'left',
-                            minDate: date,
-                            locale: {
-                                format: 'DD-MM-YYYY'
-                            }
-                        });
-                    });
-                </script>
-            </div>
-            <div class="mt-3 ">
-                <label for="homestay" class="form-label">ราคารวม *</label>
-                <input type="text" class="form-control" style="margin-right: 10px" id="check_out" name="check_out"
-                    value="{{ $booking->total_price_discount }}" disabled required>
+    <div class="card rounded-3 border border-1 shadow-lg mt-4 mb-4">
+        <div class="card-header">
+            รายละเอียดการจอง
+            @if ($booking->status == 1)
+                <span class="badge bg-success">Check In</span>
+            @elseif ($booking->status == 2)
+                <span class="badge bg-success">Check Out</span>
+            @elseif ($booking->status == 3)
+                <span class="badge bg-warning text-dark">รอ Check In</span>
+            @elseif ($booking->status == 4)
+                <span class="badge bg-danger">ยกเลิกการจอง</span></td>
+            @elseif ($booking->status == 5)
+                <span class="badge bg-warning text-dark">รอชำระเงิน</span>
+            @elseif ($booking->status == 6)
+                <span class="badge bg-warning text-dark">รอยืนยันการชำระเงิน</span>
+            @elseif ($booking->status == 7)
+                <span class="badge bg-warning text-dark">รอยืนยันยกเลิกการจอง</span>
+            @endif
+        </div>
+        <div class="card-body">
+            <form action="#" method="POST" id="form_edit_booking" enctype="multipart/form-data">
+                @csrf
+                <div class="mb-3">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="labels">ชื่อ *</label>
+                            <input type="text" name="firstName" class="form-control"
+                                value="{{ $booking->user->firstName }}" disabled>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="labels">นามสกุล *</label>
+                            <input type="text" name="lastName" class="form-control"
+                                value="{{ $booking->user->lastName }}" disabled>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="homestay_name" class="form-label">ที่พัก *</label><br>
+                        @foreach ($booking->booking_details as $booking_detail)
+                            @foreach ($homestays as $homestay)
+                                @if ($booking_detail->homestay->homestay_name == $homestay->homestay_name)
+                                    <input type="checkbox" id="hn{{ $homestay->id }}" name="homestay_name"
+                                        value="{{ $booking_detail->homestay_id }}" checked disabled>
+                                    <label>{{ $booking_detail->homestay->homestay_name }}</label><br>
+                                @endif
+                            @endforeach
+                        @endforeach
+
+                        @foreach ($homestaysN as $n)
+                            <input type="checkbox" id="hn {{ $n->id }}" name="homestay_name"
+                                value=" {{ $n->id }}" disabled>
+                            <label> {{ $n->homestay_name }}</label><br>
+                        @endforeach
+
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="number_guests" class="form-label">จำนวนผู้เข้าพัก *</label>
+                        <input type="number" min="1" step="1" pattern="\d*" class="form-control"
+                            id="number_guests" name="number_guests" placeholder="จำนวนผู้เข้าพัก"
+                            value="{{ $booking->number_guests }}" disabled required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="number_guests" class="form-label">โปรโมชั่น *</label>
+                        <select class="form-select" aria-label="Default select example" disabled>
+                            @if ($booking->promotion_id == null)
+                                <option selected hidden>เลือกโปรโมชั่น</option>
+                                @foreach ($promotions as $promotion)
+                                    <option value="{{ $promotion->id }}">{{ $promotion->promotion_name }}</option>
+                                @endforeach
+                            @else
+                                @foreach ($promotions as $promotion)
+                                    @if ($booking->promotion_id == $promotion->id)
+                                        <option value="{{ $booking->set_menu_id }}" selected>
+                                            {{ $promotion->promotion_name }}</option>
+                                    @else
+                                        <option value="{{ $promotion->id }}">{{ $promotion->promotion_name }}</option>
+                                    @endif
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                <label class="labels">ชุดเมนูอาหาร *</label>
+                                <select class="form-select" aria-label="Default select example" disabled>
+                                    @foreach ($set_menus as $set_menu)
+                                        @if ($booking->set_menu_id == $set_menu->id)
+                                            <option value="{{ $booking->set_menu_id }}" selected>
+                                                {{ $set_menu->set_menu_name }}</option>
+                                        @else
+                                            <option value="{{ $set_menu->id }}">{{ $set_menu->set_menu_name }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="labels">จำนวนชุดเมนูอาหาร *</label>
+                                <input type="number" name="num_menu" class="form-control" value="{{ $booking->num_menu }}"
+                                    disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                <label class="labels">check In *</label>
+                                <input type="text" name="firstName" class="form-control"
+                                    value="{{ $booking->check_in }}" disabled>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="labels">check In โดย *</label>
+                                <input type="text" name="lastName" class="form-control"
+                                    value="{{ $booking->check_in_by }}" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                <label class="labels">check In *</label>
+                                <input type="text" name="firstName" class="form-control"
+                                    value="{{ $booking->check_out }}" disabled>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="labels">Check Out โดย *</label>
+                                <input type="text" name="lastName" class="form-control"
+                                    value="{{ $booking->check_out_by }}" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <label for="dateRange" class="form-label">ช่วงวันที่เข้าพัก *</label>
+                        <?php
+                        $start_date = date('d-m-Y', strtotime($booking->start_date));
+                        $end_date = date('d-m-Y', strtotime($booking->end_date));
+                        $valueDate = $start_date . ' - ' . $end_date;
+                        ?>
+                        <input type="text" name="dateRange" value="{{ $valueDate }}" class="form-control"
+                            disabled required />
+                        <script>
+                            $(function() {
+                                $('input[name="dateRange"]').daterangepicker({
+                                    timePicker: true,
+                                    opens: 'left',
+                                    locale: {
+                                        format: 'DD-MM-YYYY'
+                                    }
+                                });
+                            });
+                        </script>
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-success" form="form_edit_booking" value="ยืนยัน" disabled>
+            </form>
+        </div>
+    </div>
+
+    <div class="card rounded-3 border border-1 shadow-lg mt-4 mb-4">
+        <div class="card-header">
+            รายการเบิกของเพิ่มเติม
+        </div>
+        <div class="card-body">
+            @if ($widens->count() == null)
+                <div class="row mt-2">
+                    <p>ไม่มีรายการเบิกของเพิ่มเติม</p>
+                </div>
+            @else
+                @foreach ($widens as $widen)
+                    <div class="row mt-2">
+                        <div class="col-md-4">
+                            <label class="labels">ของในคลัง *</label>
+                            @if ($widen->appliances_id == $appliances->id)
+                                <input type="number" name="appliances_anme" id="appliances_anme" disabled
+                                    class="form-control" required value="{{ $appliances->appliances_name }}">
+                            @endif
+                        </div>
+                        <div class="col-md-4">
+                            <label class="labels">จำนวน *</label>
+                            <input type="number" name="discount" id="discount" disabled class="form-control" required
+                                value="{{ $widen->amount }}">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="labels">ราคาคิดเพิ่มเติม *</label>
+                            <div class="input-group">
+                                <input type="text" name="total_price_discount" id="total_price_discount" disabled
+                                    required class="form-control" value="">
+                                <span class="input-group-text">บาท</span>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            @endif
+        </div>
+    </div>
+
+    <div class="card rounded-3 border border-1 shadow-lg mt-4 mb-4">
+        <div class="card-header">
+            รายละเอียดการจ่ายเงิน
+        </div>
+        <div class="card-body">
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <label class="labels">ราคาทั้งหมด *</label>
+                    <div class="input-group">
+                        <input type="text" name="total_price" id="total_price" disabled required class="form-control"
+                            value="{{ $booking->total_price }}">
+                        <span class="input-group-text">บาท</span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="labels">ส่วนลด *</label>
+                    <div class="input-group">
+                        <input type="text" name="discount" id="discount" disabled class="form-control" required
+                            value="{{ $booking->total_price - $booking->total_price_discount }}">
+                        <span class="input-group-text">บาท</span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="labels">ราคารวมส่วนลด *</label>
+                    <div class="input-group">
+                        <input type="text" name="total_price_discount" id="total_price_discount" disabled required
+                            class="form-control" value="{{ $booking->total_price_discount }}">
+                        <span class="input-group-text">บาท</span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="labels">เงินมัดจำ *</label>
+                    <div class="input-group">
+                        <input type="text" name="deposit" id="deposit" disabled class="form-control" required
+                            value="{{ $booking->deposit }}">
+                        <span class="input-group-text">บาท</span>
+                    </div>
+                </div>
             </div>
         </div>
-        <input type="submit" class="btn btn-success" form="form_edit_booking" value="ยืนยัน" disabled>
-    </form>
+    </div>
+    </div>
+
     <script>
         var form = document.getElementById('form_edit_booking')
         var btn1 = document.getElementById('edit-btn')

@@ -20,7 +20,7 @@
 
     <title>@yield('title') - {{ config('app.name') }}</title>
 
-    {{-- <link rel="icon" type="image/svg" href="{{ asset('images/Logo.svg') }}" /> --}}
+    <link rel="icon" type="image/svg" href="{{ asset('images/Logo.svg') }}" />
 
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
@@ -28,7 +28,8 @@
 <body>
     <div class="sidebar" id="sidebar">
         <div class="logo-details">
-            <div class="logo_name">{{ config('app.name') }}</div>
+            <img src="{{ asset('images/Logo.svg') }}" alt="" width="21px" height="21px">
+            <div class="logo_name ms-2">{{ config('app.name') }}</div>
             <button type="button" class="btn-close" id="btnClose"></button>
         </div>
         <hr class="m-2">
@@ -109,12 +110,6 @@
                 </ul>
             </li>
             <li>
-                <a href="{{ route('manage-menu') }}">
-                    <i class='bx bx-bowl-rice'></i>
-                    <span class="link_name">จัดการชุดเมนูอาหาร</span>
-                </a>
-            </li>
-            <li>
                 <a href="{{ route('manage-customer') }}">
                     <i class='bx bx-user'></i>
                     <span class="link_name">จัดการลูกค้า</span>
@@ -130,6 +125,12 @@
                 <a href="{{ route('manage-bank') }}">
                     <i class='bx bx-money-withdraw'></i>
                     <span class="link_name">วิธีการชำระเงิน</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('manage-menu') }}">
+                    <i class='bx bx-bowl-rice'></i>
+                    <span class="link_name">จัดการชุดเมนูอาหาร</span>
                 </a>
             </li>
             <li>
@@ -209,7 +210,7 @@
 
     <section class="home-section">
         <div class="home-content container">
-            <i class='bx bx-menu'></i>
+            <i class='bx bx-menu ms-0 me-2'></i>
             @section('page-name')
 
             @show

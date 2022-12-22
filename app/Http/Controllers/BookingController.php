@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\appliance;
 use App\Models\booking;
-use App\Models\homestay_type;
+use App\Models\booking_detail;
 use App\Models\homestay;
 use App\Models\payment;
 use App\Models\promotion;
 use App\Models\set_menu;
+use App\Models\widen;
 use App\Models\user;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -46,9 +48,23 @@ class BookingController extends Controller
     public function booking_detail($id)
     {
         $booking = booking::find($id);
-        $homestay_types = homestay_type::all();
         $homestays = homestay::all();
-        return view('admin.booking-detail', compact('booking', 'homestay_types', 'homestays'));
+        $set_menus = set_menu::all();
+        $promotions = promotion::all();
+        $widens = widen::where('booking_id', $id)->get();
+        $appliances = appliance::all();
+
+        $answers = collect([]);
+        foreach ($booking as $info) {
+            $booking_details = booking_detail::where('booking_id', $id)->get();
+            foreach ($booking_details as $booking_detail) {
+                $answers->push($booking_detail->homestay_id);
+            }
+        }
+
+        $homestaysN = DB::table('homestays')->whereNotIn('id', $answers)->get();
+
+        return view('admin.booking-detail', compact('booking', 'set_menus', 'promotions', 'homestays', 'widens', 'appliances', 'homestaysN'));
     }
     public function confirm_booking()
     {
@@ -387,7 +403,7 @@ class BookingController extends Controller
     public function show_check_out(Request $request)
     {
         $bookings = booking::where('status', 1)
-            ->orderBy('end_date', 'asc')->get(); //Check-In เเล้ว
+            ->where('end_date', Carbon::today())->get(); //Check-In เเล้ว
 
         return view('admin.check-out', compact('bookings'));
     }

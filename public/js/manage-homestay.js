@@ -6,7 +6,9 @@ function showModelDelhomestayType(id, homestay_type_name) {
     $("#modal-del-homestay-type").modal("show");
 }
 function confirmDelhomestayType() {
-    document.getElementById("del-homestay-type" + window.id_homestay_type).submit();
+    document
+        .getElementById("del-homestay-type" + window.id_homestay_type)
+        .submit();
 }
 
 // Edit homestay Type
@@ -48,3 +50,5 @@ function showModelDelhomestay(id, name) {
 function confirmDelhomestay() {
     document.getElementById("del-homestay" + window.id_homestay).submit();
 }
+/////////////////////////////////////////////////////////////////////////////////////
+

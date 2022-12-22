@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\booking;
 use App\Models\promotion;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class PromotionController extends Controller
 {
@@ -15,15 +16,10 @@ class PromotionController extends Controller
     }
     public function manage_promotion()
     {
-        $promotions = promotion::all();
+        $promotions = promotion::orderBy('status', 'asc')->get();
         return view('admin.manage-promotion', compact('promotions'));
     }
 
-    public function promotion_admin()
-    {
-        $promotions = promotion::all();
-        return view('admin.promotion-admin', compact('promotions'));
-    }
     public function promotion_detail($id)
     {
         $promotion = promotion::find($id);
@@ -36,8 +32,6 @@ class PromotionController extends Controller
         $add_promotion->promotion_name =  $request->promotion_name;
         $add_promotion->discount_price =  $request->price;
         $add_promotion->promotion_detail =  $request->promotion_detail;
-        $add_promotion->status =  1;
-
         $datetimeArr = explode(" - ", $request->datetimes);
         $date1 = explode(" ", $datetimeArr[0]);
         $date2 = explode(" ", $datetimeArr[1]);
@@ -46,13 +40,22 @@ class PromotionController extends Controller
         $start_time = date('H:i:s', strtotime($date1[1] . $date1[2]));
         $end_time = date('H:i:s', strtotime($date2[1] . $date2[2]));
 
+        if ($start_date == Carbon::today()) {
+            if ($start_time < date('H:i:s')) {
+                $add_promotion->status =  3;
+            }
+            $add_promotion->status =  1;
+        } else {
+            $add_promotion->status =  3;
+        }
+
         $add_promotion->start_date =  $start_date;
         $add_promotion->end_date = $end_date;
         $add_promotion->start_time =  $start_time;
         $add_promotion->end_time = $end_time;
 
         $add_promotion->save();
-        return redirect()->back()->with('message', 'เพิ่มโปรโมชั่น '.$request->promotion_name.' เสร็จสิ้น');
+        return redirect()->back()->with('message', 'เพิ่มโปรโมชั่น ' . $request->promotion_name . ' เสร็จสิ้น');
     }
     public function delete_promotion($id)
     {
@@ -65,7 +68,7 @@ class PromotionController extends Controller
         $edit_promotion->promotion_name =  $request->promotion_name;
         $edit_promotion->discount_price =  $request->price;
         $edit_promotion->promotion_detail =  $request->promotion_detail;
-        $edit_promotion->status =  1;
+        // $edit_promotion->status =  1;
 
         $datetimeArr = explode(" - ", $request->datetimes);
         $date1 = explode(" ", $datetimeArr[0]);
@@ -81,7 +84,7 @@ class PromotionController extends Controller
         $edit_promotion->end_time = $end_time;
 
         $edit_promotion->save();
-        return redirect()->route('promotion-detail', $id)->with('message', 'แก้ใขโปรโมชั่น '.$request->promotion_name.' เสร็จสิ้น');
+        return redirect()->route('promotion-detail', $id)->with('message', 'แก้ใขโปรโมชั่น ' . $request->promotion_name . ' เสร็จสิ้น');
     }
     public function search_promotion(Request $request)
     {

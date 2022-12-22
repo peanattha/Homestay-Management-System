@@ -14,12 +14,15 @@
     function confirmDel() {
         document.getElementById("del-account").submit();
     }
-    // Close Model
-    function closeModel() {
-        $("#modal-del").modal("hide");
-    }
-</script>
 
+</script>
+@section('page-name')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item active">โปรไฟล์</li>
+        </ol>
+    </nav>
+@endsection
 @section('content')
     {{-- Model Delete Account --}}
     <div class="modal fade" id="modal-del" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -27,11 +30,12 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">แจ้งเตือน</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="textModelDel"></div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" onclick="closeModel()">ยกเลิก</button>
                     <button type="button" class="btn btn-success" onclick="confirmDel()">ยืนยัน</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
                 </div>
             </div>
         </div>
