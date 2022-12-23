@@ -7,9 +7,17 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <link rel="stylesheet" href="{{ asset('css/calendar.css') }}">
+
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <script type="text/javascript" src="{{ asset('js/manage-homestay.js') }}"></script>
+
+<script src='fullcalendar/packages/core/main.js'></script>
+<script src='fullcalendar/packages/interaction/main.js'></script>
+<script src='fullcalendar/packages/daygrid/main.js'></script>
+<link href='fullcalendar/packages/core/main.css' rel='stylesheet' />
+<link href='fullcalendar/packages/daygrid/main.css' rel='stylesheet' />
+
 @section('page-name')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb m-0">
@@ -18,7 +26,7 @@
     </nav>
 @endsection
 @section('content')
-    <div>
+    {{-- <div>
         <div class="row">
             <div class="col-md-12">
                 <div class="content w-100">
@@ -29,6 +37,7 @@
                                 <span class="year" id="label"></span>
                                 <span class="right-button fa fa-chevron-right" id="next"> </span>
                             </div>
+
                             <table class="months-table w-100">
                                 <tbody>
                                     <tr class="months-row">
@@ -57,6 +66,7 @@
                                 <td class="day">Fri</td>
                                 <td class="day">Sat</td>
                             </table>
+
                             <div class="frame">
                                 <table class="dates-table w-100">
                                     <tbody class="tbody">
@@ -65,24 +75,18 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="events-container">
                     </div>
+
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
-    <div class="d-none">
-        @foreach ($bookings as $booking)
-            {{ $booking->promotion }}
 
-            @foreach ($booking->booking_details as $booking_detail)
-                {{ $booking_detail->homestay->homestay_name }}
-            @endforeach
-        @endforeach
-    </div>
 
-    <script type="text/javascript">
+    {{-- <script>
         // Setup the calendar with the current date
         $(document).ready(function() {
             var date = new Date();
@@ -222,7 +226,7 @@
             console.log(event_data["events"]);
             // If there are no events for this date, notify the user
             if (events.length === 0) {
-                var event_card = $("<div class='event-card'></div>");
+                var event_card = $("<div class='event-card'></div></div>");
                 var event_name = $(
                     "<div class='event-name'>" + day + " " + month + " บ้านพักว่างทุกหลัง.</div>"
                 );
@@ -309,9 +313,53 @@
             }
 
         }
+    </script> --}}
+
+    <div class="mt-4 mb-4">
+        <div id='calendar'></div>
+    </div>
+
+    <div class="d-none">
+        @foreach ($bookings as $booking)
+            {{ $booking->promotion }}
+
+            @foreach ($booking->booking_details as $booking_detail)
+                {{ $booking_detail->homestay->homestay_name }}
+            @endforeach
+        @endforeach
+    </div>
+
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+
+            var events = [];
+            $bookings = <?php echo json_encode($bookings); ?>
+
+            let n = 0;
+            for (let i = 0; i <= ($bookings).length - 1; i++) {
+                for (let a = 0; a <= $bookings[i].booking_details.length - 1; a++) {
+
+                    var event = {
+                        "title": $bookings[i].booking_details[a].homestay.homestay_name,
+                        "start": $bookings[i].start_date
+                    };
+                    events.push(event);
+                    console.log(events);
+                }
+            }
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                plugins: ['interaction', 'dayGrid'],
+                editable: true,
+                eventLimit: true, // allow "more" link when too many events
+                events
+            });
+
+            calendar.render();
+        });
     </script>
-
-
 
     {{-- Alert Message --}}
     @if (Session::has('message'))
@@ -368,8 +416,7 @@
                 @csrf
                 <div class="mb-3">
                     <label for="homestay" class="form-label">ค้นหารายการที่พัก</label>
-                    <input type="text" class="form-control" id="homestay" name="homestay_name"
-                        placeholder="ชื่อที่พัก">
+                    <input type="text" class="form-control" id="homestay" name="homestay_name" placeholder="ชื่อที่พัก">
                     <div id="help" class="form-text">กรอกชื่อที่พักเพื่อทำการค้นหารายการที่พัก</div>
                 </div>
                 <div class="mb-3">
