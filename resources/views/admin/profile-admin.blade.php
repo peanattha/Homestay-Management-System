@@ -14,7 +14,6 @@
     function confirmDel() {
         document.getElementById("del-account").submit();
     }
-
 </script>
 @section('page-name')
     <nav aria-label="breadcrumb">
@@ -24,8 +23,22 @@
     </nav>
 @endsection
 @section('content')
+    {{-- Alert Message --}}
+    @if (Session::has('message'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ Session::get('message') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+    @if (Session::has('warning'))
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ Session::get('warning') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     {{-- Model Delete Account --}}
-    <div class="modal fade" id="modal-del" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modal-del" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -49,7 +62,7 @@
                         $name = 'https://ui-avatars.com/api/?size=512&name=' . Auth::user()->firstName . '+' . Auth::user()->lastName;
                         ?>
                         <img class="mt-5" width="150px" height="150px" style="border-radius: 32px;"
-                            src="{{$name}}">
+                            src="{{ $name }}">
                     @else
                         <img class="mt-5" width="150px" height="150px" style="border-radius: 32px;"
                             src="{{ asset('storage/images/' . $user->image) }}">
@@ -69,8 +82,7 @@
                         <div class="row mt-2">
                             <div class="col-md-6">
                                 <label class="labels">ชื่อ *</label>
-                                <input type="text" name="firstName" class="form-control"
-                                    value="{{ $user->firstName }}">
+                                <input type="text" name="firstName" class="form-control" value="{{ $user->firstName }}">
                             </div>
                             <div class="col-md-6">
                                 <label class="labels">นามสกุล *</label>
