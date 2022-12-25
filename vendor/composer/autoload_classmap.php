@@ -39,6 +39,7 @@ return array(
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
     'App\\Models\\appliance' => $baseDir . '/app/Models/appliance.php',
     'App\\Models\\bank_admin' => $baseDir . '/app/Models/bank_admin.php',
+    'App\\Models\\bank_name' => $baseDir . '/app/Models/bank_name.php',
     'App\\Models\\booking' => $baseDir . '/app/Models/booking.php',
     'App\\Models\\booking_detail' => $baseDir . '/app/Models/booking_detail.php',
     'App\\Models\\homestay' => $baseDir . '/app/Models/homestay.php',

@@ -34,7 +34,7 @@ class homestayController extends Controller
     public function add_homestay_type(Request $request)
     {
         if (homestay_type::where('homestay_type_name', $request->homestay_type_name)->exists()) {
-            return redirect()->back()->with('warning', "มีประเภทที่พัก ".$request->homestay_type_name." ในฐานข้อมูลเเล้ว");
+            return redirect()->back()->with('warning', "มีประเภทที่พัก " . $request->homestay_type_name . " ในฐานข้อมูลเเล้ว");
         } else {
             $add_homestay_type = new homestay_type;
             $add_homestay_type->homestay_type_name = $request->homestay_type_name;
@@ -50,7 +50,7 @@ class homestayController extends Controller
     public function edit_homestay_type(Request $request)
     {
         if (homestay_type::where('homestay_type_name', $request->homestay_type_name)->exists()) {
-            return redirect()->back()->with('warning', "มีประเภทที่พัก ".$request->homestay_type_name." ในฐานข้อมูลเเล้ว");
+            return redirect()->back()->with('warning', "มีประเภทที่พัก " . $request->homestay_type_name . " ในฐานข้อมูลเเล้ว");
         } else {
             $update_homestay_type = homestay_type::find($request->id);
             $update_homestay_type->homestay_type_name = $request->homestay_type_name;
@@ -98,7 +98,7 @@ class homestayController extends Controller
         $homestay_types = homestay_type::all();
         $set_menus = set_menu::all();
 
-        return view('admin.homestay-details', compact('detail', 'homestay_types','set_menus'));
+        return view('admin.homestay-details', compact('detail', 'homestay_types', 'set_menus'));
     }
 
     public function delete_img($id, $name_img)
@@ -164,9 +164,9 @@ class homestayController extends Controller
     {
         $homestays = homestay::all();
         $bookings = booking::all();
-
-        return view('admin.homestay-admin', compact('homestays','bookings'));
+        return view('admin.homestay-admin', compact('homestays', 'bookings'));
     }
+
     public function search_homestay_admin(Request $request)
     {
         if (isset($request->homestay_name)) {
@@ -175,8 +175,9 @@ class homestayController extends Controller
                 return redirect()->route('homestay-admin')->with('warning', 'ไม่มีรายการค้นหา');
             }
         } else if (isset($request->homestay_type)) {
-            $homestay_type_id = homestay_type::where('homestay_type_name', $request->homestay_type)->first()->id;
+            $homestay_type_id = homestay_type::select('id')->where('homestay_type_name', $request->homestay_type)->get();
             $homestays = homestay::where('homestay_type_id', $homestay_type_id)->get();
+
             if ($homestays->count() == 0) {
                 return redirect()->route('homestay-admin')->with('warning', 'ไม่มีรายการค้นหา');
             }
@@ -191,8 +192,8 @@ class homestayController extends Controller
                 return redirect()->route('homestay-admin')->with('warning', 'ไม่มีรายการค้นหา');
             }
         }
-
-        return view('admin.homestay-admin', compact('homestays'));
+        $bookings = booking::all();
+        return view('admin.homestay-admin', compact('homestays','bookings'));
     }
 
     /////////////////////////////
@@ -237,8 +238,8 @@ class homestayController extends Controller
         $answers = collect([]);
 
         foreach ($booking_infos as $info) {
-            $booking_details = booking_detail::where('booking_id',$info->id)->get();
-            foreach($booking_details as $booking_detail){
+            $booking_details = booking_detail::where('booking_id', $info->id)->get();
+            foreach ($booking_details as $booking_detail) {
                 $answers->push($booking_detail->homestay_id);
             }
         }

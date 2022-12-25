@@ -15,9 +15,9 @@ class CreateBankAdminsTable extends Migration
     {
         Schema::create('bank_admins', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('bank_name_id')->references('id')->on('bank_names')->onDelete('cascade');
             $table->string('firstName');
             $table->string('lastName');
-            $table->string('bank_name');
             $table->string('acc_number');
             $table->char('prompt_pay',12)->nullable();
             $table->string('qr_code', 10240);

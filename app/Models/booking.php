@@ -42,6 +42,7 @@ class booking extends Model
     {
         return $this->hasOne(booking::class,'booking_id','id');
     }
+    
     public function promotion()
     {
         return $this->belongsTo(promotion::class)->withTrashed();

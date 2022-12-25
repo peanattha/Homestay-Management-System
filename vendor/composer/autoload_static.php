@@ -559,6 +559,7 @@ class ComposerStaticInit90f2d6e7d453345c3a9a14c81c97592a
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Models\\appliance' => __DIR__ . '/../..' . '/app/Models/appliance.php',
         'App\\Models\\bank_admin' => __DIR__ . '/../..' . '/app/Models/bank_admin.php',
+        'App\\Models\\bank_name' => __DIR__ . '/../..' . '/app/Models/bank_name.php',
         'App\\Models\\booking' => __DIR__ . '/../..' . '/app/Models/booking.php',
         'App\\Models\\booking_detail' => __DIR__ . '/../..' . '/app/Models/booking_detail.php',
         'App\\Models\\homestay' => __DIR__ . '/../..' . '/app/Models/homestay.php',

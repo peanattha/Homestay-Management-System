@@ -51,4 +51,3 @@ function confirmDelhomestay() {
     document.getElementById("del-homestay" + window.id_homestay).submit();
 }
 /////////////////////////////////////////////////////////////////////////////////////
-

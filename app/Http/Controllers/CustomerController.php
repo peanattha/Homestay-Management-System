@@ -23,7 +23,7 @@ class CustomerController extends Controller
         $users = user::all();
         return view('admin.manage-customer', compact('users'));
     }
-    
+
     //ตรวจสอบ 22/12/65
     public function search_customer(Request $request)
     {
