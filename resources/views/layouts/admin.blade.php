@@ -106,7 +106,7 @@
                 <ul class="sub-menu">
                     <li><a href="{{ route('homestay-admin') }}">รายการที่พัก</a></li>
                     <li><a href="{{ route('manage-homestay-type') }}">เพิ่ม/ลบ/แก้ ประเภทที่พัก</a></li>
-                    <li><a href="{{ route('manage-homestay') }}">เพิ่ม/ลบ/แก้ ที่พัก</a></li>
+                    <li><a href="{{ route('manage-homestay') }}">เพิ่ม/ลบ/แก้ใข ที่พัก</a></li>
                 </ul>
             </li>
             <li>
@@ -122,10 +122,17 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('manage-bank') }}">
-                    <i class='bx bx-money-withdraw'></i>
-                    <span class="link_name">วิธีการชำระเงิน</span>
-                </a>
+                <div class="iocn-link">
+                    <a href="{{ route('manage-bank') }}">
+                        <i class='bx bx-money-withdraw'></i>
+                        <span class="link_name">วิธีการชำระเงิน</span>
+                    </a>
+                    <i class='bx bxs-chevron-down arrow'></i>
+                </div>
+                <ul class="sub-menu">
+                    <li><a href="{{ route('manage-bank') }}">วิธีการชำระเงิน</a></li>
+                    <li><a href="{{ route('manage-bank-name') }}">เพิ่ม/ลบ/แก้ใข ชื่อธนาคาร</a></li>
+                </ul>
             </li>
             <li>
                 <a href="{{ route('manage-menu') }}">

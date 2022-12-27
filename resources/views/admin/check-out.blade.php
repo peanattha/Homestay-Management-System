@@ -108,7 +108,7 @@
                             $valueDate = $start_date . ' - ' . $end_date;
                             ?>
                             <td style="width: 15%">{{ $valueDate }}</td>
-                            <td style="width: 15%"><a href="#" class="btn btn-primary">รายละเอียด</a></td>
+                            <td style="width: 15%"><a href="{{ route('booking-detail', $booking->id) }}" class="btn btn-primary">รายละเอียด</a></td>
                             <td style="width: 15%"><a href="{{ route('check-out', $booking->id) }}"
                                     onclick="return confirm('คุณเเน่ใจที่จะ Check Out')"
                                     class="btn btn-danger">Check-Out</a></td>

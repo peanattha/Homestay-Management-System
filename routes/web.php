@@ -96,6 +96,10 @@ Route::group(['middleware' => ['auth', 'verified', 'CheckAdmin']], function () {
         Route::post('/add-bank', "add_bank")->name('add-bank');
         Route::post('/delete-bank/{id}', "delete_bank")->name('delete-bank');
         Route::post('/edit-bank/{id}', "edit_bank")->name('edit-bank');
+        Route::get('/manage-bank-name', "manage_bank_name")->name('manage-bank-name');
+        Route::post('/add-bank-name', "add_bank_name")->name('add-bank-name');
+        Route::post('/edit-bank-name', "edit_bank_name")->name('edit-bank-name');
+        Route::post('/delete-bank-name/{id}', "delete_bank_name")->name('delete-bank-name');
     });
 
     Route::controller(BookingController::class)->group(function () {

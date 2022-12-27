@@ -275,7 +275,7 @@
                                 </h6>
                                 <iframe
                                     src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15289.377841669955!2d101.9024255!3d16.6596376!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x4391dac7bf891955!2z4LmC4Liu4Lih4Liq4LmA4LiV4Lii4LmM4LiV4Liy4LiB4Liw4Lii4Liy4LiiIOC4oOC4ueC4nOC4suC4oeC5iOC4suC4mQ!5e0!3m2!1sth!2sth!4v1657632801624!5m2!1sth!2sth"
-                                    width="300" height="120" style="border:0;" allowfullscreen="" loading="lazy"
+                                    width="160" height="120" style="border:0;" allowfullscreen="" loading="lazy"
                                     referrerpolicy="no-referrer-when-downgrade"></iframe>
 
                             </div>

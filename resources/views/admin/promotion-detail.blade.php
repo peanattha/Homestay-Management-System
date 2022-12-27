@@ -29,7 +29,7 @@
             @if ($promotion->status == 1)
                 <span class="badge bg-success">ใช้งาน</span>
             @elseif($promotion->status == 2)
-                <span class="badge bg-danger">ยกเลิกใช้งาน</span></td>
+                <span class="badge bg-danger">ยกเลิกใช้งาน</span>
             @elseif($promotion->status == 3)
                 <span class="badge bg-warning text-dark">รอเปิดใช้งาน</span>
             @endif

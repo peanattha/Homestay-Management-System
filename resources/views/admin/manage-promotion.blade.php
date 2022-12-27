@@ -33,11 +33,11 @@
     }
 </style>
 @section('page-name')
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb m-0">
-      <li class="breadcrumb-item active">จัดการโปรโมชั่น</li>
-    </ol>
-  </nav>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item active">จัดการโปรโมชั่น</li>
+        </ol>
+    </nav>
 @endsection
 @section('content')
     {{-- Alert Message --}}
@@ -195,6 +195,7 @@
                         <th style="width: 10%">ลำดับ</th>
                         <th style="width: 10%">ชื่อโปรโมชั่น</th>
                         <th style="width: 25%">ระยะเวลา</th>
+                        <th style="width: 10%">สถานะ</th>
                         <th style="width: 25%">รายละเอียด / แก้ไข</th>
                         <th style="width: 10%">ลบโปรโมชั่น</th>
                     </tr>
@@ -213,6 +214,15 @@
                             $end_date = date('d-m-Y', strtotime($promotion->end_date));
                             ?>
                             <td style="width: 25%">{{ $start_date }} - {{ $end_date }}</td>
+                            <td style="width: 10%">
+                                @if ($promotion->status == 1)
+                                    <span class="badge bg-success">ใช้งาน</span>
+                                @elseif($promotion->status == 2)
+                                    <span class="badge bg-danger">ยกเลิกใช้งาน</span>
+                                @elseif($promotion->status == 3)
+                                    <span class="badge bg-warning text-dark">รอเปิดใช้งาน</span>
+                                @endif
+                            </td>
                             <td style="width: 25%"><a class="btn btn-primary"
                                     href="{{ route('promotion-detail', ['id' => $promotion->id]) }}">รายละเอียด /
                                     แก้ไข</a>

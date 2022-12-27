@@ -21,11 +21,11 @@
     }
 </script>
 @section('page-name')
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb m-0">
-      <li class="breadcrumb-item active">จัดการบัญชีชำระเงิน</li>
-    </ol>
-  </nav>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item active">จัดการบัญชีชำระเงิน</li>
+        </ol>
+    </nav>
 @endsection
 @section('content')
     {{-- Alert Message --}}
@@ -73,7 +73,13 @@
                     </div>
                     <div class="mb-3">
                         <label for="bank_name" class="form-label">ธนาคาร *</label>
-                        <input type="text" class="form-control" id="bank_name" name="bank_name" required>
+                        <select class="form-select" aria-label="Default select example" id="bank_name" name="bank_name"
+                            required>
+                            <option selected hidden>เลือกธนาคาร</option>
+                            @foreach ($bank_names as $bank_name)
+                                <option value="{{ $bank_name->id }}">{{ $bank_name->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="acc_number" class="form-label">เลขบัญชี *</label>
@@ -108,8 +114,16 @@
                     </div>
                     <div class="mb-3">
                         <label for="bank_name" class="form-label">ธนาคาร *</label>
-                        <input type="text" class="form-control" id="bank_name" name="bank_name"
-                            value="{{ $banks[0]->bank_name }}" required>
+                        <select class="form-select" aria-label="Default select example" id="bank_name" name="bank_name"
+                            required>
+                            @foreach ($bank_names as $bank_name)
+                                @if ($bank_name->id == $banks[0]->bank_name_id)
+                                    <option selected hidden value="{{ $bank_name->id }}">{{ $bank_name->name }}</option>
+                                @else
+                                    <option value="{{ $bank_name->id }}">{{ $bank_name->name }}</option>
+                                @endif
+                            @endforeach
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="acc_number" class="form-label">เลขบัญชี *</label>
@@ -118,8 +132,9 @@
                     </div>
                     <div class="mb-3">
                         <label class="labels">Prompt Pay</label>
-                        <input type="text" name="prompt_pay" class="form-control" value="{{ $banks[0]->prompt_pay }}"
-                            placeholder="099-XXX-XXXX" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                        <input type="text" name="prompt_pay" class="form-control"
+                            value="{{ $banks[0]->prompt_pay }}" placeholder="099-XXX-XXXX"
+                            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
                     </div>
                     <div class="mb-3">
                         <label for="FileImgMultiple" class="form-label">QR Code</label>

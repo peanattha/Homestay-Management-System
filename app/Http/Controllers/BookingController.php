@@ -42,7 +42,7 @@ class BookingController extends Controller
     // Admin
     public function booking_admin()
     {
-        $bookings = booking::all();
+        $bookings = booking::orderBy('created_at', 'desc')->get();
         return view('admin.booking-admin', compact('bookings'));
     }
     public function booking_detail($id)
@@ -238,47 +238,54 @@ class BookingController extends Controller
 
     public function search_booking_admin(Request $request)
     {
+        // ถ้าค้นหาโดยid
         if (isset($request->booking_id)) {
             $bookings = booking::where('id', $request->booking_id)->get();
+            // ไม่เจอ
             if (($bookings->count() == 0)) {
-                return redirect()->route('booking-admin')->with('error', 'ไม่มีรายการค้นหา');;
+                return redirect()->route('booking-admin')->with('warning', 'ไม่มีรายการค้นหา');
+                // เจอ
+            } else {
+                return view('admin.booking-admin', compact('bookings'));
             }
+            // ค้าหา ทั้งชื่อเเละนามสกุล
         } else if (isset($request->firstName) && isset($request->lastName)) {
-            $firstName = user::where('firstName', $request->firstName)->get();
-            $lastName = user::where('lastName', $request->lastName)->get();
-            if (($firstName->count() == 0) && ($firstName->count() == 0)) {
-                return redirect()->route('booking-admin')->with('error', 'ไม่มีรายการค้นหา');;
+            $users = user::select('id')
+                ->where(DB::raw('lower(firstName)'), strtolower($request->firstName))
+                ->where(DB::raw('lower(lastName)'), strtolower($request->lastName))->get();
+
+            //ถ้าชื่อเเละนามสกุลไม่ตรง
+            if ($users->count() == 0) {
+                return redirect()->route('booking-admin')->with('warning', 'ไม่มีรายการค้นหา');
+                // ถ้า ชื่อเเละนามสกลุตรง
             } else {
-                $user_id = DB::table('users')
-                    ->where('firstName', $request->firstName)
-                    ->where('lastName', $request->lastName)
-                    ->first()->id;
+                $bookings = booking::whereIn('user_id', $users)->get();
+                return view('admin.booking-admin', compact('bookings'));
             }
-            $bookings = booking::where('user_id', $user_id)->get();
+            // ค้นหาเเค่ชื่อ
         } else if (isset($request->firstName)) {
-            $firstName = user::where('firstName', $request->firstName)->get();
-            if ($firstName->count() == 0) {
-                return redirect()->route('booking-admin')->with('error', 'ไม่มีรายการค้นหา');;
+            $users = user::select('id')
+                ->where(DB::raw('lower(firstName)'), strtolower($request->firstName))->get();
+            if ($users->count() == 0) {
+                return redirect()->route('booking-admin')->with('warning', 'ไม่มีรายการค้นหาสำหรับชื่อนี้');
             } else {
-                $user_id = DB::table('users')
-                    ->where('firstName', $request->firstName)
-                    ->first()->id;
+                $bookings = booking::whereIn('user_id', $users)->get();
+                return view('admin.booking-admin', compact('bookings'));
             }
-            $bookings = booking::where('user_id', $user_id)->get();
+            // ค้นหาเเค่นามสกุล
         } else if (isset($request->lastName)) {
-            $lastName = user::where('lastName', $request->lastName)->get();
-            if ($lastName->count() == 0) {
-                return redirect()->route('booking-admin')->with('error', 'ไม่มีรายการค้นหา');;
+            $users = user::select('id')
+                ->where(DB::raw('lower(lastName)'), strtolower($request->lastName))->get();
+            if ($users->count() == 0) {
+                return redirect()->route('booking-admin')->with('warning', 'ไม่มีรายการค้นหาสำหรับนามสกุลนี้');
             } else {
-                $user_id = DB::table('users')
-                    ->where('lastName', $request->lastName)
-                    ->first()->id;
+                $bookings = booking::whereIn('user_id', $users)->get();
+                return view('admin.booking-admin', compact('bookings'));
             }
-            $bookings = booking::where('user_id', $user_id)->get();
         } else {
             $bookings = booking::all();
+            return view('admin.booking-admin', compact('bookings'));
         }
-        return view('admin.booking-admin', compact('bookings'));
     }
 
     //ตรวจสอบเเล้ว 20/12/65

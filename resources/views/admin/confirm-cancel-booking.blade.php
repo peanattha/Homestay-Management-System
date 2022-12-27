@@ -122,7 +122,7 @@
                             </td>
                             <td style="width: 10%">{{ $booking->number_guests }}</td>
                             <td style="width: 15%"><a href="#">สลิปจ่ายเงิน</a></td>
-                            <td style="width: 15%"><a href="#"class="btn btn-primary">รายละเอียด</a></td>
+                            <td style="width: 15%"><a href="{{ route('booking-detail', $booking->id) }}"class="btn btn-primary">รายละเอียด</a></td>
                             <form action="{{ route('cancel-pay-admin', $booking->id) }}" method="POST"
                                 id="cancle-pay-form{{ $booking->id }}" class="m-0">
                                 @csrf

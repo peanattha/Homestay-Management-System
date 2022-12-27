@@ -128,8 +128,7 @@
                     <input type="text" class="form-control" id="homestay_type_name" name="homestay_type_name">
                     <div id="emailHelp" class="form-text">กรอกประเภทที่พักเพื่อเพิ่มประเภทที่พัก</div>
                 </div>
-                <button type="button" class="btn btn-success" onclick="showModelAddhomestayType()"
-                    value="เพิ่มประเภทที่พัก">เพิ่มประเภทที่พัก</button>
+                <button type="button" class="btn btn-success" onclick="showModelAddhomestayType()">เพิ่มประเภทที่พัก</button>
             </form>
         </div>
     </div>

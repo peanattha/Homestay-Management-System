@@ -13,13 +13,26 @@
     </script>
 @endif
 @section('page-name')
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb m-0">
-      <li class="breadcrumb-item active" aria-current="page">รายการจองทั้งหมด</li>
-    </ol>
-  </nav>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item active" aria-current="page">รายการจองทั้งหมด</li>
+        </ol>
+    </nav>
 @endsection
 @section('content')
+    {{-- Alert Message --}}
+    @if (Session::has('message'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ Session::get('message') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+    @if (Session::has('warning'))
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ Session::get('warning') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     <div class="modal fade" id="modal-search-none" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -44,23 +57,22 @@
                 @csrf
                 <div class="mb-3">
                     <label class="form-label">ค้นหารายการจอง</label>
-                    <input type="text" class="form-control" id="booking_id" name="booking_id"
-                        placeholder="รหัสการจอง">
+                    <input type="text" class="form-control" id="booking_id" name="booking_id" placeholder="รหัสการจอง">
                     <div id="help" class="form-text">กรอกรหัสการจองเพื่อทำการค้นหารายการจอง</div>
                 </div>
                 <div class="mb-3">
                     <div class="row mt-3">
-                    <div class="col-md-6">
-                        <input type="text" name="firstName" class="form-control" placeholder="ชื่อผู้จอง" required>
+                        <div class="col-md-6">
+                            <input type="text" name="firstName" class="form-control" placeholder="ชื่อผู้จอง">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" name="lastName" class="form-control" placeholder="นามสกุลผู้จอง">
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <input type="text" name="lastName" class="form-control" placeholder="นามสกุลผู้จอง" required>
-                    </div>
-                </div>
                     <div id="help" class="form-text">กรอกชื่อผู้จองเพื่อทำการค้นหารายการจอง</div>
                 </div>
                 <button type="submit" class="btn btn-success">
-                    <i class='bx bx-search' ></i>
+                    <i class='bx bx-search'></i>
                     ค้นหา
                 </button>
             </form>
