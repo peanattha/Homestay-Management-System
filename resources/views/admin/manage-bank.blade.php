@@ -2,8 +2,6 @@
 
 @section('title', 'Manage bank detail')
 
-@section('manage-bank-detail', 'active')
-
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -20,6 +18,7 @@
         document.getElementById("form-delBank").submit();
     }
 </script>
+
 @section('page-name')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb m-0">
@@ -27,14 +26,8 @@
         </ol>
     </nav>
 @endsection
+
 @section('content')
-    {{-- Alert Message --}}
-    @if (Session::has('message'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ Session::get('message') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
     {{-- Model Delete Bank --}}
     <div class="modal fade" id="showModelDelBank" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">

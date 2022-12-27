@@ -47,7 +47,8 @@
                             <div class="navbar-nav ms-auto">
                                 <a href="{{ route('home') }}" class="nav-item nav-link @yield('home')">หน้าหลัก</a>
                                 <a href="{{ route('homestay') }}" class="nav-item nav-link @yield('homestay')">จอง</a>
-                                <a href="{{ route('booking-history') }}" class="nav-item nav-link @yield('booking-history')">ประวัติการจอง</a></li>
+                                <a href="{{ route('booking-history') }}"
+                                    class="nav-item nav-link @yield('booking-history')">ประวัติการจอง</a></li>
                                 <div class="nav-item dropdown">
                                     <a href="#" class="nav-link dropdown-toggle"
                                         data-bs-toggle="dropdown">{{ Auth::user()->firstName }}
@@ -139,7 +140,8 @@
                                     <a href="{{ route('homestay') }}" class="text-reset text-decoration-none">จอง</a>
                                 </p>
                                 <p>
-                                    <a href="{{ route('booking-history') }}" class="text-reset text-decoration-none">ประวัติการจอง</a>
+                                    <a href="{{ route('booking-history') }}"
+                                        class="text-reset text-decoration-none">ประวัติการจอง</a>
                                 </p>
                             </div>
                             <!-- Grid column -->
@@ -151,13 +153,16 @@
                                     รายละเอียดเพิ่มเติม
                                 </h6>
                                 <p>
-                                    <a href="{{ route('description-details') }}" class="text-reset text-decoration-none">รายละเอียดเพิ่มเติม</a>
+                                    <a href="{{ route('description-details') }}"
+                                        class="text-reset text-decoration-none">รายละเอียดเพิ่มเติม</a>
                                 </p>
                                 <p>
-                                    <a href="{{ route('accommodation-rules') }}" class="text-reset text-decoration-none">กฏระเบียบที่พัก</a>
+                                    <a href="{{ route('accommodation-rules') }}"
+                                        class="text-reset text-decoration-none">กฏระเบียบที่พัก</a>
                                 </p>
                                 <p>
-                                    <a href="{{ route('service-charge') }}" class="text-reset text-decoration-none">ค่าบริการ</a>
+                                    <a href="{{ route('service-charge') }}"
+                                        class="text-reset text-decoration-none">ค่าบริการ</a>
                                 </p>
                             </div>
                             <!-- Grid column -->
@@ -229,6 +234,25 @@
 
             <!-- Section -->
             <section>
+                {{-- Alert Message --}}
+                @if (Session::has('message'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ Session::get('message') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+                @if (Session::has('warning'))
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{ Session::get('warning') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+                @if (Session::has('danger'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ Session::get('danger') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
                 @section('content')
 
                 @show
@@ -273,9 +297,9 @@
                                 <h6 class="text-uppercase fw-bold mb-4">
                                     {{ config('app.name') }}
                                 </h6>
-                                <iframe
+                                <iframe class="map"
                                     src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15289.377841669955!2d101.9024255!3d16.6596376!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x4391dac7bf891955!2z4LmC4Liu4Lih4Liq4LmA4LiV4Lii4LmM4LiV4Liy4LiB4Liw4Lii4Liy4LiiIOC4oOC4ueC4nOC4suC4oeC5iOC4suC4mQ!5e0!3m2!1sth!2sth!4v1657632801624!5m2!1sth!2sth"
-                                    width="160" height="120" style="border:0;" allowfullscreen="" loading="lazy"
+                                    style="border:0;" allowfullscreen="" loading="lazy"
                                     referrerpolicy="no-referrer-when-downgrade"></iframe>
 
                             </div>
@@ -311,13 +335,16 @@
                                     รายละเอียดเพิ่มเติม
                                 </h6>
                                 <p>
-                                    <a href="{{ route('description-details') }}" class="text-reset text-decoration-none">รายละเอียดเพิ่มเติม</a>
+                                    <a href="{{ route('description-details') }}"
+                                        class="text-reset text-decoration-none">รายละเอียดเพิ่มเติม</a>
                                 </p>
                                 <p>
-                                    <a href="{{ route('accommodation-rules') }}" class="text-reset text-decoration-none">กฏระเบียบที่พัก</a>
+                                    <a href="{{ route('accommodation-rules') }}"
+                                        class="text-reset text-decoration-none">กฏระเบียบที่พัก</a>
                                 </p>
                                 <p>
-                                    <a href="{{ route('service-charge') }}" class="text-reset text-decoration-none">ค่าบริการ</a>
+                                    <a href="{{ route('service-charge') }}"
+                                        class="text-reset text-decoration-none">ค่าบริการ</a>
                                 </p>
                             </div>
                             <!-- Grid column -->

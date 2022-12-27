@@ -68,26 +68,12 @@
 @endsection
 
 @section('content')
-    {{-- Alert Message --}}
-    @if (Session::has('message'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ Session::get('message') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-    @if (Session::has('warning'))
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            {{ Session::get('warning') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-
     {{-- Model Confirm Pay --}}
     <div class="modal fade" id="confirmPayModel" tabindex="-1" aria-labelledby="confirmPayModelLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <p class="modal-title" id="confirmPayModelLabel">ยืนยันการชำระเงินมันจำ</p>
+                    <p class="modal-title" id="confirmPayModelLabel">ยืนยันการชำระเงินมันจำ <span class="badge bg-warning text-dark">รอ ยืนยันการชำระเงินมันจำ</span></p>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -240,7 +226,7 @@
                     <div id="help" class="form-text">กรอกชื่อผู้จองเพื่อทำการค้นหารายการจอง</div>
                 </div>
                 <button type="submit" class="btn btn-success">
-                    <i class='bx bx-search' ></i>
+                    <i class='bx bx-search'></i>
                     ค้นหา
                 </button>
             </form>
@@ -286,7 +272,9 @@
                                     </td>
                                 @endif
                             @endfor
-                            <td style="width: 15%"><a href="{{ route('booking-detail', $booking->id) }}"class="btn btn-primary">รายละเอียด</a></td>
+                            <td style="width: 15%"><a
+                                    href="{{ route('booking-detail', $booking->id) }}"class="btn btn-primary">รายละเอียด</a>
+                            </td>
                             <form action="{{ route('cancel-pay-admin', $booking->id) }}" method="POST"
                                 id="cancle-pay-form{{ $booking->id }}" class="m-0">
                                 @csrf

@@ -411,8 +411,8 @@ class BookingController extends Controller
     {
         $bookings = booking::where('status', 1)
             ->where('end_date', Carbon::today())->get(); //Check-In เเล้ว
-
-        return view('admin.check-out', compact('bookings'));
+        $set_menus = set_menu::all();
+        return view('admin.check-out', compact('bookings', 'set_menus'));
     }
     public function show_check_in(Request $request)
     {

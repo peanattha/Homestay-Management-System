@@ -36,6 +36,11 @@
     font-size: 17px;
 }
 
+.map {
+    height: 140px;
+    width: 140px;
+}
+
 #toTopBtn {
     display: none;
     position: fixed;
@@ -46,6 +51,14 @@
     background-color: #198754;
 }
 
+#toTopBtn:hover {
+    background-color: #6c8463;
+}
+
+#toTopBtn:focus {
+    box-shadow: 0 0 0 0.25rem rgba(122, 149, 112, 0.5);
+}
+
 .cd-top {
     position: fixed;
     bottom: 20px;
@@ -53,8 +66,7 @@
     display: inline-block;
     height: 40px;
     width: 40px;
-    background: url(https://res.cloudinary.com/dxfq3iotg/image/upload/v1571057658/cd-top-arrow.svg)
-        no-repeat center 50%;
+    background: url(https://res.cloudinary.com/dxfq3iotg/image/upload/v1571057658/cd-top-arrow.svg) no-repeat center 50%;
 }
 
 @media (max-width: 768px) {
@@ -65,6 +77,7 @@
         align-items: center;
         justify-content: center;
     }
+
     .col ul,
     .col h5 {
         display: flex;

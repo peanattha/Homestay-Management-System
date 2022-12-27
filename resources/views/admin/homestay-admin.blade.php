@@ -26,6 +26,7 @@
         </ol>
     </nav>
 @endsection
+
 @section('content')
     <div class="mt-4 mb-4">
         <div id='calendar' class="p-4 rounded-3 border border-1 shadow-lg"></div>
@@ -71,19 +72,6 @@
         });
     </script>
 
-    {{-- Alert Message --}}
-    @if (Session::has('message'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ Session::get('message') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-    @if (Session::has('warning'))
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            {{ Session::get('warning') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
     {{-- Model Delete homestay --}}
     <div class="modal fade" id="modal-del-homestay" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -102,21 +90,6 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modal-search-none" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">แจ้งเตือน</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="textModelSearchNone">ไม่มีรายการตรงกับที่คุณค้นหา</div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยืนยัน</button>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="card rounded-3 border border-1 shadow-lg">
         <div class="card-header">
             รายการที่พัก

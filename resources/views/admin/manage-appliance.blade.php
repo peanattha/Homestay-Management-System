@@ -5,11 +5,13 @@
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 <script>
     function showModelEdithomestayType() {
         $("#modelEdithomestayType").modal("show");
     }
 </script>
+
 @section('content')
     <div class="modal fade" id="modelEdithomestayType" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true">

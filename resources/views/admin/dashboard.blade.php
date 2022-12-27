@@ -2,7 +2,6 @@
 
 @section('title', 'Dashboard')
 
-@section('dashboard', 'active')
 @section('page-name')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb m-0">
@@ -10,6 +9,7 @@
         </ol>
     </nav>
 @endsection
+
 @section('content')
     {{-- {{ dd(session()->all()) }} --}}
 @endsection

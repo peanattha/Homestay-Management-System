@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('title', 'Profile')
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script>
@@ -15,6 +16,7 @@
         document.getElementById("del-account").submit();
     }
 </script>
+
 @section('page-name')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb m-0">
@@ -22,23 +24,10 @@
         </ol>
     </nav>
 @endsection
+
 @section('content')
-    {{-- Alert Message --}}
-    @if (Session::has('message'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ Session::get('message') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-    @if (Session::has('warning'))
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            {{ Session::get('warning') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
     {{-- Model Delete Account --}}
-    <div class="modal fade" id="modal-del" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="modal-del" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">

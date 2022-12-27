@@ -2,9 +2,8 @@
 
 @section('title', 'homestay Details')
 
-@section('manage-homestay', 'active')
-
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
+
 @section('page-name')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb m-0">
@@ -14,20 +13,8 @@
         </ol>
     </nav>
 @endsection
+
 @section('content')
-    {{-- Alert Message --}}
-    @if (Session::has('message'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ Session::get('message') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-    @if (Session::has('warning'))
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            {{ Session::get('warning') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
     <div class="card rounded-3 border border-1 shadow-lg">
         <div class="card-header">
             แก้ไขรายละเอียดที่พัก
@@ -40,17 +27,19 @@
                     <div class="col-md-6">
                         <label for="homestay" class="form-label">ที่พัก *</label>
                         <input type="text" class="form-control" id="homestay" name="homestay_name"
-                        value="{{ $detail->homestay_name }}" form="form_edit_homestay" required>
+                            value="{{ $detail->homestay_name }}" form="form_edit_homestay" required>
                     </div>
                     <div class="col-md-6">
                         <label for="homestay_type" class="form-label">ประเภทที่พัก *</label>
-                        <select class="form-select" id="homestay_type" name="homestay_type" form="form_edit_homestay" required>
+                        <select class="form-select" id="homestay_type" name="homestay_type" form="form_edit_homestay"
+                            required>
                             @foreach ($homestay_types as $homestay_type)
                                 @if ($detail->homestay_type->homestay_type_name == $homestay_type->homestay_type_name)
                                     <option value="{{ $detail->homestay_type_id }}" selected hidden>
                                         {{ $detail->homestay_type->homestay_type_name }}</option>
                                 @else
-                                    <option value="{{ $homestay_type->id }}">{{ $homestay_type->homestay_type_name }}</option>
+                                    <option value="{{ $homestay_type->id }}">{{ $homestay_type->homestay_type_name }}
+                                    </option>
                                 @endif
                             @endforeach
                         </select>

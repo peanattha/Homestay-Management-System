@@ -1,8 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Manage homestay')
-
-@section('manage-homestay', 'active')
+@section('title', 'Manage homestay Type')
 
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
 
@@ -11,28 +9,15 @@
 <script type="text/javascript" src="{{ asset('js/manage-homestay.js') }}"></script>
 
 @section('page-name')
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb m-0">
-      <li class="breadcrumb-item"><a href="{{route('homestay-admin')}}">รายการที่พัก</a></li>
-      <li class="breadcrumb-item active" aria-current="page">จัดการประเภทที่พัก</li>
-    </ol>
-  </nav>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a href="{{ route('homestay-admin') }}">รายการที่พัก</a></li>
+            <li class="breadcrumb-item active" aria-current="page">จัดการประเภทที่พัก</li>
+        </ol>
+    </nav>
 @endsection
-@section('content')
-    {{-- Alert Message --}}
-    @if (Session::has('message'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ Session::get('message') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-    @if (Session::has('warning'))
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            {{ Session::get('warning') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
 
+@section('content')
     {{-- Model Ples Input --}}
     <div class="modal fade" id="modal-plese-input" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -128,10 +113,12 @@
                     <input type="text" class="form-control" id="homestay_type_name" name="homestay_type_name">
                     <div id="emailHelp" class="form-text">กรอกประเภทที่พักเพื่อเพิ่มประเภทที่พัก</div>
                 </div>
-                <button type="button" class="btn btn-success" onclick="showModelAddhomestayType()">เพิ่มประเภทที่พัก</button>
+                <button type="button" class="btn btn-success"
+                    onclick="showModelAddhomestayType()">เพิ่มประเภทที่พัก</button>
             </form>
         </div>
     </div>
+
     <div class="table100 ver2 mb-4 mt-4">
         <div class="table100-head">
             <table>

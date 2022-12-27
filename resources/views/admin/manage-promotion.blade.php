@@ -3,11 +3,14 @@
 @section('title', 'Manage Promotion')
 
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
-<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
 <script>
     function showModelDelPromo(id, name) {
@@ -21,6 +24,7 @@
         document.getElementById("del-promo" + window.id_promo).submit();
     }
 </script>
+
 <style>
     .aa {
         width: 150px;
@@ -32,6 +36,7 @@
         justify-content: flex-end;
     }
 </style>
+
 @section('page-name')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb m-0">
@@ -39,21 +44,8 @@
         </ol>
     </nav>
 @endsection
-@section('content')
-    {{-- Alert Message --}}
-    @if (Session::has('message'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ Session::get('message') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-    @if (Session::has('warning'))
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            {{ Session::get('warning') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
 
+@section('content')
     {{-- Model Delete Promotion --}}
     <div class="modal fade" id="modal-del-promo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -133,8 +125,8 @@
             </form>
         </div>
     </div>
-    <hr class="mb-4 mt-4">
 
+    <hr class="mb-4 mt-4">
 
     <div class="card rounded-3 border border-1 shadow-lg">
         <div class="card-header">
@@ -157,7 +149,6 @@
             </form>
         </div>
     </div>
-
 
     <div class="info mt-4">
         <div></div>

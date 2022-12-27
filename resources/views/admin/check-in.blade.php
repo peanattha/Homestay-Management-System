@@ -71,6 +71,7 @@
         payPrice.addEventListener('propertychange', inputHandler);
     }
 </script>
+
 @section('page-name')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb m-0">
@@ -79,26 +80,13 @@
         </ol>
     </nav>
 @endsection
-@section('content')
-    {{-- Alert Message --}}
-    @if (Session::has('message'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ Session::get('message') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-    @if (Session::has('warning'))
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            {{ Session::get('warning') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
 
+@section('content')
     <div class="modal fade" id="checkInModel" tabindex="-1" aria-labelledby="checkInModelLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <p class="modal-title" id="checkInModelLabel">Check In</p>
+                    <p class="modal-title" id="checkInModelLabel">Check In <span class="badge bg-warning text-dark">รอ Check In</span></p>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -136,8 +124,6 @@
                                         class="form-control" required>
                                     <span class="input-group-text">บาท</span>
                                 </div>
-
-
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -256,7 +242,7 @@
                     <div id="help" class="form-text">กรอกชื่อผู้จองเพื่อทำการค้นหารายการจอง</div>
                 </div>
                 <button type="submit" class="btn btn-success">
-                    <i class='bx bx-search' ></i>
+                    <i class='bx bx-search'></i>
                     ค้นหา
                 </button>
             </form>
@@ -301,7 +287,8 @@
                             $valueDate = $start_date . ' - ' . $end_date;
                             ?>
                             <td style="width: 15%">{{ $valueDate }}</td>
-                            <td style="width: 15%"><a href="{{ route('booking-detail', $booking->id) }}" class="btn btn-primary">รายละเอียด</a></td>
+                            <td style="width: 15%"><a href="{{ route('booking-detail', $booking->id) }}"
+                                    class="btn btn-primary">รายละเอียด</a></td>
                             <td style="width: 15%">
                                 <button type="button" class="btn btn-success"
                                     onclick="showModelCheckIn({{ $booking }},{{ $promotions }},{{ $set_menus }})">

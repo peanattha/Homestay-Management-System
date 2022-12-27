@@ -28,8 +28,8 @@
 <body>
     <div class="sidebar" id="sidebar">
         <div class="logo-details">
-            <img src="{{ asset('images/Logo.svg') }}" alt="" width="21px" height="21px">
-            <div class="logo_name ms-2">{{ config('app.name') }}</div>
+            {{-- <img src="{{ asset('images/Logo.svg') }}" alt="Logo"> --}}
+            <div class="logo_name mt-2">{{ config('app.name') }}</div>
             <button type="button" class="btn-close" id="btnClose"></button>
         </div>
         <hr class="m-2">
@@ -223,6 +223,25 @@
             @show
         </div>
         <div class="container">
+            {{-- Alert Message --}}
+            @if (Session::has('message'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ Session::get('message') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            @if (Session::has('warning'))
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ Session::get('warning') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            @if (Session::has('danger'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ Session::get('danger') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
             @section('content')
 
             @show

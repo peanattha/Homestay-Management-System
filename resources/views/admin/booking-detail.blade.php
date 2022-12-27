@@ -5,8 +5,11 @@
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
 @section('page-name')
@@ -17,11 +20,10 @@
         </ol>
     </nav>
 @endsection
+
 @section('content')
     <input type="button" id="edit-btn" class="btn btn-success" value="แก้ใขรายการจอง">
-
     <input type="button" class="btn btn-success" value="ปริ้นใบรายการจอง">
-
     <div class="card rounded-3 border border-1 shadow-lg mt-4 mb-4">
         <div class="card-header">
             รายละเอียดการจอง
@@ -142,7 +144,7 @@
                     <div class="mb-3">
                         <div class="row mt-2">
                             <div class="col-md-6">
-                                <label class="labels">check In *</label>
+                                <label class="labels">check Out *</label>
                                 <input type="text" name="firstName" class="form-control"
                                     value="{{ $booking->check_out }}" disabled>
                             </div>
@@ -258,7 +260,6 @@
                 </div>
             </div>
         </div>
-    </div>
     </div>
 
     <script>

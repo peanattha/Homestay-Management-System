@@ -1,30 +1,21 @@
 @extends('layouts.admin')
 
 @section('title', 'Profile')
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
+
 @section('page-name')
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb m-0">
-      <li class="breadcrumb-item"><a href="{{route('manage-customer')}}">จัดการลูกค้า</a></li>
-      <li class="breadcrumb-item active" aria-current="page">รายละเอียดลูกค้า</li>
-    </ol>
-  </nav>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a href="{{ route('manage-customer') }}">จัดการลูกค้า</a></li>
+            <li class="breadcrumb-item active" aria-current="page">รายละเอียดลูกค้า</li>
+        </ol>
+    </nav>
 @endsection
+
 @section('content')
-    {{-- Alert Message --}}
-    @if (Session::has('message'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ Session::get('message') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-    @if (Session::has('warning'))
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            {{ Session::get('warning') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
     <div class="container bg-white rounded-3 border border-1 shadow-lg">
         <div class="d-flex justify-content-around">
             <div class="col-md-3 border-right">
@@ -119,7 +110,6 @@
                         <th style="width: 20%">ชื่อผู้จอง</th>
                         <th style="width: 10%">ชื่อที่พัก</th>
                         <th style="width: 10%">จำนวนผู้เข้าพัก</th>
-                        {{-- <th style="width: 15%"></th> --}}
                         <th style="width: 20%">สถานะการจอง</th>
                         <th style="width: 15%">รายละเอียดเพิ่มเติม</th>
                     </tr>
@@ -139,9 +129,6 @@
                                 @endforeach
                             </td>
                             <td style="width: 10%">{{ $booking->number_guests }}</td>
-
-                            {{-- <td style="width: 15%"></td> --}}
-
                             @if ($booking->status == 1)
                                 <td style="width: 20%">Checkin</td>
                             @elseif ($booking->status == 2)
