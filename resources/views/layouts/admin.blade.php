@@ -60,7 +60,7 @@
                 </div>
                 <ul class="sub-menu">
                     <li><a href="{{ route('booking-admin') }}">รายการจองทั้งหมด</a></li>
-                    <li><a href="#">เพิ่มรายการจอง</a></li>
+                    <li><a href="{{route('add-booking-admin')}}">เพิ่มรายการจอง</a></li>
                     <li>
                         <a href="{{ route('check-in-admin') }}">
                             Check In
@@ -105,7 +105,7 @@
                 </div>
                 <ul class="sub-menu">
                     <li><a href="{{ route('homestay-admin') }}">รายการที่พัก</a></li>
-                    <li><a href="{{ route('manage-homestay-type') }}">เพิ่ม/ลบ/แก้ ประเภทที่พัก</a></li>
+                    <li><a href="{{ route('manage-homestay-type') }}">เพิ่ม/ลบ/แก้ใข ประเภทที่พัก</a></li>
                     <li><a href="{{ route('manage-homestay') }}">เพิ่ม/ลบ/แก้ใข ที่พัก</a></li>
                 </ul>
             </li>

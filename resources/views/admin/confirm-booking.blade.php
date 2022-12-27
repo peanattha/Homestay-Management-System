@@ -61,7 +61,7 @@
 @section('page-name')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb m-0">
-            <li class="breadcrumb-item"><a href="#">รายการจอง</a></li>
+            <li class="breadcrumb-item"><a href="{{route('booking-admin')}}">รายการจอง</a></li>
             <li class="breadcrumb-item active" aria-current="page">รายการจองที่ต้องยืนยัน</li>
         </ol>
     </nav>

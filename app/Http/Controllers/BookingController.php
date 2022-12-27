@@ -451,4 +451,13 @@ class BookingController extends Controller
         $update_booking->save();
         return redirect()->back()->with('message', "Check Out เสร็จสิ้น");
     }
+
+    public function add_booking_admin()
+    {
+        $homestays = homestay::all();
+        $set_menus = set_menu::all();
+        $promotions = promotion::all();
+        $users = user::all();
+        return view('admin.add-booking-admin', compact('set_menus', 'promotions', 'homestays','users'));
+    }
 }

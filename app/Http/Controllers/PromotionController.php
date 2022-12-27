@@ -43,8 +43,9 @@ class PromotionController extends Controller
         if ($start_date == Carbon::today()) {
             if ($start_time < date('H:i:s')) {
                 $add_promotion->status =  3;
+            } else {
+                $add_promotion->status =  1;
             }
-            $add_promotion->status =  1;
         } else {
             $add_promotion->status =  3;
         }
@@ -68,7 +69,7 @@ class PromotionController extends Controller
         $edit_promotion->promotion_name =  $request->promotion_name;
         $edit_promotion->discount_price =  $request->price;
         $edit_promotion->promotion_detail =  $request->promotion_detail;
-        // $edit_promotion->status =  1;
+
 
         $datetimeArr = explode(" - ", $request->datetimes);
         $date1 = explode(" ", $datetimeArr[0]);
@@ -77,6 +78,17 @@ class PromotionController extends Controller
         $end_date = date('Y-m-d', strtotime($date2[0]));
         $start_time = date('H:i:s', strtotime($date1[1] . $date1[2]));
         $end_time = date('H:i:s', strtotime($date2[1] . $date2[2]));
+        // echo Carbon::today();
+        $today = explode(" ", Carbon::today());
+        if ($start_date == $today[0]) {
+            if ($start_time < date('H:i:s')) {
+                $edit_promotion->status =  1;
+            } else {
+                $edit_promotion->status =  3;
+            }
+        } else {
+            $edit_promotion->status =  3;
+        }
 
         $edit_promotion->start_date =  $start_date;
         $edit_promotion->end_date = $end_date;
