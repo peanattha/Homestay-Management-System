@@ -58,11 +58,11 @@
                 $("#change").val("กรุณาใส่จำนวนเงินตัวเลขจำนวนเต็ม");
                 $("#subminCheckIn").prop("disabled", true);
             } else {
-                if (((e.target.value)) < booking.deposit) {
+                if ((parseInt(e.target.value)) < booking.deposit) {
                     $("#change").val("กรุณาใส่จำนวนเงินให้มากกว่าเงินที่ต้องจ่าย");
                     $("#subminCheckIn").prop("disabled", true);
                 } else {
-                    $("#change").val((e.target.value) - booking.deposit);
+                    $("#change").val(parseInt(e.target.value) - booking.deposit);
                     $("#subminCheckIn").prop("disabled", false);
                 }
             }

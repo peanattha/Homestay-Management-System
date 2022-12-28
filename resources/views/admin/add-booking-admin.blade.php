@@ -13,16 +13,55 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
 <script>
+    let homestay_price = 0;
+    let set_menu_price = 0;
+    let discount = 0;
+    let total_price_discount = 0;
+    let num_date = 0;
+    let myArray = [];
+
+    function funcDateRange(date) {
+        num_date = 0;
+        myArray = [];
+
+        myArray = date.split(" - ");
+
+        let myArray1 = myArray[1].split("-");
+        let myArray2 = myArray[0].split("-");
+        let d1 = myArray1[2] + "/" + myArray1[1] + "/" + myArray1[0];
+        let d2 = myArray2[2] + "/" + myArray2[1] + "/" + myArray2[0];
+
+        // console.log(d1+" "+d2);
+
+        num_date = (Date.parse(d1) - Date.parse(d2)) / (1000 * 60 * 60 * 24);
+        console.log(num_date);
+        $("#discount").val(discount);
+        $("#priceMenu").val(set_menu_price);
+        $("#total_price").val((homestay_price * num_date) + set_menu_price);
+        total_price_discount = ((homestay_price * num_date) + set_menu_price) - discount;
+        $("#total_price_discount").val(total_price_discount);
+        document.getElementById("paytype1").checked = false;
+        document.getElementById("paytype2").checked = false;
+        $("#deposit").val('');
+        $("#toPay").val('');
+        $("#payPrice").val('');
+        $("#change").val('');
+    }
+
     window.onload = function() {
         const formA = document.getElementById("formA");
         formA.addEventListener('change', (event) => {
             /////
-            let checkboxes = document.querySelectorAll('input[name="homestay_name"]:checked');
+            let checkboxes = document.querySelectorAll('input[name="homestay_name[]"]:checked');
             let output = [];
             checkboxes.forEach((checkbox) => {
                 output.push(checkbox.value);
             });
-            let homestay_price = 0;
+            // console.log(output);
+
+            const dateRange = document.getElementById("dateRange");
+
+            homestay_price = 0;
             for (let i = 0; i <= (output).length - 1; i++) {
                 for (let s = 0; s <= (homestays).length - 1; s++) {
                     if (output[i] == homestays[s].id) {
@@ -31,9 +70,9 @@
                 }
 
             }
-            // console.log("homestay_price " + homestay_price);
+            // console.log("homestay_price " + homestay_price*num_date);
             ////
-            let discount = 0;
+            discount = 0;
             for (let i = 0; i <= (promotions).length - 1; i++) {
                 if (document.getElementById("promotion").value == promotions[i].id) {
                     discount = promotions[i].discount_price;
@@ -42,7 +81,7 @@
             }
             // console.log(discount);
             ///////
-            let set_menu_price = 0;
+            set_menu_price = 0;
             for (let i = 0; i <= (set_menus).length - 1; i++) {
                 if (document.getElementById("set_menus").value == set_menus[i].id) {
                     set_menu_price = document.getElementById("priceMenu").value * set_menus[i].price;
@@ -53,8 +92,8 @@
 
             $("#discount").val(discount);
             $("#priceMenu").val(set_menu_price);
-            $("#total_price").val(homestay_price + set_menu_price);
-            let total_price_discount = (homestay_price + set_menu_price) - discount;
+            $("#total_price").val((homestay_price * num_date) + set_menu_price);
+            total_price_discount = ((homestay_price * num_date) + set_menu_price) - discount;
             $("#total_price_discount").val(total_price_discount);
             document.getElementById("paytype1").checked = false;
             document.getElementById("paytype2").checked = false;
@@ -112,7 +151,8 @@
                 $("#firstName").prop("readonly", false);
                 $("#lastName").prop("readonly", false);
                 $("#tel").prop("readonly", false);
-                document.getElementById("c").innerHTML = 'เพิ่มรายการจอง <span class="badge bg-danger">ไม่มีสมาชิก</span>';
+                document.getElementById("c").innerHTML =
+                    'เพิ่มรายการจอง <span class="badge bg-danger">ไม่มีสมาชิก</span>';
             }
         }
         email.addEventListener('input', inputHandler);
@@ -126,17 +166,29 @@
                 $("#change").val("กรุณาใส่จำนวนเงินตัวเลขจำนวนเต็ม");
                 $("#add_booking").prop("disabled", true);
             } else {
-                if (((e.target.value)) < document.getElementById("toPay").value) {
+                let toPay = document.getElementById("toPay").value;
+                if (parseInt(e.target.value) < toPay) {
                     $("#change").val("กรุณาใส่จำนวนเงินให้มากกว่าเงินที่ต้องจ่าย");
                     $("#add_booking").prop("disabled", true);
                 } else {
-                    $("#change").val((e.target.value) - document.getElementById("toPay").value);
+                    $("#change").val(parseInt(e.target.value) - toPay);
                     $("#add_booking").prop("disabled", false);
                 }
             }
         }
         payPrice.addEventListener('input', inputHandler2);
         payPrice.addEventListener('propertychange', inputHandler2);
+
+        var today = new Date();
+        var date = (today.getDate()) + '-' + (today.getMonth() + 1) + '-' + today.getFullYear()
+        $('input[name="dateRange"]').daterangepicker({
+            opens: 'left',
+            minDate: date,
+            locale: {
+                format: 'DD-MM-YYYY',
+                cancelLabel: 'Clear'
+            }
+        });
     }
 </script>
 
@@ -155,7 +207,7 @@
             เพิ่มรายการจอง <span class="badge bg-danger">ไม่มีสมาชิก</span>
         </div>
         <div class="card-body">
-            <form action="#" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('add-booking') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
                     <div id="formA">
@@ -181,7 +233,7 @@
                         <div class="mb-3">
                             <label for="homestay_name" class="form-label">ที่พัก *</label><br>
                             @foreach ($homestays as $homestay)
-                                <input type="checkbox" id="hn{{ $homestay->id }}" name="homestay_name"
+                                <input type="checkbox" id="hn{{ $homestay->id }}" name="homestay_name[]"
                                     value="{{ $homestay->id }}">
                                 <label>{{ $homestay->homestay_name }}</label><br>
                             @endforeach
@@ -228,41 +280,20 @@
                         </div>
                         <div class="mt-3">
                             <label for="dateRange" class="form-label">ช่วงวันที่เข้าพัก *</label>
-                            @if (isset($dateRange))
-                                <?php
-                                $dateArr = explode(' - ', $dateRange);
-                                $start_date = date('d-m-Y', strtotime($dateArr[0]));
-                                $end_date = date('d-m-Y', strtotime($dateArr[1]));
-                                $valueDate = $start_date . ' - ' . $end_date;
-                                ?>
-                            @else
-                                <?php
-                                $currentDate = date('d-m-Y');
-                                $d = date('d-m-Y', strtotime($currentDate . ' +1 days'));
-                                $valueDate = $currentDate . ' - ' . $d;
-                                ?>
-                            @endif
-                            <input type="text" name="dateRange" value="{{ $valueDate }}" class="form-control"
-                                required />
-                            <script>
-                                $(function() {
-                                    var today = new Date();
-                                    var date = (today.getDate()) + '-' + (today.getMonth() + 1) + '-' + today.getFullYear()
-                                    $('input[name="dateRange"]').daterangepicker({
-                                        opens: 'left',
-                                        minDate: date,
-                                        locale: {
-                                            format: 'DD-MM-YYYY'
-                                        }
-                                    });
-                                });
-                            </script>
+                            <?php
+                            $currentDate = date('d-m-Y');
+                            $d = date('d-m-Y', strtotime($currentDate . ' +1 days'));
+                            $valueDate = $currentDate . ' - ' . $d;
+                            ?>
+                            <input type="text" name="dateRange" id="dateRange" value="{{ $valueDate }}"
+                                class="form-control" required onchange="funcDateRange(this.value)" />
+
                         </div>
                     </div>
                 </div>
                 <hr class="mt-4 mb-4">
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="paytype" id="paytype1"value="1">
+                    <input class="form-check-input" type="radio" name="paytype" id="paytype1" value="1">
                     <label class="form-check-label" for="paytype">จ่ายมัดจำ</label>
                 </div>
                 <div class="form-check">

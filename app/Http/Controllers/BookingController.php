@@ -458,6 +458,179 @@ class BookingController extends Controller
         $set_menus = set_menu::all();
         $promotions = promotion::all();
         $users = user::all();
-        return view('admin.add-booking-admin', compact('set_menus', 'promotions', 'homestays','users'));
+        return view('admin.add-booking-admin', compact('set_menus', 'promotions', 'homestays', 'users'));
+    }
+
+    public function add_booking(Request $request)
+    {
+        $dateArr = explode(" - ", $request->dateRange);
+        $start_date = date('Y-m-d', strtotime($dateArr[0]));
+        $end_date = date('Y-m-d', strtotime($dateArr[1]));
+
+        $homestay_id = $request->homestay_name;
+
+        //เข้าออกวันเดียวกัน //ผ่าน
+        //เข้าออก ไปคลุม  //ผ่าน
+        //เข้าออก อยู่ระหว่าง  //ผ่าน
+        //เข้า อยู่ระหว่าง  //ผ่าน
+        //ออก อยู่ระหว่าง   //ผ่าน
+
+        $booking_infos = DB::table('bookings')
+            ->select('bookings.id')
+            ->join('booking_details', 'bookings.id', '=', 'booking_details.booking_id')
+            ->where(function ($query) use ($start_date, $end_date,$homestay_id) {
+                $query->where('bookings.start_date', $start_date)
+                    ->Where('bookings.end_date', $end_date)
+                    ->whereIn('booking_details.homestay_id',$homestay_id);
+            })->orWhere(function ($query) use ($start_date, $end_date,$homestay_id) {
+                $query->where('bookings.start_date', '>=', $start_date)
+                    ->Where('bookings.end_date', '<=', $end_date)
+                    ->whereIn('booking_details.homestay_id',$homestay_id);
+            })->orWhere(function ($query) use ($start_date, $end_date,$homestay_id) {
+                $query->where('bookings.start_date', '<', $start_date)
+                    ->Where('bookings.end_date', '>', $end_date)
+                    ->whereIn('booking_details.homestay_id',$homestay_id);
+            })->orWhere(function ($query) use ($start_date, $end_date,$homestay_id) {
+                $query
+                    ->Where('bookings.start_date', '>=', $start_date)
+                    ->Where('bookings.start_date', '<', $end_date)
+                    ->Where('bookings.end_date', '>=', $end_date)
+                    ->whereIn('booking_details.homestay_id',$homestay_id);
+            })->orWhere(function ($query) use ($start_date, $end_date,$homestay_id) {
+                $query->where('bookings.start_date', '<=', $end_date)
+                    ->Where('bookings.end_date', '>', $start_date)
+                    ->Where('bookings.end_date', '<=', $end_date)
+                    ->whereIn('booking_details.homestay_id',$homestay_id);
+            })->get();
+
+        if (count($booking_infos) == 0) {
+            if (isset($request->email)) {
+                $user_id = user::select('id')->where('email', $request->email)->get();
+                $add_booking = new booking;
+                $add_booking->user_id =  $user_id[0]->id;
+                if (isset($request->promotion)) {
+                    $add_booking->promotion_id = $request->promotion;
+                }
+                $add_booking->set_menu_id = $request->set_menu;
+                $add_booking->num_menu = $request->num_menu;
+                $add_booking->booking_type = 2;  //Adminจองให้
+
+                $dateArr = explode(" - ", $request->dateRange);
+                $start_date = date('Y-m-d', strtotime($dateArr[0]));
+                $end_date = date('Y-m-d', strtotime($dateArr[1]));
+
+                $add_booking->start_date = $start_date;
+                $add_booking->end_date = $end_date;
+                $add_booking->number_guests = $request->number_guests;
+                $add_booking->total_price = $request->total_price;
+                $add_booking->total_price_discount = $request->total_price_discount;
+                $add_booking->deposit = $request->deposit;
+                $add_booking->status = 3; //รอ Check In
+
+                $add_booking->save();  //ผ่าน
+
+
+                if (count($request->homestay_name) > 1) {
+                    foreach ($request->homestay_name as $homestay_id) {
+                        $add_booking_detail = new booking_detail;
+                        $add_booking_detail->booking_id = $add_booking->id;
+                        $add_booking_detail->homestay_id = $homestay_id;
+                        $add_booking_detail->save();
+                    }
+                } else {
+                    $add_booking_detail = new booking_detail;
+                    $add_booking_detail->booking_id = $add_booking->id;
+                    $add_booking_detail->homestay_id = $request->homestay_name[0];
+                    $add_booking_detail->save();
+                }  //ผ่าน
+
+                //มัดจำ
+                if ($request->paytype == 1) {
+                    $add_payment = new payment();
+                    $add_payment->booking_id = $add_booking->id;
+                    $add_payment->payment_type = 1; //ชำระเงินมัดจำ
+                    $add_payment->total_price = $request->deposit;
+                    $add_payment->pay_price = $request->payPrice;
+                    $add_payment->change = $request->change;
+                    $add_payment->save();
+                } else {
+                    $add_payment = new payment();
+                    $add_payment->booking_id = $add_booking->id;
+                    $add_payment->payment_type = 4; //ชำระเงินเต็มจำนวนตอนจอง
+                    $add_payment->total_price = $request->total_price_discount;
+                    $add_payment->pay_price = $request->payPrice;
+                    $add_payment->change = $request->change;
+                    $add_payment->save();
+                } //ผ่าน
+                return redirect()->back()->with('message', "เพิ่มที่พักเสร็จสิ้น");
+            } else {
+                $add_user = new user;
+                $add_user->firstName =  $request->firstName;
+                $add_user->lastName =  $request->lastName;
+                $add_user->tel =  $request->tel;
+                $add_user->role =  1;
+                $add_user->save(); //ผ่าน
+
+                $add_booking = new booking;
+                $add_booking->user_id =  $add_user->id;
+                if (isset($request->promotion)) {
+                    $add_booking->promotion_id = $request->promotion;
+                }
+                $add_booking->set_menu_id = $request->set_menu;
+                $add_booking->num_menu = $request->num_menu;
+                $add_booking->booking_type = 2;
+
+                $dateArr = explode(" - ", $request->dateRange);
+                $start_date = date('Y-m-d', strtotime($dateArr[0]));
+                $end_date = date('Y-m-d', strtotime($dateArr[1]));
+
+                $add_booking->start_date = $start_date;
+                $add_booking->end_date = $end_date;
+                $add_booking->number_guests = $request->number_guests;
+                $add_booking->total_price = $request->total_price;
+                $add_booking->total_price_discount = $request->total_price_discount;
+                $add_booking->deposit = $request->deposit;
+                $add_booking->status = 3;
+
+                $add_booking->save(); //ผ่าน
+
+                if (count($request->homestay_name) > 1) {
+                    foreach ($request->homestay_name as $homestay_id) {
+                        $add_booking_detail = new booking_detail;
+                        $add_booking_detail->booking_id = $add_booking->id;
+                        $add_booking_detail->homestay_id = $homestay_id;
+                        $add_booking_detail->save();
+                    }
+                } else {
+                    $add_booking_detail = new booking_detail;
+                    $add_booking_detail->booking_id = $add_booking->id;
+                    $add_booking_detail->homestay_id = $request->homestay_name[0];
+                    $add_booking_detail->save();
+                } //ผ่าน
+
+                //มัดจำ
+                if ($request->paytype == 1) {
+                    $add_payment = new payment();
+                    $add_payment->booking_id = $add_booking->id;
+                    $add_payment->payment_type = 1; //ชำระเงินมัดจำ
+                    $add_payment->total_price = $request->deposit;
+                    $add_payment->pay_price = $request->payPrice;
+                    $add_payment->change = $request->change;
+                    $add_payment->save();
+                } else {
+                    $add_payment = new payment();
+                    $add_payment->booking_id = $add_booking->id;
+                    $add_payment->payment_type = 4; //ชำระเงินเต็มจำนวนตอนจอง
+                    $add_payment->total_price = $request->total_price_discount;
+                    $add_payment->pay_price = $request->payPrice;
+                    $add_payment->change = $request->change;
+                    $add_payment->save();
+                } //ผ่าน
+                return redirect()->back()->with('message', "เพิ่มที่พักเสร็จสิ้น");
+            }
+        } else {
+            return redirect()->back()->with('danger', "ช่วงเวลาเเละบ้านพัก มีการจองเเล้ว");
+            // echo $booking_infos;
+        }
     }
 }
