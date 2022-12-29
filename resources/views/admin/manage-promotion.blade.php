@@ -145,7 +145,10 @@
                     @endif
                     <div id="help" class="form-text">กรอกชื่อโปรโมชั่นเพื่อทำการค้นหาโปรโมชั่น</div>
                 </div>
-                <input type="submit" class="btn btn-success" value="ค้นหาโปรโมชั่น">
+                <button type="submit" class="btn btn-success">
+                    <i class='bx bx-search'></i>
+                    ค้นหา
+                </button>
             </form>
         </div>
     </div>

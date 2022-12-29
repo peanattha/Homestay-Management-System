@@ -17,6 +17,7 @@ class CreateAppliancesTable extends Migration
             $table->id();
             $table->string('appliance_name');
             $table->integer('stock');
+            $table->float('price');
             $table->timestamps();
             $table->softDeletes();
         });

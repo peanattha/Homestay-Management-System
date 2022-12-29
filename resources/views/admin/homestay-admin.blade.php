@@ -14,8 +14,6 @@
 
 <script type="text/javascript" src="{{ asset('fullcalendar/packages/core/main.js') }}"></script>
 
-{{-- <script type="text/javascript" src="{{ asset('fullcalendar/packages/interaction/main.js') }}"></script> --}}
-
 <script type="text/javascript" src="{{ asset('fullcalendar/packages/daygrid/main.js') }}"></script>
 
 
@@ -65,7 +63,7 @@
                     "title": homestay_name,
                     "start": bookings[i].start_date,
                     "end": bookings[i].end_date,
-                    "url": "{{ asset('booking-detail/') }}/" + bookings[i].id
+                    "url": "{{ asset('booking-detail/') }}/" + bookings[i].id,
                 };
                 events.push(event);
                 // console.log(events);

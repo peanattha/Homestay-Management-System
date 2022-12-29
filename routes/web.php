@@ -148,7 +148,9 @@ Route::group(['middleware' => ['auth', 'verified', 'CheckAdmin']], function () {
 
     Route::controller(ApplianceController::class)->group(function () {
         Route::get('/manage-appliance', "manage_appliance")->name('manage-appliance');
-
+        Route::post('/add-appliance', "add_appliance")->name('add-appliance');
+        Route::post('/edit-appliance', "edit_appliance")->name('edit-appliance');
+        Route::post('/delete-appliance/{id}', "delete_appliance")->name('delete-appliance');
     });
 
     Route::controller(WindenController::class)->group(function () {
