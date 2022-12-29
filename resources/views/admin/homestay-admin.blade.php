@@ -14,7 +14,7 @@
 
 <script type="text/javascript" src="{{ asset('fullcalendar/packages/core/main.js') }}"></script>
 
-<script type="text/javascript" src="{{ asset('fullcalendar/packages/interaction/main.js') }}"></script>
+{{-- <script type="text/javascript" src="{{ asset('fullcalendar/packages/interaction/main.js') }}"></script> --}}
 
 <script type="text/javascript" src="{{ asset('fullcalendar/packages/daygrid/main.js') }}"></script>
 
@@ -48,21 +48,31 @@
 
             var events = [];
             var bookings = <?php echo json_encode($bookings); ?>;
+            // console.log(bookings);
 
             for (let i = 0; i <= (bookings).length - 1; i++) {
+                let homestay_name = "";
                 for (let a = 0; a <= bookings[i].booking_details.length - 1; a++) {
 
-                    var event = {
-                        "title": bookings[i].booking_details[a].homestay.homestay_name,
-                        "start": bookings[i].start_date
-                    };
-                    events.push(event);
-                    // console.log(events);
+                    if (a == bookings[i].booking_details.length - 1) {
+                        homestay_name = homestay_name.concat(bookings[i].booking_details[a].homestay.homestay_name);
+                    } else {
+                        homestay_name = homestay_name.concat(bookings[i].booking_details[a].homestay.homestay_name, ", ");
+                    }
                 }
+
+                var event = {
+                    "title": homestay_name,
+                    "start": bookings[i].start_date,
+                    "end": bookings[i].end_date,
+                    "url": "{{ asset('booking-detail/') }}/" + bookings[i].id
+                };
+                events.push(event);
+                // console.log(events);
             }
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                plugins: ['interaction', 'dayGrid'],
+                plugins: ['dayGrid'],
                 editable: true,
                 eventLimit: true, // allow "more" link when too many events
                 events
