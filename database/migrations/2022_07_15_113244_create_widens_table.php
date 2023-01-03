@@ -19,7 +19,7 @@ class CreateWidensTable extends Migration
             $table->foreignId('booking_id')->references('id')->on('bookings')->onDelete('cascade');
             $table->integer('amount');
             $table->float('price');
-            $table->integer('winden_by');
+            $table->string('winden_by');
             $table->char('status',1);
             $table->timestamps();
             $table->softDeletes();

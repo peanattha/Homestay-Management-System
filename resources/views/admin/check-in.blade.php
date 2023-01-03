@@ -46,7 +46,15 @@
         $("#discount").val(booking.total_price - booking.total_price_discount);
         $("#total_price_discount").val(booking.total_price_discount);
         $("#deposit").val(booking.deposit);
-        $("#toPay").val(booking.total_price_discount - booking.deposit);
+        if(booking.deposit == 0){
+            $("#toPay").val(0);
+            $("#change").val(0)
+            $("#payPrice").val(0)
+            $("#subminCheckIn").prop("disabled", false);
+        }else{
+            $("#toPay").val(booking.total_price_discount - booking.deposit);
+        }
+
 
         $("#checkInModel").modal("show");
 

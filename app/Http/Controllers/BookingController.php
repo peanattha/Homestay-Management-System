@@ -236,6 +236,7 @@ class BookingController extends Controller
         }
     }
 
+    //ตรวจสอบเเล้ว 3/1/66
     public function search_booking_admin(Request $request)
     {
         // ถ้าค้นหาโดยid
@@ -294,7 +295,7 @@ class BookingController extends Controller
         // ถ้าค้นหาโดยid
         if (isset($request->booking_id)) {
             $bookings = booking::where('id', $request->booking_id)
-                ->where('status', 3)->get();
+                ->where('status', 3)->where('start_date', Carbon::today())->get();
             // เจอ
             if (($bookings->count() == 0)) {
                 return redirect()->route('check-in-admin')->with('warning', 'ไม่มีรายการค้นหา');
@@ -316,7 +317,7 @@ class BookingController extends Controller
                 // ถ้า ชื่อเเละนามสกลุตรง
             } else {
                 $bookings = booking::where('status', 3) //รอCheckIn
-                    ->whereIn('user_id', $users)->get();
+                    ->whereIn('user_id', $users)->where('start_date', Carbon::today())->get();
 
                 $set_menus = set_menu::all();
                 $promotions = promotion::all();
@@ -330,7 +331,7 @@ class BookingController extends Controller
                 return redirect()->route('check-in-admin')->with('warning', 'ไม่มีรายการค้นหาสำหรับชื่อนี้');
             } else {
                 $bookings = booking::where('status', 3) //รอCheckIn
-                    ->whereIn('user_id', $users)->get();
+                    ->whereIn('user_id', $users)->where('start_date', Carbon::today())->get();
 
                 $set_menus = set_menu::all();
                 $promotions = promotion::all();
@@ -344,67 +345,97 @@ class BookingController extends Controller
                 return redirect()->route('check-in-admin')->with('warning', 'ไม่มีรายการค้นหาสำหรับนามสกุลนี้');
             } else {
                 $bookings = booking::where('status', 3) //รอCheckIn
-                    ->whereIn('user_id', $users)->get();
+                    ->whereIn('user_id', $users)->where('start_date', Carbon::today())->get();
 
                 $set_menus = set_menu::all();
                 $promotions = promotion::all();
                 return view('admin.check-in', compact('bookings', 'promotions', 'set_menus'));
             }
         } else {
-            $bookings = booking::where('status', 3)->get(); //รอCheckIn
+            $bookings = booking::where('status', 3)->where('start_date', Carbon::today())->get(); //รอCheckIn
             $set_menus = set_menu::all();
             $promotions = promotion::all();
             return view('admin.check-in', compact('bookings', 'promotions', 'set_menus'));
         }
     }
 
+    //ตรวจสอบเเล้ว 3/1/66
     public function search_check_out(Request $request)
     {
+        // ถ้าค้นหาโดยid
         if (isset($request->booking_id)) {
-            $bookings = booking::where('id', $request->booking_id)->get();
+            $bookings = booking::where('id', $request->booking_id)
+                ->where('status', 1)
+                ->where('end_date', Carbon::today())->get();
+            // เจอ
             if (($bookings->count() == 0)) {
-                return redirect()->route('check-out-admin')->with('error', 'ไม่มีรายการค้นหา');;
+                return redirect()->route('check-out-admin')->with('warning', 'ไม่มีรายการค้นหา');
+                // ไม่เจอ
+            } else {
+                $set_menus = set_menu::all();
+                $widens = widen::all();
+                $appliances = appliance::all();
+                return view('admin.check-out', compact('bookings', 'widens', 'set_menus', 'appliances'));
             }
+            // ค้าหา ทั้งชื่อเเละนามสกุล
         } else if (isset($request->firstName) && isset($request->lastName)) {
-            $firstName = user::where('firstName', $request->firstName)->get();
-            $lastName = user::where('lastName', $request->lastName)->get();
-            if (($firstName->count() == 0) && ($firstName->count() == 0)) {
-                return redirect()->route('check-out-admin')->with('error', 'ไม่มีรายการค้นหา');;
-            } else {
-                $user_id = DB::table('users')
-                    ->where('firstName', $request->firstName)
-                    ->where('lastName', $request->lastName)
-                    ->first()->id;
-            }
-            $bookings = booking::where('status', 1) //Check-In เเล้ว
-                ->where('user_id', $user_id)->get();
-        } else if (isset($request->firstName)) {
-            $firstName = user::where('firstName', $request->firstName)->get();
-            if ($firstName->count() == 0) {
-                return redirect()->route('check-out-admin')->with('error', 'ไม่มีรายการค้นหา');;
-            } else {
-                $user_id = DB::table('users')
-                    ->where('firstName', $request->firstName)
-                    ->first()->id;
-            }
-            $bookings = booking::where('status', 1) //Check-In เเล้ว
-                ->where('user_id', $user_id)->get();
-        } else if (isset($request->lastName)) {
-            $lastName = user::where('lastName', $request->lastName)->get();
-            if ($lastName->count() == 0) {
-                return redirect()->route('check-out-admin')->with('error', 'ไม่มีรายการค้นหา');;
-            } else {
-                $user_id = DB::table('users')
-                    ->where('lastName', $request->lastName)
-                    ->first()->id;
-            }
-            $bookings = booking::where('status', 1) //Check-In เเล้ว
-                ->where('user_id', $user_id)->get();
-        } else {
-            $bookings = booking::where('status', 1)->get(); //Check-In เเล้ว
+            $users = user::select('id')
+                ->where(DB::raw('lower(firstName)'), strtolower($request->firstName))
+                ->where(DB::raw('lower(lastName)'), strtolower($request->lastName))->get();
 
+            //ถ้าชื่อเเละนามสกุลไม่ตรง
+            if ($users->count() == 0) {
+                return redirect()->route('check-out-admin')->with('warning', 'ไม่มีรายการค้นหา');
+                // ถ้า ชื่อเเละนามสกลุตรง
+            } else {
+                $bookings = booking::where('status', 1) //รอCheckOut
+                    ->whereIn('user_id', $users)
+                    ->where('end_date', Carbon::today())->get();
+
+                $set_menus = set_menu::all();
+                $widens = widen::all();
+                $appliances = appliance::all();
+                return view('admin.check-out', compact('bookings', 'widens', 'set_menus', 'appliances'));
+            }
+            // ค้นหาเเค่ชื่อ
+        } else if (isset($request->firstName)) {
+            $users = user::select('id')
+                ->where(DB::raw('lower(firstName)'), strtolower($request->firstName))->get();
+            if ($users->count() == 0) {
+                return redirect()->route('check-out-admin')->with('warning', 'ไม่มีรายการค้นหาสำหรับชื่อนี้');
+            } else {
+                $bookings = booking::where('status', 1) //รอCheckOut
+                    ->whereIn('user_id', $users)
+                    ->where('end_date', Carbon::today())->get();
+
+                $set_menus = set_menu::all();
+                $widens = widen::all();
+                $appliances = appliance::all();
+                return view('admin.check-out', compact('bookings', 'widens', 'set_menus', 'appliances'));
+            }
+            // ค้นหาเเค่นามสกุล
+        } else if (isset($request->lastName)) {
+            $users = user::select('id')
+                ->where(DB::raw('lower(lastName)'), strtolower($request->lastName))->get();
+            if ($users->count() == 0) {
+                return redirect()->route('check-out-admin')->with('warning', 'ไม่มีรายการค้นหาสำหรับนามสกุลนี้');
+            } else {
+                $bookings = booking::where('status', 1) //รอCheckOut
+                    ->whereIn('user_id', $users)
+                    ->where('end_date', Carbon::today())->get();
+
+                $set_menus = set_menu::all();
+                $widens = widen::all();
+                $appliances = appliance::all();
+                return view('admin.check-out', compact('bookings', 'widens', 'set_menus', 'appliances'));
+            }
+        } else {
+            $bookings = booking::where('status', 1)->where('end_date', Carbon::today())->get(); //รอCheckOut
+            $set_menus = set_menu::all();
+            $widens = widen::all();
+            $appliances = appliance::all();
+            return view('admin.check-out', compact('bookings', 'widens', 'set_menus', 'appliances'));
         }
-        return view('admin.check-out', compact('bookings'));
     }
 
     public function show_check_out(Request $request)
@@ -412,7 +443,9 @@ class BookingController extends Controller
         $bookings = booking::where('status', 1)
             ->where('end_date', Carbon::today())->get(); //Check-In เเล้ว
         $set_menus = set_menu::all();
-        return view('admin.check-out', compact('bookings', 'set_menus'));
+        $widens = widen::all();
+        $appliances = appliance::all();
+        return view('admin.check-out', compact('bookings', 'set_menus', 'widens', 'appliances'));
     }
     public function show_check_in(Request $request)
     {
@@ -431,24 +464,36 @@ class BookingController extends Controller
         $update_booking->status = 1; //Check In
         $update_booking->save();
 
-        $new_payment = new payment();
-        $new_payment->booking_id = $request->idCheckIn;
-        $new_payment->payment_type = 2;
-        $new_payment->total_price = $request->toPay;
-        $new_payment->pay_price = $request->payPrice;
-        $new_payment->change = $request->change;
-        $new_payment->save();
+        $payment_types = payment::select('payment_type')->where('id', $request->idCheckIn)->get();
+        if ($payment_types->contains('payment_type', '!=', 4)) {
+            $new_payment = new payment();
+            $new_payment->booking_id = $request->idCheckIn;
+            $new_payment->payment_type = 2;
+            $new_payment->total_price = $request->toPay;
+            $new_payment->pay_price = $request->payPrice;
+            $new_payment->change = $request->change;
+            $new_payment->save();
+        }
 
         return redirect()->back()->with('message', "Check In เสร็จสิ้น");
     }
-    public function check_out($id)
+    public function check_out(Request $request)
     {
         $now = Carbon::now();
-        $update_booking = booking::find($id);
+        $update_booking = booking::find($request->idCheckOut);
         $update_booking->check_out = $now;
         $update_booking->check_out_by = Auth::user()->firstName . " " . Auth::user()->lastName;
         $update_booking->status = 2; //Check Out
         $update_booking->save();
+
+        $new_payment = new payment();
+        $new_payment->booking_id = $request->idCheckOut;
+        $new_payment->payment_type = 3;
+        $new_payment->total_price = $request->payExtra;
+        $new_payment->pay_price = $request->payPrice;
+        $new_payment->change = $request->change;
+        $new_payment->save();
+
         return redirect()->back()->with('message', "Check Out เสร็จสิ้น");
     }
 
@@ -478,29 +523,29 @@ class BookingController extends Controller
         $booking_infos = DB::table('bookings')
             ->select('bookings.id')
             ->join('booking_details', 'bookings.id', '=', 'booking_details.booking_id')
-            ->where(function ($query) use ($start_date, $end_date,$homestay_id) {
+            ->where(function ($query) use ($start_date, $end_date, $homestay_id) {
                 $query->where('bookings.start_date', $start_date)
                     ->Where('bookings.end_date', $end_date)
-                    ->whereIn('booking_details.homestay_id',$homestay_id);
-            })->orWhere(function ($query) use ($start_date, $end_date,$homestay_id) {
+                    ->whereIn('booking_details.homestay_id', $homestay_id);
+            })->orWhere(function ($query) use ($start_date, $end_date, $homestay_id) {
                 $query->where('bookings.start_date', '>=', $start_date)
                     ->Where('bookings.end_date', '<=', $end_date)
-                    ->whereIn('booking_details.homestay_id',$homestay_id);
-            })->orWhere(function ($query) use ($start_date, $end_date,$homestay_id) {
+                    ->whereIn('booking_details.homestay_id', $homestay_id);
+            })->orWhere(function ($query) use ($start_date, $end_date, $homestay_id) {
                 $query->where('bookings.start_date', '<', $start_date)
                     ->Where('bookings.end_date', '>', $end_date)
-                    ->whereIn('booking_details.homestay_id',$homestay_id);
-            })->orWhere(function ($query) use ($start_date, $end_date,$homestay_id) {
+                    ->whereIn('booking_details.homestay_id', $homestay_id);
+            })->orWhere(function ($query) use ($start_date, $end_date, $homestay_id) {
                 $query
                     ->Where('bookings.start_date', '>=', $start_date)
                     ->Where('bookings.start_date', '<', $end_date)
                     ->Where('bookings.end_date', '>=', $end_date)
-                    ->whereIn('booking_details.homestay_id',$homestay_id);
-            })->orWhere(function ($query) use ($start_date, $end_date,$homestay_id) {
+                    ->whereIn('booking_details.homestay_id', $homestay_id);
+            })->orWhere(function ($query) use ($start_date, $end_date, $homestay_id) {
                 $query->where('bookings.start_date', '<=', $end_date)
                     ->Where('bookings.end_date', '>', $start_date)
                     ->Where('bookings.end_date', '<=', $end_date)
-                    ->whereIn('booking_details.homestay_id',$homestay_id);
+                    ->whereIn('booking_details.homestay_id', $homestay_id);
             })->get();
 
         if (count($booking_infos) == 0) {
@@ -508,7 +553,7 @@ class BookingController extends Controller
                 $user_id = user::select('id')->where('email', $request->email)->get();
                 $add_booking = new booking;
                 $add_booking->user_id =  $user_id[0]->id;
-                if (isset($request->promotion)) {
+                if ($request->promotion != 0) {
                     $add_booking->promotion_id = $request->promotion;
                 }
                 $add_booking->set_menu_id = $request->set_menu;

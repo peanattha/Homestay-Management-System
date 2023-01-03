@@ -40,11 +40,12 @@ class PromotionController extends Controller
         $start_time = date('H:i:s', strtotime($date1[1] . $date1[2]));
         $end_time = date('H:i:s', strtotime($date2[1] . $date2[2]));
 
-        if ($start_date == Carbon::today()) {
+        $today = explode(" ", Carbon::today());
+        if ($start_date == $today[0]) {
             if ($start_time < date('H:i:s')) {
-                $add_promotion->status =  3;
-            } else {
                 $add_promotion->status =  1;
+            } else {
+                $add_promotion->status =  3;
             }
         } else {
             $add_promotion->status =  3;

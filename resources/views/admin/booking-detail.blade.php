@@ -89,7 +89,7 @@
                         <label for="number_guests" class="form-label">โปรโมชั่น *</label>
                         <select class="form-select" aria-label="Default select example" disabled>
                             @if ($booking->promotion_id == null)
-                                <option selected hidden>เลือกโปรโมชั่น</option>
+                                <option selected hidden value="0">เลือกโปรโมชั่น</option>
                                 @foreach ($promotions as $promotion)
                                     <option value="{{ $promotion->id }}">{{ $promotion->promotion_name }}</option>
                                 @endforeach
@@ -196,10 +196,12 @@
                     <div class="row mt-2">
                         <div class="col-md-4">
                             <label class="labels">ของในคลัง *</label>
-                            @if ($widen->appliances_id == $appliances->id)
-                                <input type="number" name="appliances_anme" id="appliances_anme" disabled
-                                    class="form-control" required value="{{ $appliances->appliances_name }}">
-                            @endif
+                            @foreach ($appliances as $appliance)
+                                @if ($widen->appliance_id == $appliance->id)
+                                    <input type="text" name="appliances_anme" id="appliances_anme" disabled
+                                        class="form-control" required value="{{ $appliance->appliance_name }}">
+                                @endif
+                            @endforeach
                         </div>
                         <div class="col-md-4">
                             <label class="labels">จำนวน *</label>
@@ -210,7 +212,7 @@
                             <label class="labels">ราคาคิดเพิ่มเติม *</label>
                             <div class="input-group">
                                 <input type="text" name="total_price_discount" id="total_price_discount" disabled
-                                    required class="form-control" value="">
+                                    required class="form-control" value="{{ $widen->price }}">
                                 <span class="input-group-text">บาท</span>
                             </div>
                         </div>

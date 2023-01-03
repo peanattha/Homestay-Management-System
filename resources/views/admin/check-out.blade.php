@@ -7,17 +7,14 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script>
-    function showModelCheckOut(booking, set_menus) {
-        Object.keys(booking).forEach(key => {
-            console.log(key, booking[key]);
-        });
-        Object.keys(set_menus).forEach(key => {
-            console.log(key, set_menus[key]);
-        });
-        $("#idCheckIn").val(booking.id);
-        $("#firstNameCheckin").val(booking.user.firstName);
-        $("#lastNameCheckin").val(booking.user.lastName);
-        $("#date").val(booking.start_date + " - " + booking.end_date);
+    function showModelCheckOut(booking, set_menus, widens, appliances) {
+        // Object.keys(widens).forEach(key => {
+        //     console.log(key, widens[key]);
+        // });
+        document.getElementById("idCheckOut").value = booking.id;
+        document.getElementById("firstNameCheckOut").value = booking.user.firstName;
+        document.getElementById("lastNameCheckOut").value = booking.user.lastName;
+        document.getElementById("date").value = booking.start_date + " - " + booking.end_date;
 
         var result = "";
         var price = 0;
@@ -27,37 +24,71 @@
 
             var price = price + booking.booking_details[i].homestay.homestay_price;
             if (i == (booking.booking_details).length - 1) {
-                $("#homestay").val(result);
-                $("#homestayPrice").val(price);
+                document.getElementById("homestay").value = result;
+                document.getElementById("homestayPrice").value = price;
             }
         }
         for (let i = 0; i <= (set_menus).length - 1; i++) {
             if (booking.set_menu_id == set_menus[i].id) {
-                $("#nameMenu").val(set_menus[i].set_menu_name);
-
-                $("#priceMenu").val(set_menus[i].price);
+                document.getElementById("nameMenu").value = set_menus[i].set_menu_name;
+                document.getElementById("priceMenu").value = set_menus[i].price;
             }
         }
 
-        $("#numMenu").val(booking.num_menu);
-        $("#num_guests").val(booking.number_guests);
+        document.getElementById("numMenu").value = booking.num_menu;
+        document.getElementById("num_guests").value = booking.number_guests;
 
-        let totalPrice = 0;
-        if (booking.widen) {
-            for (let s = 0; s <= (booking.widen).length - 1; s++) {
-                document.getElementById("appliance").innerHTML +=
-                    '<div class="row mt-2"><div class="col-md-6"><label class="labels">ของใช้ *</label><input type="text" name="applianceName" id="applianceName" readonly required class="form-control"></div> <div class="col-md-6"> <label class="labels">ราคา *</label> <div class="input-group"> <input type="text" name="priceAppliance" id="priceAppliance" readonly class="form-control" required> <span class="input-group-text">บาท</span> </div> </div> </div>';
-                totalPrice += booking.widen[i].price;
+        let payExtra = 0;
+        let countWiden = 0;
+        for (let i = 0; i <= widens.length - 1; i++) {
+            if (booking.id == widens[i].booking_id) {
+                document.getElementById("appliance_text").innerHTML = 'มีค่าใช้จ่ายเพิ่มเติม';
+                for (let s = 0; s <= appliances.length - 1; s++) {
+                    if (appliances[s].id == widens[i].appliance_id) {
+                        document.getElementById("appliance").innerHTML +=
+                            '<div class="row mt-2"> <div class="col-md-4"><label class="labels">ของใช้ *</label><input type="text" name="applianceName" id="applianceName" readonly required class="form-control" value="' +
+                            appliances[s].appliance_name +
+                            '"> </div><div class="col-md-4"><label class="labels">จำนวน *</label><input type="number" name="amount" id="amount" readonly required class="form-control" value="' +
+                            widens[i].amount +
+                            '"> </div> <div class="col-md-4"> <label class="labels">ราคา *</label> <div class="input-group"> <input type="text" name="priceAppliance" id="priceAppliance" readonly class="form-control" required value="' +
+                            widens[i].price + '"> <span class="input-group-text">บาท</span> </div> </div> </div>';
+                        break
+                    }
+                }
+                countWiden += 1;
+                payExtra += widens[i].price;
             }
-
-
-        } else {
-            document.getElementById("appliance").innerHTML = 'ไม่มีค่าใช้จ่ายเพิ่มเติม';
+        }
+        if (countWiden == 0) {
+            document.getElementById("appliance_text").innerHTML = 'ไม่มีค่าใช้จ่ายเพิ่มเติม';
             $("#subminCheckOut").prop("disabled", false);
+            document.getElementById("toPay").classList.add("d-none");
+        } else {
+            document.getElementById("payExtra").value = payExtra;
+            document.getElementById("appliance").innerHTML += '<hr class="mt-4 mb-4">';
         }
-
 
         $("#checkOutModel").modal("show");
+
+        const payPrice = document.getElementById('payPrice');
+        const change = document.getElementById('change');
+
+        const inputHandler = function(e) {
+            if (isNaN(e.target.value)) {
+                $("#change").val("กรุณาใส่จำนวนเงินตัวเลขจำนวนเต็ม");
+                $("#subminCheckOut").prop("disabled", true);
+            } else {
+                if ((parseInt(e.target.value)) < payExtra) {
+                    $("#change").val("กรุณาใส่จำนวนเงินให้มากกว่าเงินที่ต้องจ่าย");
+                    $("#subminCheckOut").prop("disabled", true);
+                } else {
+                    $("#change").val(parseInt(e.target.value) - payExtra);
+                    $("#subminCheckOut").prop("disabled", false);
+                }
+            }
+        }
+        payPrice.addEventListener('input', inputHandler);
+        payPrice.addEventListener('propertychange', inputHandler);
     }
 </script>
 
@@ -80,77 +111,70 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-
-                    <input type="text" style="display: none" name="idCheckIn" readonly id="idCheckIn" required>
-                    <div class="row mt-2">
-                        <div class="col-md-6">
-                            <label class="labels">ชื่อ *</label>
-                            <input type="text" name="firstNameCheckin" id="firstNameCheckin" readonly
-                                class="form-control" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="labels">นามสกุล *</label>
-                            <input type="text" name="lastNameCheckin" id="lastNameCheckin" readonly class="form-control"
-                                required>
-                        </div>
-                    </div>
-                    <label class="labels">ช่วงวันเข้าพัก *</label>
-                    <input type="text" name="date" id="date" readonly class="form-control" required>
-                    <div class="row mt-2">
-                        <div class="col-md-4">
-                            <label class="labels">บ้านพัก *</label>
-                            <input type="text" name="homestay" id="homestay" readonly class="form-control" required>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="labels">จำนวนผู้เข้าพัก *</label>
-                            <input type="text" name="num_guests" id="num_guests" readonly class="form-control" required>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="labels">ราคา *</label>
-                            <div class="input-group">
-                                <input type="text" name="homestayPrice" id="homestayPrice" readonly class="form-control"
-                                    required>
-                                <span class="input-group-text">บาท</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-md-4">
-                            <label class="labels">ชุดเมนูอาหาร *</label>
-                            <input type="text" name="nameMenu" id="nameMenu" readonly required class="form-control">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="labels">จำนวนชุดเมนูอาหาร *</label>
-                            <input type="text" name="numMenu" id="numMenu" readonly class="form-control" required>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="labels">ราคาชุดเมนูอาหาร *</label>
-                            <div class="input-group">
-                                <input type="text" name="priceMenu" id="priceMenu" readonly required
-                                    class="form-control">
-                                <span class="input-group-text">บาท</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <hr class="m-0">
-                <div class="modal-header">
-                    <p class="modal-title" id="">ค่าใช้จ่ายเพิ่มเติม</p>
-                </div>
-                <div class="modal-body">
-                    <form action="#" method="POST">
+                    <form action="{{ route('check-out') }}" method="POST">
                         @csrf
-
-                        <div id="appliance">
-
+                        <input type="text" style="display: none" name="idCheckOut" readonly id="idCheckOut" required>
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                <label class="labels">ชื่อ *</label>
+                                <input type="text" name="firstNameCheckOut" id="firstNameCheckOut" readonly
+                                    class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="labels">นามสกุล *</label>
+                                <input type="text" name="lastNameCheckOut" id="lastNameCheckOut" readonly
+                                    class="form-control" required>
+                            </div>
                         </div>
+                        <label class="labels">ช่วงวันเข้าพัก *</label>
+                        <input type="text" name="date" id="date" readonly class="form-control" required>
+                        <div class="row mt-2">
+                            <div class="col-md-4">
+                                <label class="labels">บ้านพัก *</label>
+                                <input type="text" name="homestay" id="homestay" readonly class="form-control" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="labels">จำนวนผู้เข้าพัก *</label>
+                                <input type="text" name="num_guests" id="num_guests" readonly class="form-control"
+                                    required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="labels">ราคา *</label>
+                                <div class="input-group">
+                                    <input type="text" name="homestayPrice" id="homestayPrice" readonly
+                                        class="form-control" required>
+                                    <span class="input-group-text">บาท</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-4">
+                                <label class="labels">ชุดเมนูอาหาร *</label>
+                                <input type="text" name="nameMenu" id="nameMenu" readonly required class="form-control">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="labels">จำนวนชุดเมนูอาหาร *</label>
+                                <input type="text" name="numMenu" id="numMenu" readonly class="form-control" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="labels">ราคาชุดเมนูอาหาร *</label>
+                                <div class="input-group">
+                                    <input type="text" name="priceMenu" id="priceMenu" readonly required
+                                        class="form-control">
+                                    <span class="input-group-text">บาท</span>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <p id="appliance_text"></p>
 
+                        <div id="appliance"></div>
                         <div id="toPay">
                             <div class="row mt-2">
                                 <div class="col-md-4"> <label class="labels">รวมราคาที่ต้องจ่ายเพิ่มเติม *</label>
-                                    <div class="input-group"> <input type="text" name="payExtra" id="payExtra"
-                                            readonly required class="form-control"> <span
-                                            class="input-group-text">บาท</span> </div>
+                                    <div class="input-group"> <input type="text" name="payExtra" id="payExtra" readonly
+                                            required class="form-control"> <span class="input-group-text">บาท</span>
+                                    </div>
                                 </div>
                                 <div class="col-md-4"> <label class="labels">รับเงินมา *</label>
                                     <div class="input-group"> <input type="text" name="payPrice" id="payPrice"
@@ -164,9 +188,6 @@
                                 </div>
                             </div>
                         </div>
-
-
-
                         <div class="mb-2 mt-2">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
                             <button type="submit" class="btn btn-success" id="subminCheckOut" disabled>ยืนยัน Check
@@ -248,7 +269,7 @@
                                     class="btn btn-primary">รายละเอียด</a></td>
                             <td style="width: 15%">
                                 <button type="button" class="btn btn-success"
-                                    onclick="showModelCheckOut({{ $booking }},{{ $set_menus }})">
+                                    onclick="showModelCheckOut({{ $booking }}, {{ $set_menus }}, {{ $widens }} , {{ $appliances }})">
                                     Check Out
                                 </button>
                             </td>
