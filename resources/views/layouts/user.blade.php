@@ -20,7 +20,7 @@
 
     <link rel="icon" type="image/svg" href="{{ asset('images/Logo.svg') }}" />
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
 </head>
 
@@ -273,13 +273,13 @@
                     <div>
                         <a href="https://www.facebook.com/%E0%B9%82%E0%B8%AE%E0%B8%A1%E0%B8%AA%E0%B9%80%E0%B8%95%E0%B8%A2%E0%B9%8C%E0%B8%95%E0%B8%B2%E0%B8%81%E0%B8%B0%E0%B8%A2%E0%B8%B2%E0%B8%A2-%E0%B8%A0%E0%B8%B9%E0%B8%9C%E0%B8%B2%E0%B8%A1%E0%B9%88%E0%B8%B2%E0%B8%99-101218341803473"
                             target="_bank" class="me-4 text-reset text-decoration-none">
-                            <i class="fab fa-facebook-f"></i>
+                            <i class='bx bxl-facebook' ></i>
                         </a>
                         <a href="" class="me-4 text-reset text-decoration-none">
-                            <i class="fab fa-twitter"></i>
+                            <i class='bx bxl-twitter' ></i>
                         </a>
                         <a href="" class="me-4 text-reset text-decoration-none">
-                            <i class="fab fa-instagram"></i>
+                            <i class='bx bxl-instagram' ></i>
                         </a>
                     </div>
                     <!-- Right -->
@@ -355,12 +355,12 @@
                                 <h6 class="text-uppercase fw-bold mb-4">
                                     ติดต่อ
                                 </h6>
-                                <p><i class="fas fa-home me-3"></i>{{ config('app.name') }}</p>
+                                <p><i class='bx bx-home-heart'></i> {{ config('app.name') }}</p>
                                 <p>
-                                    <i class="fas fa-envelope me-3"></i>homestaytakayai@gmail.com
+                                    <i class='bx bx-envelope'></i> homestaytakayai@gmail.com
                                 </p>
-                                <p><i class="fas fa-phone me-3"></i>085 563 0322</p>
-                                <p><i class="fas fa-print me-3"></i>085 563 0322</p>
+                                <p><i class='bx bx-phone'></i> 085 563 0322</p>
+                                <p><i class='bx bx-printer'></i> 085 563 0322</p>
                             </div>
                             <!-- Grid column -->
                         </div>
@@ -371,7 +371,7 @@
 
                 <!-- Copyright -->
                 <div class="text-center p-4 w-100" style="background-color: rgba(0, 0, 0, 0.05);">
-                    © 2022
+                    <i class='bx bx-copyright'></i> 2023
                     <a class="text-reset fw-bold" href="{{ route('home') }}">{{ config('app.name') }}</a>, Inc. All
                     rights
                     reserved.
@@ -382,7 +382,7 @@
         @endauth
     @endif
 
-    <a href="#" id="toTopBtn" class="cd-top text-replace rounded-3 border border-1" data-abc="true"></a>
+    <a href="#" id="toTopBtn" class="cd-top text-replace rounded-3"></a>
 
 </body>
 

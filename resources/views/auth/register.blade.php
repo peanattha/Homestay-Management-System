@@ -74,7 +74,7 @@
 
                                 <div class="col-md-12">
                                     <button type="submit" class="btn btn-success">
-                                        {{ __('Register') }}
+                                        <i class='bx bx-log-in' ></i> สมัครสมาชิก
                                     </button>
                                 </div>
                             </div>

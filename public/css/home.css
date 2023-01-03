@@ -41,34 +41,6 @@
     width: 140px;
 }
 
-#toTopBtn {
-    display: none;
-    position: fixed;
-    bottom: 26px;
-    right: 39px;
-    z-index: 99;
-    padding: 21px;
-    background-color: #198754;
-}
-
-#toTopBtn:hover {
-    background-color: #6c8463;
-}
-
-#toTopBtn:focus {
-    box-shadow: 0 0 0 0.25rem rgba(122, 149, 112, 0.5);
-}
-
-.cd-top {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    display: inline-block;
-    height: 40px;
-    width: 40px;
-    background: url(https://res.cloudinary.com/dxfq3iotg/image/upload/v1571057658/cd-top-arrow.svg) no-repeat center 50%;
-}
-
 @media (max-width: 768px) {
     footer {
         display: flex;

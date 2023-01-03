@@ -51,8 +51,6 @@ class BookingController extends Controller
         $homestays = homestay::all();
         $set_menus = set_menu::all();
         $promotions = promotion::all();
-        $widens = widen::where('booking_id', $id)->get();
-        $appliances = appliance::all();
 
         $answers = collect([]);
         foreach ($booking as $info) {
@@ -64,7 +62,7 @@ class BookingController extends Controller
 
         $homestaysN = DB::table('homestays')->whereNotIn('id', $answers)->get();
 
-        return view('admin.booking-detail', compact('booking', 'set_menus', 'promotions', 'homestays', 'widens', 'appliances', 'homestaysN'));
+        return view('admin.booking-detail', compact('booking', 'set_menus', 'promotions', 'homestays', 'homestaysN'));
     }
     public function confirm_booking()
     {
@@ -486,13 +484,16 @@ class BookingController extends Controller
         $update_booking->status = 2; //Check Out
         $update_booking->save();
 
-        $new_payment = new payment();
-        $new_payment->booking_id = $request->idCheckOut;
-        $new_payment->payment_type = 3;
-        $new_payment->total_price = $request->payExtra;
-        $new_payment->pay_price = $request->payPrice;
-        $new_payment->change = $request->change;
-        $new_payment->save();
+        $c_widen = widen::where('booking_id', $request->idCheckOut)->get()->count();
+        if ($c_widen > 0) {
+            $new_payment = new payment();
+            $new_payment->booking_id = $request->idCheckOut;
+            $new_payment->payment_type = 3;
+            $new_payment->total_price = $request->payExtra;
+            $new_payment->pay_price = $request->payPrice;
+            $new_payment->change = $request->change;
+            $new_payment->save();
+        }
 
         return redirect()->back()->with('message', "Check Out เสร็จสิ้น");
     }

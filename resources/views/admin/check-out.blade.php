@@ -63,6 +63,9 @@
             document.getElementById("appliance_text").innerHTML = 'ไม่มีค่าใช้จ่ายเพิ่มเติม';
             $("#subminCheckOut").prop("disabled", false);
             document.getElementById("toPay").classList.add("d-none");
+            $("#payExtra").val(0);
+            $("#change").val(0);
+            $("#payPrice").val(0);
         } else {
             document.getElementById("payExtra").value = payExtra;
             document.getElementById("appliance").innerHTML += '<hr class="mt-4 mb-4">';

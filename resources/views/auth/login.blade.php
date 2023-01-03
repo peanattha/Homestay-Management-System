@@ -59,7 +59,7 @@
                         <div class="row mb-0">
                             <div>
                                 <button type="submit" class="btn btn-success">
-                                    {{ __('เข้าสู่ระบบ') }}
+                                    <i class='bx bx-log-in'></i> เข้าสู่ระบบ
                                 </button>
 
                                 @if (Route::has('password.request'))

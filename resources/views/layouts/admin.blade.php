@@ -28,9 +28,9 @@
 <body>
     <div class="sidebar" id="sidebar">
         <div class="logo-details">
-            {{-- <img src="{{ asset('images/Logo.svg') }}" alt="Logo"> --}}
+            {{-- <img src="{{ asset('images/Logo.svg') }}" width="40px" height="40px" alt="Logo"> --}}
             <div class="logo_name mt-2">{{ config('app.name') }}</div>
-            <button type="button" class="btn-close" id="btnClose"></button>
+            <button type="button" class="btn-close mt-2" id="btnClose"></button>
         </div>
         <hr class="m-2">
         <ul class="nav-links">
@@ -217,7 +217,7 @@
 
     <section class="home-section">
         <div class="home-content container">
-            <i class='bx bx-menu ms-0 me-2'></i>
+            <i class='bx bx-menu-alt-left' ></i>
             @section('page-name')
 
             @show
@@ -248,7 +248,7 @@
         </div>
     </section>
 
-    <a href="#" id="toTopBtn" class="cd-top text-replace rounded-3 border border-1" data-abc="true"></a>
+    <a href="#" id="toTopBtn" class="cd-top text-replace rounded-3"></a>
 
 </body>
 

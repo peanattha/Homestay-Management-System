@@ -2,8 +2,6 @@
 
 @section('title', 'booking Details')
 
-<link rel="stylesheet" href="{{ asset('css/table.css') }}">
-
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
@@ -11,6 +9,10 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+<script src="{{ asset('js/print.min.js') }}" defer></script>
+
+<link href="{{ asset('css/print.min.css') }}" rel="stylesheet">
 
 @section('page-name')
     <nav aria-label="breadcrumb">
@@ -23,7 +25,9 @@
 
 @section('content')
     <input type="button" id="edit-btn" class="btn btn-success" value="แก้ใขรายการจอง">
-    <input type="button" class="btn btn-success" value="ปริ้นใบรายการจอง">
+    <button type="button" class="btn btn-success"
+        onclick="printJS({ printable: 'form_edit_booking', type: 'html', header: 'ใบรายการจอง', css:'{{ asset('css/app.css') }}', documentTitle:'ใบรายการจอง - {{ config('app.name') }}'})">
+        <i class='bx bx-printer'></i> ปริ้นใบรายการจอง </button>
     <div class="card rounded-3 border border-1 shadow-lg mt-4 mb-4">
         <div class="card-header">
             รายละเอียดการจอง
@@ -44,9 +48,9 @@
             @endif
         </div>
         <div class="card-body">
-            <form action="#" method="POST" id="form_edit_booking" enctype="multipart/form-data">
+            <form action="#" method="POST">
                 @csrf
-                <div class="mb-3">
+                <div class="mb-3" id="form_edit_booking">
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label class="labels">ชื่อ *</label>
@@ -66,7 +70,7 @@
                                 @if ($booking_detail->homestay->homestay_name == $homestay->homestay_name)
                                     <input type="checkbox" id="hn{{ $homestay->id }}" name="homestay_name"
                                         value="{{ $booking_detail->homestay_id }}" checked disabled>
-                                    <label>{{ $booking_detail->homestay->homestay_name }}</label><br>
+                                    <label>{{ $booking_detail->homestay->homestay_name }}</label>
                                 @endif
                             @endforeach
                         @endforeach
@@ -74,9 +78,8 @@
                         @foreach ($homestaysN as $n)
                             <input type="checkbox" id="hn {{ $n->id }}" name="homestay_name"
                                 value=" {{ $n->id }}" disabled>
-                            <label> {{ $n->homestay_name }}</label><br>
+                            <label> {{ $n->homestay_name }}</label>
                         @endforeach
-
                     </div>
 
                     <div class="mb-3">
@@ -181,27 +184,22 @@
             </form>
         </div>
     </div>
-
     <div class="card rounded-3 border border-1 shadow-lg mt-4 mb-4">
         <div class="card-header">
             รายการเบิกของเพิ่มเติม
         </div>
         <div class="card-body">
-            @if ($widens->count() == null)
+            @if ($booking->widens->count() == null)
                 <div class="row mt-2">
                     <p>ไม่มีรายการเบิกของเพิ่มเติม</p>
                 </div>
             @else
-                @foreach ($widens as $widen)
+                @foreach ($booking->widens as $widen)
                     <div class="row mt-2">
                         <div class="col-md-4">
                             <label class="labels">ของในคลัง *</label>
-                            @foreach ($appliances as $appliance)
-                                @if ($widen->appliance_id == $appliance->id)
-                                    <input type="text" name="appliances_anme" id="appliances_anme" disabled
-                                        class="form-control" required value="{{ $appliance->appliance_name }}">
-                                @endif
-                            @endforeach
+                            <input type="text" name="appliances_anme" id="appliances_anme" disabled
+                                class="form-control" required value="{{ $widen->appliance->appliance_name }}">
                         </div>
                         <div class="col-md-4">
                             <label class="labels">จำนวน *</label>
@@ -221,7 +219,6 @@
             @endif
         </div>
     </div>
-
     <div class="card rounded-3 border border-1 shadow-lg mt-4 mb-4">
         <div class="card-header">
             รายละเอียดการจ่ายเงิน
@@ -261,6 +258,120 @@
                     </div>
                 </div>
             </div>
+            <hr class="mt-4 mb-4">
+            @foreach ($booking->payments as $payment)
+                @if ($payment->payment_type == 1 || $payment->payment_type == 4)
+                    @if ($payment->payment_type == 1)
+                        <div class="row mt-2">
+                            <div class="col-md-4">
+                                <label class="labels">เงินมัดจำ *</label>
+                                <div class="input-group">
+                                    <input type="text" name="deposit" id="deposit" disabled class="form-control"
+                                        required value="{{ $payment->total_price }}">
+                                    <span class="input-group-text">บาท</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="labels">จ่าย *</label>
+                                <div class="input-group">
+                                    <input type="text" name="depositPay" id="depositPay" disabled required
+                                        class="form-control" value="{{ $payment->pay_price }}">
+                                    <span class="input-group-text">บาท</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="labels">เงินทอน *</label>
+                                <div class="input-group">
+                                    <input type="text" name="change_deposit" id="change_deposit" disabled required
+                                        class="form-control" value="{{ $payment->change }}">
+                                    <span class="input-group-text">บาท</span>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <div class="row mt-2">
+                            <div class="col-md-4">
+                                <label class="labels">เงินจ่ายเต็มจำนวน *</label>
+                                <div class="input-group">
+                                    <input type="text" name="total_price" id="total_price" disabled
+                                        class="form-control" required value="{{ $payment->total_price }}">
+                                    <span class="input-group-text">บาท</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="labels">จ่าย *</label>
+                                <div class="input-group">
+                                    <input type="text" name="total_price_pay" id="total_price_pay" disabled required
+                                        class="form-control" value="{{ $payment->pay_price }}">
+                                    <span class="input-group-text">บาท</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="labels">เงินทอน *</label>
+                                <div class="input-group">
+                                    <input type="text" name="total_price_change" id="total_price_change" disabled
+                                        required class="form-control" value="{{ $payment->change }}">
+                                    <span class="input-group-text">บาท</span>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @elseif ($payment->payment_type == 2)
+                    <div class="row mt-2">
+                        <div class="col-md-4">
+                            <label class="labels">เงินจ่ายมัดจำที่เหลือ *</label>
+                            <div class="input-group">
+                                <input type="text" name="total_price" id="total_price" disabled class="form-control"
+                                    required value="{{ $payment->total_price }}">
+                                <span class="input-group-text">บาท</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="labels">จ่าย *</label>
+                            <div class="input-group">
+                                <input type="text" name="total_price_pay" id="total_price_pay" disabled required
+                                    class="form-control" value="{{ $payment->pay_price }}">
+                                <span class="input-group-text">บาท</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="labels">เงินทอน *</label>
+                            <div class="input-group">
+                                <input type="text" name="total_price_change" id="total_price_change" disabled required
+                                    class="form-control" value="{{ $payment->change }}">
+                                <span class="input-group-text">บาท</span>
+                            </div>
+                        </div>
+                    </div>
+                @elseif ($payment->payment_type == 3)
+                    <div class="row mt-2">
+                        <div class="col-md-4">
+                            <label class="labels">เงินจ่ายเพิ่มเติม *</label>
+                            <div class="input-group">
+                                <input type="text" name="total_price" id="total_price" disabled class="form-control"
+                                    required value="{{ $payment->total_price }}">
+                                <span class="input-group-text">บาท</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="labels">จ่าย *</label>
+                            <div class="input-group">
+                                <input type="text" name="total_price_pay" id="total_price_pay" disabled required
+                                    class="form-control" value="{{ $payment->pay_price }}">
+                                <span class="input-group-text">บาท</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="labels">เงินทอน *</label>
+                            <div class="input-group">
+                                <input type="text" name="total_price_change" id="total_price_change" disabled required
+                                    class="form-control" value="{{ $payment->change }}">
+                                <span class="input-group-text">บาท</span>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+            @endforeach
         </div>
     </div>
 
