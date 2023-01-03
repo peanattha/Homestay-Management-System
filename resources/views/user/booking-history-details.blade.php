@@ -1,6 +1,6 @@
 @extends('layouts.user')
 
-@section('title', 'BookingHistoryDetails')
+@section('title', 'Booking History Details')
 
 @section('booking-history', 'active')
 
@@ -41,6 +41,7 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
 @section('content')
     <div class="container detail">
         <div class="card m-4" style="width: 22rem;">
@@ -84,8 +85,8 @@
                 <hr>
                 <div class="mb-3">
                     <label for="promotion" class="form-label">เลือกโปรโมชั่น</label>
-                    <input type="text" class="form-control" id="promotion"
-                        name="promotion" placeholder="เลือกโปรโมชั่น" value="โปรโมชั่น หน้าหนาว" required readonly>
+                    <input type="text" class="form-control" id="promotion" name="promotion" placeholder="เลือกโปรโมชั่น"
+                        value="โปรโมชั่น หน้าหนาว" required readonly>
                 </div>
                 <div>
                     รายละเอียดโปรโมชั่น

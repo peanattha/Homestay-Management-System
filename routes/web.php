@@ -119,6 +119,7 @@ Route::group(['middleware' => ['auth', 'verified', 'CheckAdmin']], function () {
         Route::post('/search-check-out', "search_check_out")->name('search-check-out');
         Route::get('/booking-detail/{id}', "booking_detail")->name('booking-detail');
         Route::get('/add-booking-admin', "add_booking_admin")->name('add-booking-admin');
+        Route::get('/calendar-booking', "calendar_booking")->name('calendar-booking');
         Route::post('/add-booking', "add_booking")->name('add-booking');
     });
 

@@ -25,7 +25,7 @@ class BookingController extends Controller
     }
     public function history()
     {
-        $bookings = booking::where('user_id', Auth::user()->id)->get();
+        $bookings = booking::where('user_id', Auth::user()->id)->paginate(5);
         return view('user.booking-history', compact('bookings'));
     }
     public function payment(Request $request)
@@ -40,9 +40,14 @@ class BookingController extends Controller
     }
 
     // Admin
+    public function calendar_booking()
+    {
+        $bookings = booking::all();
+        return view('admin.calendar-booking', compact('bookings'));
+    }
     public function booking_admin()
     {
-        $bookings = booking::orderBy('created_at', 'desc')->get();
+        $bookings = booking::orderBy('created_at', 'desc')->paginate(10);
         return view('admin.booking-admin', compact('bookings'));
     }
     public function booking_detail($id)
@@ -672,7 +677,7 @@ class BookingController extends Controller
                     $add_payment->change = $request->change;
                     $add_payment->save();
                 } //ผ่าน
-                return redirect()->back()->with('message', "เพิ่มที่พักเสร็จสิ้น");
+                return redirect()->back()->with('message', "เพิ่มรายการจองเสร็จสิ้น");
             }
         } else {
             return redirect()->back()->with('danger', "ช่วงเวลาเเละบ้านพัก มีการจองเเล้ว");

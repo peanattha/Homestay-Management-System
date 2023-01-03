@@ -59,6 +59,7 @@
                     <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
+                    <li><a href="{{ route('calendar-booking') }}">ปฏิทินการจอง</a></li>
                     <li><a href="{{ route('booking-admin') }}">รายการจองทั้งหมด</a></li>
                     <li><a href="{{route('add-booking-admin')}}">เพิ่มรายการจอง</a></li>
                     <li>

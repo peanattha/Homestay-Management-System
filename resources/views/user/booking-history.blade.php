@@ -40,12 +40,36 @@
                         @endforeach
                     </div>
                     <div class="card-body">
-                        <p class="card-text"><b>วันที่จอง: </b>08/10/2022 - 09/10/2022</p>
-                        <p class="card-text"><b>สถานะ: </b>ชำระเงินมัดจำเเล้ว รอยืนยันชำระเงินจากจากเจ้าของโฮมสเตย์</p>
-                        <a href="#" class="btn btn-success">ดูรายละเอียดการจอง</a>
+                        <?php
+                        $start_date = date('d-m-Y', strtotime($booking->start_date));
+                        $end_date = date('d-m-Y', strtotime($booking->end_date));
+                        $valueDate = $start_date . ' - ' . $end_date;
+                        ?>
+                        <p class="card-text"><b>วันที่จอง: </b>{{ $valueDate }}</p>
+
+                        @if ($booking->status == 1)
+                            <p class="card-text"><b>สถานะ: </b><span class="badge bg-success">Check In</span></p>
+                        @elseif ($booking->status == 2)
+                            <p class="card-text"><b>สถานะ: </b><span class="badge bg-success">Check Out</span></p>
+                        @elseif ($booking->status == 3)
+                            <p class="card-text"><b>สถานะ: </b><span class="badge bg-success">รอ Check In</span></p>
+                        @elseif ($booking->status == 4)
+                            <p class="card-text"><b>สถานะ: </b><span class="badge bg-success">ยกเลิกการจอง</span></p>
+                        @elseif ($booking->status == 5)
+                            <p class="card-text"><b>สถานะ: </b><span class="badge bg-success">รอชำระเงิน</span></p>
+                        @elseif ($booking->status == 6)
+                            <p class="card-text"><b>สถานะ: </b><span class="badge bg-success">รอยืนยันการชำระเงิน</span></p>
+                        @elseif ($booking->status == 7)
+                            <p class="card-text"><b>สถานะ: </b><span class="badge bg-success">รอยืนยันยกเลิกการจอง</span>
+                            </p>
+                        @endif
+                        <a href="{{ route('booking-history-details', $booking->id) }}"
+                            class="btn btn-success">ดูรายละเอียดการจอง</a>
                     </div>
                 </div>
             @endforeach
+            {!! $bookings->links() !!}
         </div>
+
     @endif
 @endsection
