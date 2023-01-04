@@ -26,53 +26,38 @@
         <div id='calendar' class="p-4 rounded-3 border border-1 shadow-lg"></div>
     </div>
 
-    <div class="d-none">
-        @foreach ($bookings as $booking)
-            {{ $booking->promotion }}
-
-            @foreach ($booking->booking_details as $booking_detail)
-                {{ $booking_detail->homestay->homestay_name }}
-            @endforeach
-        @endforeach
-    </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
-
             var events = [];
-            var bookings = <?php echo json_encode($bookings); ?>;
+            var bookings = @json($bookings);
             // console.log(bookings);
 
-            for (let i = 0; i <= (bookings).length - 1; i++) {
+            for (const key in bookings) {
                 let homestay_name = "";
-                for (let a = 0; a <= bookings[i].booking_details.length - 1; a++) {
-
-                    if (a == bookings[i].booking_details.length - 1) {
-                        homestay_name = homestay_name.concat(bookings[i].booking_details[a].homestay.homestay_name);
+                for (let i = 0; i <= bookings[key].length - 1; i++) {
+                    if (i == bookings[key].length - 1) {
+                        homestay_name = homestay_name.concat(bookings[key][i].homestay_name);
+                        var event = {
+                            "title": homestay_name,
+                            "start": bookings[key][i].start_date,
+                            "end": bookings[key][i].end_date,
+                            "url": "{{ asset('booking-detail/') }}/" + bookings[key][i].id,
+                        };
+                        events.push(event);
+                        // console.log(events);
                     } else {
-                        homestay_name = homestay_name.concat(bookings[i].booking_details[a].homestay.homestay_name,
-                            ", ");
+                        homestay_name = homestay_name.concat(bookings[key][i].homestay_name, ", ");
                     }
                 }
-
-                var event = {
-                    "title": homestay_name,
-                    "start": bookings[i].start_date,
-                    "end": bookings[i].end_date,
-                    "url": "{{ asset('booking-detail/') }}/" + bookings[i].id,
-                };
-                events.push(event);
-                // console.log(events);
             }
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 plugins: ['dayGrid'],
                 editable: true,
-                eventLimit: true, // allow "more" link when too many events
+                eventLimit: true,
                 events
             });
-
             calendar.render();
         });
     </script>

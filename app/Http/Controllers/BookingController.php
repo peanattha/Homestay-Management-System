@@ -42,7 +42,14 @@ class BookingController extends Controller
     // Admin
     public function calendar_booking()
     {
-        $bookings = booking::all();
+        // $bookings = booking::with('booking_details')->get();
+
+        $bookings = DB::table('bookings')
+            ->join('booking_details', 'bookings.id', '=', 'booking_details.booking_id')
+            ->join('homestays', 'booking_details.homestay_id', '=', 'homestays.id')
+            ->select('bookings.id', 'bookings.start_date', 'bookings.end_date', 'homestays.homestay_name')
+            ->get()->groupBy('id');
+
         return view('admin.calendar-booking', compact('bookings'));
     }
     public function booking_admin()
