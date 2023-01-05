@@ -68,7 +68,7 @@
     </div>
 
     {{-- Form Add Admin --}}
-    <div class="card rounded-3 border border-1 shadow-lg">
+    <div class="card rounded-3 border border-1 shadow-lg mb-4">
         <div class="card-header">
             เพิ่มผู้ดูเเลระบบ
         </div>
@@ -84,7 +84,6 @@
             </form>
         </div>
     </div>
-    <hr class="mb-4 mt-4">
 
     {{-- Table & Manage Admin --}}
     <div class="table100 ver2 mb-4">
@@ -92,8 +91,9 @@
             <table>
                 <thead>
                     <tr>
+                        <th style="width: 10%">ลำดับ</th>
                         <th style="width: 10%">ชื่อ</th>
-                        <th style="width: 25%">สกุล</th>
+                        <th style="width: 10%">สกุล</th>
                         <th style="width: 25%">อีเมล</th>
                         <th style="width: 25%">เบอร์โทรศัพท์</th>
                         <th style="width: 15%">ลบสิทธิ์ผู้ดูเเลระบบ</th>
@@ -106,8 +106,9 @@
                 <tbody>
                     @foreach ($admins as $admin)
                         <tr>
+                            <td style="width: 10%">{{ $loop->iteration }}</td>
                             <td style="width: 10%">{{ $admin->firstName }}</td>
-                            <td style="width: 25%">{{ $admin->lastName }}</td>
+                            <td style="width: 10%">{{ $admin->lastName }}</td>
                             <td style="width: 25%">{{ $admin->email }}</td>
                             @if ($admin->tel == null)
                                 <td style="width: 25%">-</td>

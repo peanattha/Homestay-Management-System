@@ -35,15 +35,22 @@ class BookingController extends Controller
     }
     public function history_details($id)
     {
-
-        return view('user.booking-history-details');
+        $booking = booking::find($id);
+        $homestays = homestay::all();
+        $promotions = promotion::all();
+        return view('user.booking-history-details',compact('booking', 'homestays','promotions'));
     }
+    public function cancel_pay_user($id)
+    {
+        $update_homestay = booking::find($id);
+        $update_homestay->status = 7;  //ยกเลิกการจอง
+        $update_homestay->save();
 
+        return redirect()->back()->with('message', "ยกเลิกการจองเสร็จสิ้น รอกการยืนยันจากเจ้าของโฮมสเตย์");
+    }
     // Admin
     public function calendar_booking()
     {
-        // $bookings = booking::with('booking_details')->get();
-
         $bookings = DB::table('bookings')
             ->join('booking_details', 'bookings.id', '=', 'booking_details.booking_id')
             ->join('homestays', 'booking_details.homestay_id', '=', 'homestays.id')

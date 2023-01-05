@@ -20,10 +20,10 @@
     let num_date = 0;
     let myArray = [];
 
+    //num_date
     function funcDateRange(date) {
         num_date = 0;
         myArray = [];
-
         myArray = date.split(" - ");
 
         let myArray1 = myArray[1].split("-");
@@ -31,10 +31,8 @@
         let d1 = myArray1[2] + "/" + myArray1[1] + "/" + myArray1[0];
         let d2 = myArray2[2] + "/" + myArray2[1] + "/" + myArray2[0];
 
-        // console.log(d1+" "+d2);
-
         num_date = (Date.parse(d1) - Date.parse(d2)) / (1000 * 60 * 60 * 24);
-        console.log(num_date);
+
         $("#discount").val(discount);
         $("#priceMenu").val(set_menu_price);
         $("#total_price").val((homestay_price * num_date) + set_menu_price);
@@ -51,27 +49,29 @@
     window.onload = function() {
         const formA = document.getElementById("formA");
         formA.addEventListener('change', (event) => {
-            /////
+
+            //homestay_name
             let checkboxes = document.querySelectorAll('input[name="homestay_name[]"]:checked');
             let output = [];
+            let max_number_guests = 0;
             checkboxes.forEach((checkbox) => {
                 output.push(checkbox.value);
             });
-            // console.log(output);
-
-            const dateRange = document.getElementById("dateRange");
 
             homestay_price = 0;
             for (let i = 0; i <= (output).length - 1; i++) {
                 for (let s = 0; s <= (homestays).length - 1; s++) {
                     if (output[i] == homestays[s].id) {
                         homestay_price += homestays[s].homestay_price;
+                        max_number_guests += homestays[s].number_guests;
                     }
                 }
 
             }
-            // console.log("homestay_price " + homestay_price*num_date);
-            ////
+            const number_guests = document.getElementById('number_guests');
+            number_guests.setAttribute('max', max_number_guests);
+
+            //discount
             discount = 0;
             for (let i = 0; i <= (promotions).length - 1; i++) {
                 if (document.getElementById("promotion").value == promotions[i].id) {
@@ -79,8 +79,8 @@
                     break
                 }
             }
-            // console.log(discount);
-            ///////
+
+            //set_menu_price
             set_menu_price = 0;
             for (let i = 0; i <= (set_menus).length - 1; i++) {
                 if (document.getElementById("set_menus").value == set_menus[i].id) {
@@ -88,7 +88,6 @@
                     break
                 }
             }
-            // console.log(set_menu_price);
 
             $("#discount").val(discount);
             $("#priceMenu").val(set_menu_price);
@@ -102,6 +101,7 @@
             $("#payPrice").val('');
             $("#change").val('');
 
+            //pay type
             $('input[type="radio"]').on('click', function(e) {
                 if (e.target.value == 2) {
                     $("#deposit").val(0);
@@ -117,14 +117,15 @@
             });
         });
 
+        //addEventListener Email Member
         const email = document.getElementById('email');
         const firstName = document.getElementById('firstName');
         const lastName = document.getElementById('lastName');
 
-        var users = <?php echo json_encode($users); ?>;
-        var promotions = <?php echo json_encode($promotions); ?>;
-        var set_menus = <?php echo json_encode($set_menus); ?>;
-        var homestays = <?php echo json_encode($homestays); ?>;
+        var users = @json($users);
+        var promotions = @json($promotions);
+        var set_menus = @json($set_menus);
+        var homestays = @json($homestays);
 
         const inputHandler = function(e) {
             if (isNaN(e.target.value)) {
@@ -158,6 +159,7 @@
         email.addEventListener('input', inputHandler);
         email.addEventListener('propertychange', inputHandler);
 
+        //addEventListener payPrice
         const payPrice = document.getElementById('payPrice');
         const change = document.getElementById('result');
 
@@ -179,6 +181,7 @@
         payPrice.addEventListener('input', inputHandler2);
         payPrice.addEventListener('propertychange', inputHandler2);
 
+        //Set Date Range Picker
         var today = new Date();
         var date = (today.getDate()) + '-' + (today.getMonth() + 1) + '-' + today.getFullYear()
         $('input[name="dateRange"]').daterangepicker({

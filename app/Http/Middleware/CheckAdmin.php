@@ -42,21 +42,9 @@ class CheckAdmin
                 'cWaitReply' => $cWaitReply,
             ]]);
 
-            // $request->session()->put('noti', [
-            //     'cBookings' => $cBookings,
-            //     'cCheckIn' => $cCheckIn,
-            //     'cCheckOut' => $cCheckOut,
-            //     'cWaitConfirm' => $cWaitPay,
-            //     'cWaitcancel' => $cWaitcancel,
-            //     'cWaitReply' => $cWaitReply,
-            // ]);
-
-            // $request->session()->forget('noti');
-            // session()->save();
-
             return $next($request);
         } else {
-            return redirect('/')->with('notAdmin', true);
+            return redirect('/')->with('notAdmin','คุณไม่ใช่ผู้ดูเเลระบบ');
         }
     }
 }

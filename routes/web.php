@@ -48,6 +48,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('/booking-history', "history")->name('booking-history');
         Route::get('/booking-history-details/{id}', "history_details")->name('booking-history-details');
         Route::post('/payment', "payment")->name('payment');
+        Route::post('/cancel-pay-user/{id}', "cancel_pay_user")->name('cancel-pay-user');
     });
     Route::controller(HomestayController::class)->group(function () {
         Route::get('/homestay-details-user/{id}/{date}/{guests}', "homestay_details_user")->name('homestay-details-user');

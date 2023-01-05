@@ -10,7 +10,7 @@
 
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
-<script src="{{ asset('js/print.min.js') }}" defer></script>
+<script src="{{ asset('js/print.min.js') }}"></script>
 
 <link href="{{ asset('css/print.min.css') }}" rel="stylesheet">
 

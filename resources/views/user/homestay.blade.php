@@ -1,6 +1,6 @@
 @extends('layouts.user')
 
-@section('active-homestay', 'active')
+@section('homestay', 'active')
 
 @section('title', 'homestay')
 

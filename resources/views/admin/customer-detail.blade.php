@@ -16,8 +16,8 @@
 @endsection
 
 @section('content')
-    <div class="container bg-white rounded-3 border border-1 shadow-lg">
-        <div class="d-flex justify-content-around">
+    <div class="container card rounded-3 border border-1 shadow-lg mb-4">
+        <div class="d-flex justify-content-around flex-wrap">
             <div class="col-md-3 border-right">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                     @if ($user->image == '')
