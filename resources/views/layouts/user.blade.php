@@ -108,6 +108,21 @@
 
     <!-- Section -->
     <section>
+        <div class="container">
+            {{-- Alert Message --}}
+            @if (Session::has('message'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ Session::get('message') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            @if (Session::has('warning'))
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ Session::get('warning') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+        </div>
         @section('content')
 
         @show
@@ -128,13 +143,13 @@
             <div>
                 <a href="https://www.facebook.com/%E0%B9%82%E0%B8%AE%E0%B8%A1%E0%B8%AA%E0%B9%80%E0%B8%95%E0%B8%A2%E0%B9%8C%E0%B8%95%E0%B8%B2%E0%B8%81%E0%B8%B0%E0%B8%A2%E0%B8%B2%E0%B8%A2-%E0%B8%A0%E0%B8%B9%E0%B8%9C%E0%B8%B2%E0%B8%A1%E0%B9%88%E0%B8%B2%E0%B8%99-101218341803473"
                     target="_bank" class="me-4 text-reset text-decoration-none">
-                    <i class='bx bxl-facebook' ></i>
+                    <i class='bx bxl-facebook'></i>
                 </a>
                 <a href="" class="me-4 text-reset text-decoration-none">
-                    <i class='bx bxl-twitter' ></i>
+                    <i class='bx bxl-twitter'></i>
                 </a>
                 <a href="" class="me-4 text-reset text-decoration-none">
-                    <i class='bx bxl-instagram' ></i>
+                    <i class='bx bxl-instagram'></i>
                 </a>
             </div>
             <!-- Right -->

@@ -55,10 +55,26 @@
 
                                 <div class="col-md-12 mb-2">
                                     <label class="labels">รหัสผ่าน *</label>
-                                    <input id="password" type="password"
-                                        class="form-control @error('password') is-invalid @enderror" name="password"
-                                        required autocomplete="new-password">
-
+                                    <div class="input-group mb-3">
+                                        <input id="password" type="password"
+                                            class="form-control @error('password') is-invalid @enderror" name="password"
+                                            required autocomplete="new-password">
+                                        <span class="input-group-text" style="cursor: pointer" id="toggle-btn"
+                                            onclick="togglePassword()">Show</span>
+                                    </div>
+                                    <script>
+                                        function togglePassword() {
+                                            var passwordInput = document.getElementById("password");
+                                            var toggleBtn = document.getElementById("toggle-btn");
+                                            if (passwordInput.type === "password") {
+                                                passwordInput.type = "text";
+                                                toggleBtn.textContent = "Hide";
+                                            } else {
+                                                passwordInput.type = "password";
+                                                toggleBtn.textContent = "Show";
+                                            }
+                                        }
+                                    </script>
                                     @error('password')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -68,13 +84,31 @@
 
                                 <div class="col-md-12 mb-2">
                                     <label class="labels">ยืนยันรหัสผ่าน *</label>
-                                    <input id="password-confirm" type="password" class="form-control"
-                                        name="password_confirmation" required autocomplete="new-password">
+
+                                    <div class="input-group mb-3">
+                                        <input id="password-confirm" type="password" class="form-control"
+                                            name="password_confirmation" required autocomplete="new-password">
+                                        <span class="input-group-text" style="cursor: pointer" id="toggle-btn2"
+                                            onclick="togglePassword2()">Show</span>
+                                    </div>
+                                    <script>
+                                        function togglePassword2() {
+                                            var passwordConfirm = document.getElementById("password-confirm");
+                                            var toggleBtn2 = document.getElementById("toggle-btn2");
+                                            if (passwordConfirm.type === "password") {
+                                                passwordConfirm.type = "text";
+                                                toggleBtn2.textContent = "Hide";
+                                            } else {
+                                                passwordConfirm.type = "password";
+                                                toggleBtn2.textContent = "Show";
+                                            }
+                                        }
+                                    </script>
                                 </div>
 
                                 <div class="col-md-12">
                                     <button type="submit" class="btn btn-success">
-                                        <i class='bx bx-log-in' ></i> สมัครสมาชิก
+                                        <i class='bx bx-log-in'></i> สมัครสมาชิก
                                     </button>
                                 </div>
                             </div>
@@ -82,11 +116,11 @@
 
 
 
-                            </div>
-                        </form>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 @endsection

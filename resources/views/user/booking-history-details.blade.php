@@ -1,6 +1,6 @@
 @extends('layouts.user')
 
-@section('title', 'Booking History Details')
+@section('title', 'รายละเอียดประวัติการจอง')
 
 @section('booking-history', 'active')
 
@@ -43,8 +43,9 @@
             </div>
         </div>
     </div>
-    <div class="container d-flex justify-content-around flex-row flex-wrap">
-        <div class="col-md-4" style="overflow-y: scroll; height:700px;">
+
+    <div class="container d-flex justify-content-center flex-row flex-wrap">
+        {{-- <div class="col-md-4" style="overflow-y: scroll; height:700px;">
             @foreach ($booking->booking_details as $booking_detail)
                 <div class="card mb-3" style="max-width: 630px; height: 301px;">
                     <div class="row g-0">
@@ -80,9 +81,9 @@
                     </div>
                 </div>
             @endforeach
-        </div>
+        </div> --}}
 
-        <div class="col-md-7 card rounded-3 border border-1 shadow-lg mb-4">
+        <div class="col-md-12 card rounded-3 border border-1 shadow-lg mb-4">
             <div class="card-header">
                 รายละเอียดการจอง
                 @if ($booking->status == 1)
@@ -256,7 +257,28 @@
                         </div>
                     </div>
                 </div>
-                <hr>
+                <div class="mt-4">
+                    @if ($booking->status == 5 || $booking->status == 6 || $booking->status == 3)
+                        <form action="{{ route('cancel-pay-user', $booking->id) }}" method="POST" id="cancel-pay-user">
+                            @csrf
+                        </form>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-del"
+                            onclick="showCanclePay()">
+                            ยกเลิกการจอง
+                        </button>
+                    @endif
+                    <button type="button" class="btn btn-success"
+                        onclick="printJS({ printable: 'history_booking', type: 'html', header: 'ใบรายการจอง', css:'{{ asset('css/app.css') }}', documentTitle:'ใบรายการจอง - {{ config('app.name') }}'})">
+                        <i class='bx bx-printer'></i> ปริ้นใบรายการจอง </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 card rounded-3 border border-1 shadow-lg mb-4">
+            <div class="card-header">
+                รายละเอียดการจ่ายเงิน
+            </div>
+            <div class="card-body" id="silp_pay">
                 @foreach ($booking->payments as $payment)
                     @if ($payment->payment_type == 1 || $payment->payment_type == 4)
                         @if ($payment->payment_type == 1)
@@ -370,33 +392,67 @@
                         </div>
                     @endif
                 @endforeach
-
                 <div class="mt-4">
-                    @if ($booking->status == 5 || $booking->status == 6 || $booking->status == 3)
-                        <form action="{{ route('cancel-pay-user', $booking->id) }}" method="POST" id="cancel-pay-user">
-                            @csrf
-                        </form>
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-del"
-                            onclick="showCanclePay()">
-                            ยกเลิกการจอง
-                        </button>
+                    @if ($booking->status == 2)
+                        <button type="button" class="btn btn-success"
+                            onclick="printJS({ printable: 'silp_pay', type: 'html', header: 'ใบเสร็จ', css:'{{ asset('css/app.css') }}', documentTitle:'ใบรายการจอง - {{ config('app.name') }}'})">
+                            <i class='bx bx-printer'></i> ปริ้นใบเสร็จ </button>
                     @endif
-                    <button type="button" class="btn btn-success"
-                        onclick="printJS({ printable: 'history_booking', type: 'html', header: 'ใบรายการจอง', css:'{{ asset('css/app.css') }}', documentTitle:'ใบรายการจอง - {{ config('app.name') }}'})">
-                        <i class='bx bx-printer'></i> ปริ้นใบรายการจอง </button>
                 </div>
             </div>
         </div>
-
     </div>
 
+    <div class="container">
+        @if ($booking->status == 2)
+            @if ($booking->review == null)
+                <div class="card rounded-3 border border-1 shadow-lg mb-4">
+                    <div class="card-header">
+                        รีวิวการจองของคุณ *
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ route('add-review', $booking->id) }}" method="POST">
+                            @csrf
+                            <div class="mb-3">
+                                <label class="labels">รีวิวการจอง *</label>
+                                <textarea class="form-control" id="review" name="review" rows="3" required></textarea>
+                                <div id="help" class="form-text">รีวิวการจองของคุณ</div>
+                            </div>
+                            <div class="mb-3">
+                                <input type="submit" class="btn btn-success" value="รีวิวการจอง">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            @else
+                <div class="card rounded-3 border border-1 shadow-lg mb-4">
+                    <div class="card-header">
+                        รีวิวการจองของคุณ *
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ route('edit-review', $booking->review->id) }}" method="POST" id="edit_review">
+                            @csrf
+                            <div class="mb-3">
+                                <label class="labels">รีวิวการจอง *</label>
+                                <textarea class="form-control" form="edit_review" id="editReview" name="editReview" rows="3" required>{{ $booking->review->review_detail }}</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="labels">การตอบกลับจากเจ้าของโฮมสเตย์</label>
+                                <textarea class="form-control" form="edit_review" id="reply" name="reply" rows="2" readonly>{{ $booking->review->reply }}</textarea>
+                            </div>
+                        </form>
+                        <form action="{{ route('delete-review', $booking->review->id) }}" method="POST" id="delete_review">
+                            @csrf
+                        </form>
 
-    {{-- <div class="container mb-3">
-        <label for="details" class="form-label">รีวิวการจองของคุณ *</label>
-        <textarea class="form-control" id="details" name="details" rows="3" readonly required>บรรยากาศดี บริการดี  วิวสวย สะอาด  กาแฟอร่อย คาเฟ่สวยน่ารัก แนะนำเลยถ้ามาภูผาม่านต้องมาค่าเฟ่ที่นี้ แต่ส่วนที่พักจองบ้านภูผาม่านราคา1000 ไม่คุ้มเงินเลยบอกเลยไม่คุ้มเงิน จริงๆ ถ้า1000ก็ควรจะทำห้องให้ดีกว่านี้เครื่องทำน้ำอุ่นก็ใช้ไม่ได้
-ทีวีเปิดไม่ติด  ตรงที่ตั้งกาน้ำร้อนก็ไม่มีที่เสียบปลั้กแถมยังมีน้ำในกาเหลือจากคนเก่าที่พักก่อนน่าด้วย ส่วนบ้าน Family house เป็นห้องน้ำรวม แต่ประตูห้องน้ำล็อคไม่ได้เลย  เเนะนำแค่คาเฟ่เท่านั้นเฉพาะคนชอบกินกาแฟถ่ายรูป</textarea>
-        <input type="submit" class="btn btn-success mt-3" value="แก้ใขรีวิวการจอง">
-        <input type="submit" class="btn btn-danger mt-3" value="ลบรีวิวการจอง">
-    </div> --}}
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-success" form="edit_review">แก้ใขรีวิวการจอง</button>
+                            <button type="submit" form="delete_review" class="btn btn-danger">ลบรีวิวการจอง</button>
+                        </div>
 
+                    </div>
+                </div>
+            @endif
+        @endif
+    </div>
 @endsection

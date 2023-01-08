@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Reset Password - Homestay Takayai</title>
+    <title>รีเซ็ตรหัสผ่าน - Homestay Takayai</title>
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Scripts -->
@@ -13,16 +13,8 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-    {{-- <link rel="icon" type="image/svg" href="{{ asset('images/logo.png') }}" /> --}}
+    <link rel="icon" type="image/svg" href="{{ asset('images/Logo.svg') }}" />
 
-    <style>
-        section {
-            height: 80vh;
-            display: flex;
-            align-items: center;
-        }
-
-    </style>
 </head>
 
 <body>
@@ -45,8 +37,7 @@
                     <!-- Menu -->
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <div class="navbar-nav ms-auto">
-                            <a href="{{ route('login') }}"
-                                class="nav-item nav-link @yield('active-login')">เข้าสู่ระบบ</a>
+                            <a href="{{ route('login') }}" class="nav-item nav-link @yield('active-login')">เข้าสู่ระบบ</a>
                             @if (Route::has('register'))
                                 <a href="{{ route('register') }}"
                                     class="nav-item nav-link @yield('active-reg')">สมัครสมาชิก</a>
@@ -60,7 +51,7 @@
         <!-- Header -->
     </div>
 
-    <section>
+    <section class="d-flex align-item-center">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-8">
@@ -74,10 +65,13 @@
                                 <input type="hidden" name="token" value="{{ $token }}">
 
                                 <div class="row mb-3">
-                                    <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('อีเมล') }}</label>
+                                    <label class="labels">อีเมล *</label>
 
-                                    <div class="col-md-6">
-                                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus readonly="readonly">
+                                    <div class="col-md-12">
+                                        <input id="email" type="email"
+                                            class="form-control @error('email') is-invalid @enderror" name="email"
+                                            value="{{ $email ?? old('email') }}" required autocomplete="email"
+                                            autofocus readonly="readonly">
 
                                         @error('email')
                                             <span class="invalid-feedback" role="alert">
@@ -87,30 +81,61 @@
                                     </div>
                                 </div>
 
-                                <div class="row mb-3">
-                                    <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('รหัสผ่าน') }}</label>
-
-                                    <div class="col-md-6">
-                                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                        @error('password')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
+                                <div class="col-md-12 mb-2">
+                                    <label class="labels">รหัสผ่าน *</label>
+                                    <div class="input-group mb-3">
+                                        <input id="password" type="password"
+                                            class="form-control @error('password') is-invalid @enderror" name="password"
+                                            required autocomplete="new-password">
+                                        <span class="input-group-text" style="cursor: pointer" id="toggle-btn"
+                                            onclick="togglePassword()">Show</span>
                                     </div>
+                                    <script>
+                                        function togglePassword() {
+                                            var passwordInput = document.getElementById("password");
+                                            var toggleBtn = document.getElementById("toggle-btn");
+                                            if (passwordInput.type === "password") {
+                                                passwordInput.type = "text";
+                                                toggleBtn.textContent = "Hide";
+                                            } else {
+                                                passwordInput.type = "password";
+                                                toggleBtn.textContent = "Show";
+                                            }
+                                        }
+                                    </script>
+                                    @error('password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
 
-                                <div class="row mb-3">
-                                    <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('ยืนยันรหัสผ่าน') }}</label>
+                                <div class="col-md-12 mb-2">
+                                    <label class="labels">ยืนยันรหัสผ่าน *</label>
 
-                                    <div class="col-md-6">
-                                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                    <div class="input-group mb-3">
+                                        <input id="password-confirm" type="password" class="form-control"
+                                            name="password_confirmation" required autocomplete="new-password">
+                                        <span class="input-group-text" style="cursor: pointer" id="toggle-btn2"
+                                            onclick="togglePassword2()">Show</span>
                                     </div>
+                                    <script>
+                                        function togglePassword2() {
+                                            var passwordConfirm = document.getElementById("password-confirm");
+                                            var toggleBtn2 = document.getElementById("toggle-btn2");
+                                            if (passwordConfirm.type === "password") {
+                                                passwordConfirm.type = "text";
+                                                toggleBtn2.textContent = "Hide";
+                                            } else {
+                                                passwordConfirm.type = "password";
+                                                toggleBtn2.textContent = "Show";
+                                            }
+                                        }
+                                    </script>
                                 </div>
 
                                 <div class="row mb-0">
-                                    <div class="col-md-6 offset-md-4">
+                                    <div>
                                         <button type="submit" class="btn btn-success">
                                             {{ __('รีเซ็ตรหัสผ่าน') }}
                                         </button>

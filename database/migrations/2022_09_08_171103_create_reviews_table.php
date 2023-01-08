@@ -16,7 +16,7 @@ class CreateReviewsTable extends Migration
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
             $table->foreignId('booking_id')->references('id')->on('bookings')->onDelete('cascade');
-            $table->string('booking_detail');
+            $table->string('review_detail');
             $table->char('review_type',1);
             $table->string('reply')->nullable();
             $table->string('reply_by')->nullable();

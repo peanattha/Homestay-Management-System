@@ -40,9 +40,9 @@ class booking extends Model
 
     public function review()
     {
-        return $this->hasOne(booking::class,'booking_id','id');
+        return $this->hasOne(review::class,'booking_id','id');
     }
-    
+
     public function promotion()
     {
         return $this->belongsTo(promotion::class)->withTrashed();

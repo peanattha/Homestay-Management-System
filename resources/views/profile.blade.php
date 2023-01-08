@@ -1,6 +1,6 @@
 @extends('layouts.user')
 
-@section('title', 'Profile')
+@section('title', 'โปรไฟล์')
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
@@ -23,19 +23,6 @@
 
 @section('content')
     <div class="container">
-        {{-- Alert Message --}}
-        @if (Session::has('message'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ Session::get('message') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-        @if (Session::has('warning'))
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                {{ Session::get('warning') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
         {{-- Model Delete Account --}}
         <div class="modal fade" id="modal-del" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
@@ -168,21 +155,73 @@
                     <div class="row mt-3">
                         <div class="col-md-12 mb-2">
                             <label class="labels">รหัสผ่านปัจจุบัน *</label>
-                            <input type="password" name="current-password" placeholder="รหัสผ่านปัจจุบัน"
-                                class="form-control" required value="">
+                            <div class="input-group">
+                                <input type="password" name="current-password" id="current-password"
+                                    placeholder="รหัสผ่านปัจจุบัน" class="form-control" required value="">
+                                <span class="input-group-text" style="cursor: pointer" id="toggle-btn"
+                                    onclick="togglePassword()">Show</span>
+                            </div>
+                            <script>
+                                function togglePassword() {
+                                    var currentPassword = document.getElementById("current-password");
+                                    var toggleBtn = document.getElementById("toggle-btn");
+                                    if (currentPassword.type === "password") {
+                                        currentPassword.type = "text";
+                                        toggleBtn.textContent = "Hide";
+                                    } else {
+                                        currentPassword.type = "password";
+                                        toggleBtn.textContent = "Show";
+                                    }
+                                }
+                            </script>
                         </div>
                         <div class="col-md-12 mb-2">
                             <label class="labels">รหัสผ่านใหม่ *</label>
-                            <input type="password" name="new-password" placeholder="รหัสผ่านใหม่" class="form-control"
-                                required value="">
+                            <div class="input-group">
+                                <input type="password" name="new-password" id="new-password" placeholder="รหัสผ่านใหม่"
+                                    class="form-control" required value="">
+                                <span class="input-group-text" style="cursor: pointer" id="toggle-btn2"
+                                    onclick="togglePassword2()">Show</span>
+                            </div>
+                            <script>
+                                function togglePassword2() {
+                                    var newPassword = document.getElementById("new-password");
+                                    var toggleBtn2 = document.getElementById("toggle-btn2");
+                                    if (newPassword.type === "password") {
+                                        newPassword.type = "text";
+                                        toggleBtn2.textContent = "Hide";
+                                    } else {
+                                        newPassword.type = "password";
+                                        toggleBtn2.textContent = "Show";
+                                    }
+                                }
+                            </script>
                         </div>
                         <div class="col-md-12">
                             <label class="labels">ยืนยันรหัสผ่านใหม่ *</label>
-                            <input type="password" name="new-password-confirm" placeholder="ยืนยันรหัสผ่านใหม่" required
+
+                            <div class="input-group">
+                                <input type="password" name="new-password-confirm" id="new-password-confirm" placeholder="ยืนยันรหัสผ่านใหม่" required
                                 class="form-control" value="">
+                                <span class="input-group-text" style="cursor: pointer" id="toggle-btn3"
+                                    onclick="togglePassword3()">Show</span>
+                            </div>
+                            <script>
+                                function togglePassword3() {
+                                    var newPasswordConfirm = document.getElementById("new-password-confirm");
+                                    var toggleBtn3 = document.getElementById("toggle-btn3");
+                                    if (newPasswordConfirm.type === "password") {
+                                        newPasswordConfirm.type = "text";
+                                        toggleBtn3.textContent = "Hide";
+                                    } else {
+                                        newPasswordConfirm.type = "password";
+                                        toggleBtn3.textContent = "Show";
+                                    }
+                                }
+                            </script>
                         </div>
                     </div>
-                    <div class="mt-5">
+                    <div class="mt-3">
                         <button class="btn btn-success" type="submit">แก้ใขรหัสผ่าน</button>
                     </div>
                 </form>

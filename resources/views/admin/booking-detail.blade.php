@@ -28,6 +28,9 @@
     <button type="button" class="btn btn-success"
         onclick="printJS({ printable: 'form_edit_booking', type: 'html', header: 'ใบรายการจอง', css:'{{ asset('css/app.css') }}', documentTitle:'ใบรายการจอง - {{ config('app.name') }}'})">
         <i class='bx bx-printer'></i> ปริ้นใบรายการจอง </button>
+    <button type="button" class="btn btn-success"
+        onclick="printJS({ printable: 'form_slip_pay', type: 'html', header: 'ใบเสร็จ', css:'{{ asset('css/app.css') }}', documentTitle:'ใบรายการจอง - {{ config('app.name') }}'})">
+        <i class='bx bx-printer'></i> ปริ้นใบเสร็จ </button>
     <div class="card rounded-3 border border-1 shadow-lg mt-4 mb-4">
         <div class="card-header">
             รายละเอียดการจอง
@@ -223,7 +226,7 @@
         <div class="card-header">
             รายละเอียดการจ่ายเงิน
         </div>
-        <div class="card-body">
+        <div class="card-body" id="form_slip_pay">
             <div class="row mt-2">
                 <div class="col-md-3">
                     <label class="labels">ราคาทั้งหมด *</label>

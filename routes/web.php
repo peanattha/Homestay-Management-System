@@ -54,6 +54,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('/homestay-details-user/{id}/{date}/{guests}', "homestay_details_user")->name('homestay-details-user');
         Route::post('/search-homestay', "search_homestay")->name('search-homestay');
     });
+    Route::controller(ReviewController::class)->group(function () {
+        Route::post('/delete-review/{id}', "delete_review")->name('delete-review');
+        Route::post('/edit-review/{id}', "edit_review")->name('edit-review');
+        Route::post('/add-review/{id}', "add_review")->name('add-review');
+    });
 });
 
 // Admin
