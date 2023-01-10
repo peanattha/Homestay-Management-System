@@ -30,7 +30,7 @@
             <!-- Header -->
             <header>
                 <nav class="container navbar navbar-expand-lg navbar-light py-3">
-                    <div class="container-fluid">
+                    <div class="container-fluid p-0">
                         <!-- Logo -->
                         <a href="{{ route('home') }}" class="d-flex align-items-center text-dark text-decoration-none">
                             <span class="fs-4">{{ config('app.name') }}</span>
@@ -74,7 +74,7 @@
             <!-- Header -->
             <header>
                 <nav class="container navbar navbar-expand-lg navbar-light py-3">
-                    <div class="container-fluid">
+                    <div class="container-fluid p-0">
                         <!-- Logo -->
                         <a href="{{ route('home') }}" class="d-flex align-items-center text-dark text-decoration-none">
                             <span class="fs-4">{{ config('app.name') }}</span>
@@ -108,6 +108,11 @@
 
     <!-- Section -->
     <section>
+        <div class="container">
+            @section('page-name')
+
+            @show
+        </div>
         <div class="container">
             {{-- Alert Message --}}
             @if (Session::has('message'))

@@ -18,6 +18,9 @@ class homestayController extends Controller
     {
         $this->middleware('auth');
     }
+
+    //Admin
+
     public function manage_homestay()
     {
         $homestay_types = homestay_type::all();
@@ -193,16 +196,18 @@ class homestayController extends Controller
             }
         }
         $bookings = booking::all();
-        return view('admin.homestay-admin', compact('homestays','bookings'));
+        return view('admin.homestay-admin', compact('homestays', 'bookings'));
     }
 
-    /////////////////////////////
+    //User
 
     public function homestay_details_user($id, $date, $guests)
     {
         $details = homestay::find($id);
         return view('user.homestay-details', compact('details', 'date', 'guests'));
     }
+
+    //ตรวจสอบ10/1/66
     public function search_homestay(Request $request)
     {
         $dateRange = $request->dateRange;
@@ -216,45 +221,34 @@ class homestayController extends Controller
         //เข้า อยู่ระหว่าง
         //ออก อยู่ระหว่าง
 
-        $booking_infos = DB::table('bookings')
-            ->select('id')
+        $homestay_ids = DB::table('bookings')
+            ->select('booking_details.homestay_id')
+            ->join('booking_details', 'bookings.id', '=', 'booking_details.booking_id')
             ->where(function ($query) use ($start_date, $end_date) {
-                $query->where('start_date', $start_date)
-                    ->Where('end_date', $end_date);
+                $query->where('bookings.start_date', $start_date)
+                    ->Where('bookings.end_date', $end_date);
             })->orWhere(function ($query) use ($start_date, $end_date) {
-                $query->where('start_date', '>', $start_date)
-                    ->Where('end_date', '<', $end_date);
+                $query->where('bookings.start_date', '>=', $start_date)
+                    ->Where('bookings.end_date', '<=', $end_date);
             })->orWhere(function ($query) use ($start_date, $end_date) {
-                $query->where('start_date', '<', $start_date)
-                    ->Where('end_date', '>', $end_date);
+                $query->where('bookings.start_date', '<', $start_date)
+                    ->Where('bookings.end_date', '>', $end_date);
             })->orWhere(function ($query) use ($start_date, $end_date) {
-                $query->whereBetween('start_date', [$start_date, $end_date])
-                    ->Where('end_date', '>', $end_date);
+                $query
+                    ->Where('bookings.start_date', '>=', $start_date)
+                    ->Where('bookings.start_date', '<', $end_date)
+                    ->Where('bookings.end_date', '>=', $end_date);
             })->orWhere(function ($query) use ($start_date, $end_date) {
-                $query->where('start_date', '<', $start_date)
-                    ->whereBetween('end_date', [$start_date, $end_date]);
+                $query->where('bookings.start_date', '<=', $end_date)
+                    ->Where('bookings.end_date', '>', $start_date)
+                    ->Where('bookings.end_date', '<=', $end_date);
             })->get();
 
-        $answers = collect([]);
+            $data = json_decode($homestay_ids);
+            $homestay_ids = array_column($data, 'homestay_id');
 
-        foreach ($booking_infos as $info) {
-            $booking_details = booking_detail::where('booking_id', $info->id)->get();
-            foreach ($booking_details as $booking_detail) {
-                $answers->push($booking_detail->homestay_id);
-            }
-        }
+            $homestays = Homestay::whereNotIn('id', $homestay_ids)->get();
 
-        $homestays = DB::table('homestays')->whereNotIn('id', $answers)->get();
-
-        $number_guests = $request->number_guests;
-        if (isset($request->number_guests)) {
-            $homestays = DB::table('homestays')
-                ->whereNotIn('id', $answers)
-                ->where('number_guests', '>=', $number_guests)
-                ->get();
-        }
-
-        $homestay_types = homestay_type::all();
-        return view('user.homestay', compact('homestays', 'homestay_types', 'dateRange', 'number_guests'));
+        return view('user.homestay', compact('homestays', 'dateRange'));
     }
 }

@@ -78,7 +78,7 @@ td {
 }
 .table100-body {
     height: 100vh;
-    max-height: 585px;
+    max-height: 485px;
     overflow: auto;
 }
 .table100.ver2 .table100-head {

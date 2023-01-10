@@ -21,6 +21,15 @@
     }
 </script>
 
+@section('page-name')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a href="{{ route('home') }}">หน้าหลัก</a></li>
+            <li class="breadcrumb-item active" aria-current="page">โปรไฟล์</li>
+        </ol>
+    </nav>
+@endsection
+
 @section('content')
     <div class="container">
         {{-- Model Delete Account --}}
@@ -39,7 +48,7 @@
                 </div>
             </div>
         </div>
-        <div class="container card rounded-3 border border-1 shadow-lg mb-4">
+        <div class="container card rounded-3 border border-1 shadow-lg mb-4 mt-4">
             <div class="d-flex justify-content-around flex-wrap">
                 <div class="col-md-3 border-right">
                     <div class="d-flex flex-column align-items-center text-center p-3 py-5">

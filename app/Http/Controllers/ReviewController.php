@@ -23,14 +23,24 @@ class ReviewController extends Controller
 
     public function edit_review($id, Request $request)
     {
+        $emoji_pattern = "\x{1F100}-\x{1F1FF}" // Enclosed Alphanumeric Supplement
+        ."\x{1F300}-\x{1F5FF}" // Miscellaneous Symbols and Pictographs
+        ."\x{1F600}-\x{1F64F}" //Emoticons
+        ."\x{1F680}-\x{1F6FF}" // Transport And Map Symbols
+        ."\x{1F900}-\x{1F9FF}" // Supplemental Symbols and Pictographs
+        ."\x{2600}-\x{26FF}" // Miscellaneous Symbols
+        ."\x{2700}-\x{27BF}"; // Dingbats
+        $string_without_emojis = preg_replace('/['. $emoji_pattern . ']+/u', '', $request->editReview);
+
         $response = Http::asForm()->withHeaders([
             'Apikey' => 'QpeThh9VSvLIr0UVyQWP5NXjchaCZMWP',
             'Content-Type' => 'application/json'
         ])->post('https://api.aiforthai.in.th/ssense', [
-            'text' => $request->editReview
+            'text' => $string_without_emojis
         ]);
 
         $polarity = $response->json()['sentiment']['polarity'];
+
         $update_review = review::find($id);
         if ($polarity == 'positive') {
             $update_review->review_type = 1;
@@ -45,11 +55,20 @@ class ReviewController extends Controller
     }
     public function add_review($id, Request $request)
     {
+        $emoji_pattern = "\x{1F100}-\x{1F1FF}" // Enclosed Alphanumeric Supplement
+        ."\x{1F300}-\x{1F5FF}" // Miscellaneous Symbols and Pictographs
+        ."\x{1F600}-\x{1F64F}" //Emoticons
+        ."\x{1F680}-\x{1F6FF}" // Transport And Map Symbols
+        ."\x{1F900}-\x{1F9FF}" // Supplemental Symbols and Pictographs
+        ."\x{2600}-\x{26FF}" // Miscellaneous Symbols
+        ."\x{2700}-\x{27BF}"; // Dingbats
+        $string_without_emojis = preg_replace('/['. $emoji_pattern . ']+/u', '', $request->review);
+
         $response = Http::asForm()->withHeaders([
             'Apikey' => 'QpeThh9VSvLIr0UVyQWP5NXjchaCZMWP',
             'Content-Type' => 'application/json'
         ])->post('https://api.aiforthai.in.th/ssense', [
-            'text' => $request->review
+            'text' => $string_without_emojis
         ]);
 
         $polarity = $response->json()['sentiment']['polarity'];

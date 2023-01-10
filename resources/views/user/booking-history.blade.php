@@ -4,8 +4,17 @@
 
 @section('booking-history', 'active')
 
+@section('page-name')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a href="{{ route('home') }}">หน้าหลัก</a></li>
+            <li class="breadcrumb-item active" aria-current="page">ประวัติการจอง</li>
+        </ol>
+    </nav>
+@endsection
+
 @section('content')
-    <div class="container">
+    <div class="container mt-4">
         @if ($bookings->count() == 0)
             <div class="d-flex justify-content-center align-items-center h-50">
                 <p>คุณยังไม่มีประวัติการจอง. <a href="{{ route('homestay') }}">จองเลย !!</a></p>

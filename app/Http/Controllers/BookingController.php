@@ -38,7 +38,7 @@ class BookingController extends Controller
         $booking = booking::find($id);
         $homestays = homestay::all();
         $promotions = promotion::all();
-        return view('user.booking-history-details',compact('booking', 'homestays','promotions'));
+        return view('user.booking-history-details', compact('booking', 'homestays', 'promotions'));
     }
     public function cancel_pay_user($id)
     {
@@ -568,6 +568,7 @@ class BookingController extends Controller
                     ->whereIn('booking_details.homestay_id', $homestay_id);
             })->get();
 
+        //เช็ค==0 ไม่มีการจองซ้ำในdatabase
         if (count($booking_infos) == 0) {
             if (isset($request->email)) {
                 $user_id = user::select('id')->where('email', $request->email)->get();

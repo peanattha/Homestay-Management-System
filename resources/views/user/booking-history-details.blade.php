@@ -27,6 +27,17 @@
         document.getElementById("cancel-pay-user").submit();
     }
 </script>
+
+@section('page-name')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a href="{{ route('home') }}">หน้าหลัก</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('booking-history') }}">ประวัติการจอง</a></li>
+            <li class="breadcrumb-item active" aria-current="page">รายละอียดประวัติการจอง</li>
+        </ol>
+    </nav>
+@endsection
+
 @section('content')
     <div class="modal fade" id="modal-cancle-pay" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -44,7 +55,7 @@
         </div>
     </div>
 
-    <div class="container d-flex justify-content-center flex-row flex-wrap">
+    <div class="container d-flex justify-content-center flex-row flex-wrap mt-4">
         {{-- <div class="col-md-4" style="overflow-y: scroll; height:700px;">
             @foreach ($booking->booking_details as $booking_detail)
                 <div class="card mb-3" style="max-width: 630px; height: 301px;">
