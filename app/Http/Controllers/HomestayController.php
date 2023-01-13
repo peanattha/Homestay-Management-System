@@ -9,6 +9,7 @@ use App\Models\homestay;
 use Illuminate\Support\Facades\DB;
 use App\Models\booking;
 use App\Models\booking_detail;
+use App\Models\review;
 use App\Models\set_menu;
 
 class homestayController extends Controller
@@ -201,10 +202,15 @@ class homestayController extends Controller
 
     //User
 
-    public function homestay_details_user($id, $date, $guests)
+    public function homestay_details_user($id)
     {
         $details = homestay::find($id);
-        return view('user.homestay-details', compact('details', 'date', 'guests'));
+
+        $booking_ids = booking_detail::select('booking_id')->where('homestay_id',$id)->get();
+
+        $reviews = review::whereIn('booking_id', $booking_ids)->get();
+
+        return view('user.homestay-details', compact('details','reviews'));
     }
 
     //ตรวจสอบ10/1/66
@@ -244,11 +250,15 @@ class homestayController extends Controller
                     ->Where('bookings.end_date', '<=', $end_date);
             })->get();
 
-            $data = json_decode($homestay_ids);
-            $homestay_ids = array_column($data, 'homestay_id');
+        $data = json_decode($homestay_ids);
+        $homestay_ids = array_column($data, 'homestay_id');
 
-            $homestays = Homestay::whereNotIn('id', $homestay_ids)->get();
+        $homestays = Homestay::whereNotIn('id', $homestay_ids)->get();
 
-        return view('user.homestay', compact('homestays', 'dateRange'));
+        if (count($homestays) != 0) {
+            return view('user.homestay', compact('homestays', 'dateRange'));
+        } else {
+            return redirect()->route('homestay')->with('danger', "ไม่มีที่พักว่าง");
+        }
     }
 }

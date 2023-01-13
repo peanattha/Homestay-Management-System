@@ -42,8 +42,8 @@
             </div>
         </div>
     </div>
-    <div class="container rounded bg-white">
-        <div class="d-flex justify-content-around">
+    <div class="container card rounded-3 border border-1 shadow-lg mb-4 mt-4">
+        <div class="d-flex justify-content-around flex-wrap">
             <div class="col-md-3 border-right">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                     @if ($user->image == '')
@@ -125,79 +125,123 @@
             </div>
         </div>
     </div>
-    <div class="container rounded bg-white mt-5">
-        <div class="row">
-            <div class="col-md-5">
-                <div class="p-3 py-5">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h4 class="text-right">เเก้ใขรหัสผ่าน</h4>
-                    </div>
-                    @if (Session::has('error'))
-                        <div class="alert alert-danger alert-dismissible fade show">
-                            {{ Session::get('error') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                aria-label="Close"></button>
-                        </div>
-                    @endif
-                    @if (Session::has('success'))
-                        <div class="alert alert-success alert-dismissible fade show">
-                            {{ Session::get('success') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                aria-label="Close"></button>
-                        </div>
-                    @endif
-                    @if ($errors)
-                        @foreach ($errors->all() as $error)
-                            <div class="alert alert-danger alert-dismissible fade show">
-                                {{ $error }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                    aria-label="Close"></button>
-                            </div>
-                        @endforeach
-                    @endif
-                    <form action="{{ route('change-password') }}" method="POST">
-                        @csrf
-                        <div class="row mt-3">
-                            <div class="col-md-12 mb-2">
-                                <label class="labels">รหัสผ่านปัจจุบัน *</label>
-                                <input type="password" name="current-password" placeholder="รหัสผ่านปัจจุบัน"
-                                    class="form-control" required value="">
-                            </div>
-                            <div class="col-md-12 mb-2">
-                                <label class="labels">รหัสผ่านใหม่ *</label>
-                                <input type="password" name="new-password" placeholder="รหัสผ่านใหม่"
-                                    class="form-control" required value="">
-                            </div>
-                            <div class="col-md-12">
-                                <label class="labels">ยืนยันรหัสผ่านใหม่ *</label>
-                                <input type="password" name="new-password-confirm" placeholder="ยืนยันรหัสผ่านใหม่"
-                                    required class="form-control" value="">
-                            </div>
-                        </div>
-                        <div class="mt-5">
-                            <button class="btn btn-success" type="submit">แก้ใขรหัสผ่าน</button>
-                        </div>
-                    </form>
-                </div>
+    <div class="container card rounded-3 border border-1 shadow-lg mb-4">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="text-right">เเก้ใขรหัสผ่าน</h4>
             </div>
+            @if (Session::has('error'))
+                <div class="alert alert-danger alert-dismissible fade show">
+                    {{ Session::get('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            @if (Session::has('success'))
+                <div class="alert alert-success alert-dismissible fade show">
+                    {{ Session::get('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            @if ($errors)
+                @foreach ($errors->all() as $error)
+                    <div class="alert alert-danger alert-dismissible fade show">
+                        {{ $error }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endforeach
+            @endif
+            <form action="{{ route('change-password') }}" method="POST">
+                @csrf
+                <div class="row mt-3">
+                    <div class="col-md-12 mb-2">
+                        <label class="labels">รหัสผ่านปัจจุบัน *</label>
+                        <div class="input-group">
+                            <input type="password" name="current-password" id="current-password"
+                                placeholder="รหัสผ่านปัจจุบัน" class="form-control" required value="">
+                            <span class="input-group-text" style="cursor: pointer" id="toggle-btn"
+                                onclick="togglePassword()">Show</span>
+                        </div>
+                        <script>
+                            function togglePassword() {
+                                var currentPassword = document.getElementById("current-password");
+                                var toggleBtn = document.getElementById("toggle-btn");
+                                if (currentPassword.type === "password") {
+                                    currentPassword.type = "text";
+                                    toggleBtn.textContent = "Hide";
+                                } else {
+                                    currentPassword.type = "password";
+                                    toggleBtn.textContent = "Show";
+                                }
+                            }
+                        </script>
+                    </div>
+                    <div class="col-md-12 mb-2">
+                        <label class="labels">รหัสผ่านใหม่ *</label>
+                        <div class="input-group">
+                            <input type="password" name="new-password" id="new-password" placeholder="รหัสผ่านใหม่"
+                                class="form-control" required value="">
+                            <span class="input-group-text" style="cursor: pointer" id="toggle-btn2"
+                                onclick="togglePassword2()">Show</span>
+                        </div>
+                        <script>
+                            function togglePassword2() {
+                                var newPassword = document.getElementById("new-password");
+                                var toggleBtn2 = document.getElementById("toggle-btn2");
+                                if (newPassword.type === "password") {
+                                    newPassword.type = "text";
+                                    toggleBtn2.textContent = "Hide";
+                                } else {
+                                    newPassword.type = "password";
+                                    toggleBtn2.textContent = "Show";
+                                }
+                            }
+                        </script>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="labels">ยืนยันรหัสผ่านใหม่ *</label>
+
+                        <div class="input-group">
+                            <input type="password" name="new-password-confirm" id="new-password-confirm"
+                                placeholder="ยืนยันรหัสผ่านใหม่" required class="form-control" value="">
+                            <span class="input-group-text" style="cursor: pointer" id="toggle-btn3"
+                                onclick="togglePassword3()">Show</span>
+                        </div>
+                        <script>
+                            function togglePassword3() {
+                                var newPasswordConfirm = document.getElementById("new-password-confirm");
+                                var toggleBtn3 = document.getElementById("toggle-btn3");
+                                if (newPasswordConfirm.type === "password") {
+                                    newPasswordConfirm.type = "text";
+                                    toggleBtn3.textContent = "Hide";
+                                } else {
+                                    newPasswordConfirm.type = "password";
+                                    toggleBtn3.textContent = "Show";
+                                }
+                            }
+                        </script>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <button class="btn btn-success" type="submit">แก้ใขรหัสผ่าน</button>
+                </div>
+            </form>
         </div>
     </div>
-    <div class="container rounded bg-white mt-5 mb-5">
-        <div class="row">
-            <div class="col-md-5">
-                <div class="p-3 py-5">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h4 class="text-right">ลบบัญชี</h4>
-                    </div>
-                    <form action="{{ route('delete-account') }}" method="POST" id="del-account">
-                        @csrf
-                        <div class="mt-5">
-                            <button type="button" onclick="showModelDel('{{ $user->email }}')"
-                                class="btn btn-danger">ลบบัญชี</button>
-                        </div>
-                    </form>
-                </div>
+    <div class="container card rounded-3 border border-1 shadow-lg mb-4">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+                <h4 class="text-right">ลบบัญชี</h4>
             </div>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa deserunt sint expedita blanditiis
+                eligendi officiis labore soluta optio sapiente tenetur nobis, et iste quia inventore in velit quasi
+                facere dolorum numquam. Corrupti illum quam, delectus qui, placeat reiciendis, nemo quaerat ipsam
+                consectetur nobis beatae quos nisi rerum optio quibusdam sit?</p>
+            <form action="{{ route('delete-account') }}" method="POST" id="del-account" class="m-0">
+                @csrf
+                <button type="button" onclick="showModelDel('{{ $user->email }}')"
+                    class="btn btn-danger">ลบบัญชี</button>
+            </form>
         </div>
+    </div>
     </div>
 @endsection

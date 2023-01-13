@@ -47,11 +47,12 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::controller(BookingController::class)->group(function () {
         Route::get('/booking-history', "history")->name('booking-history');
         Route::get('/booking-history-details/{id}', "history_details")->name('booking-history-details');
+        Route::post('/booking-user', "booking_user")->name('booking-user');
         Route::post('/payment', "payment")->name('payment');
         Route::post('/cancel-pay-user/{id}', "cancel_pay_user")->name('cancel-pay-user');
     });
     Route::controller(HomestayController::class)->group(function () {
-        Route::get('/homestay-details-user/{id}/{date}/{guests}', "homestay_details_user")->name('homestay-details-user');
+        Route::get('/homestay-details-user/{id}', "homestay_details_user")->name('homestay-details-user');
         Route::post('/search-homestay', "search_homestay")->name('search-homestay');
     });
     Route::controller(ReviewController::class)->group(function () {

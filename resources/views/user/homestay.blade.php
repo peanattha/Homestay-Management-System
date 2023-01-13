@@ -86,16 +86,22 @@
                 <div class="table100-body js-pscroll">
                     <table>
                         <tbody>
-                            <form action="#" method="POST">
+                            <form action="{{ route('booking-user') }}" method="POST" id="homestay_booking">
+                                @csrf
+                                <input type="text" name="dateRange" value="{{ $valueDate }}" class="d-none"
+                                    required />
                                 @foreach ($homestays as $homestay)
                                     <tr>
                                         <td style="width: 5%">{{ $loop->iteration }}</td>
                                         <td style="width: 20%">{{ $homestay->homestay_name }}</td>
                                         <td style="width: 10%">{{ $homestay->number_guests }}</td>
-                                        <td style="width: 20%"><a href="#" class="btn btn-primary">รายละเอียด</a></td>
+                                        <td style="width: 20%"><a href="{{ route('homestay-details-user', $homestay->id) }}"
+                                                class="btn btn-primary">รายละเอียด</a></td>
                                         <td style="width: 15%">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="hId{{ $homestay->id }}" name="homestay_id[]">
+                                                <input type="checkbox" class="custom-control-input"
+                                                    id="hId{{ $homestay->id }}" value="{{ $homestay->id }}"
+                                                    name="homestay_id[]">
                                             </div>
                                         </td>
                                     </tr>
@@ -104,8 +110,20 @@
                         </tbody>
                     </table>
                 </div>
+                <hr class="mb-0">
+                <input type="submit" form="homestay_booking" id="submit-button" class="btn btn-success m-2"
+                    value="จองบ้านพัก" disabled>
             </div>
         @endif
-    </div>
+        <script>
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const submitButton = document.querySelector('#submit-button');
 
+            function checkCheckboxes() {
+                let checkedOne = Array.from(checkboxes).some(checkbox => checkbox.checked);
+                submitButton.disabled = !checkedOne;
+            }
+            checkboxes.forEach(checkbox => checkbox.addEventListener('change', checkCheckboxes));
+        </script>
+    </div>
 @endsection

@@ -48,6 +48,12 @@ class BookingController extends Controller
 
         return redirect()->back()->with('message', "ยกเลิกการจองเสร็จสิ้น รอกการยืนยันจากเจ้าของโฮมสเตย์");
     }
+    public function booking_user(Request $request)
+    {
+        $homestays = homestay::whereIn('id',$request->homestay_id)->get();
+        $dateRange = $request->dateRange;
+        return view('user.booking-user', compact('homestays', 'dateRange'));
+    }
     // Admin
     public function calendar_booking()
     {

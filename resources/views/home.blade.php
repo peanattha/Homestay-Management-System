@@ -32,7 +32,6 @@
         </div>
     </div>
     <div class="wallpaper-home mb-4">
-        {{-- <img src="{{ asset('images/wallpaper (3).jpg') }}" class="imgHome"> --}}
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
