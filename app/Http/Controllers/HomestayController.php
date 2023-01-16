@@ -253,7 +253,7 @@ class homestayController extends Controller
         $data = json_decode($homestay_ids);
         $homestay_ids = array_column($data, 'homestay_id');
 
-        $homestays = Homestay::whereNotIn('id', $homestay_ids)->get();
+        $homestays = Homestay::whereNotIn('id', $homestay_ids)->where('status',1)->get();
 
         if (count($homestays) != 0) {
             return view('user.homestay', compact('homestays', 'dateRange'));

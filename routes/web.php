@@ -48,6 +48,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('/booking-history', "history")->name('booking-history');
         Route::get('/booking-history-details/{id}', "history_details")->name('booking-history-details');
         Route::post('/booking-user', "booking_user")->name('booking-user');
+        Route::post('/add-booking-user', "add_booking_user")->name('add-booking-user');
+        Route::get('/show-payment/{id}', "show_payment")->name('show-payment');
         Route::post('/payment', "payment")->name('payment');
         Route::post('/cancel-pay-user/{id}', "cancel_pay_user")->name('cancel-pay-user');
     });

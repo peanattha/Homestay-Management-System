@@ -116,19 +116,19 @@
         <div class="container">
             {{-- Alert Message --}}
             @if (Session::has('message'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
                     {{ Session::get('message') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
             @if (Session::has('warning'))
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <div class="alert alert-warning alert-dismissible fade show mt-4" role="alert">
                     {{ Session::get('warning') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
             @if (Session::has('danger'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
                     {{ Session::get('danger') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
@@ -290,7 +290,7 @@
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
     </script>
-    
+
     <a href="#" id="toTopBtn" class="cd-top text-replace rounded-3"></a>
 
 </body>

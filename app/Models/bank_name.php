@@ -15,6 +15,6 @@ class bank_name extends Model
 
     public function bank_admin()
     {
-        return $this->belongsTo(bank_admin::class)->withTrashed();
+        return $this->hasOne(bank_name::class,'bank_name_id','id');
     }
 }

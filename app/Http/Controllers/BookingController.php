@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\appliance;
+use App\Models\bank_admin;
 use App\Models\booking;
 use App\Models\booking_detail;
 use App\Models\homestay;
@@ -28,11 +29,86 @@ class BookingController extends Controller
         $bookings = booking::where('user_id', Auth::user()->id)->paginate(5);
         return view('user.booking-history', compact('bookings'));
     }
+    public function add_booking_user(Request $request)
+    {
+        $add_booking = new booking;
+        $add_booking->user_id =  Auth::user()->id;
+        if ($request->promotion != 0) {
+            $add_booking->promotion_id = $request->promotion;
+        }
+        $add_booking->set_menu_id = $request->set_menu;
+        $add_booking->num_menu = $request->num_menu;
+        $add_booking->booking_type = 1;  //ลูกค้าจอง
+
+        $dateArr = explode(" - ", $request->dateRange);
+        $start_date = date('Y-m-d', strtotime($dateArr[0]));
+        $end_date = date('Y-m-d', strtotime($dateArr[1]));
+
+        $add_booking->start_date = $start_date;
+        $add_booking->end_date = $end_date;
+        $add_booking->number_guests = $request->number_guests;
+        $add_booking->total_price = $request->total_price;
+        $add_booking->total_price_discount = $request->total_price_discount;
+        $add_booking->deposit = $request->deposit;
+        $add_booking->status = 5; //รอชำระเงิน
+        $add_booking->save();
+
+        if (count($request->homestay_name) > 1) {
+            foreach ($request->homestay_name as $homestay_id) {
+                $add_booking_detail = new booking_detail;
+                $add_booking_detail->booking_id = $add_booking->id;
+                $add_booking_detail->homestay_id = $homestay_id;
+                $add_booking_detail->save();
+            }
+        } else {
+            $add_booking_detail = new booking_detail;
+            $add_booking_detail->booking_id = $add_booking->id;
+            $add_booking_detail->homestay_id = $request->homestay_name[0];
+            $add_booking_detail->save();
+        }
+
+        return redirect()->route('show-payment', $add_booking->id);
+    }
+
+    public function show_payment($id)
+    {
+        $bank_admin = bank_admin::first();
+        $booking = booking::find($id);
+        $homestays = homestay::where('status', 1)->get();
+        $promotions = promotion::where('status', 1)->get();
+        return view('user.payment', compact('booking', 'bank_admin', 'homestays', 'promotions'));
+    }
     public function payment(Request $request)
     {
+        $add_payment = new payment();
+        $add_payment->bank_admin_id =  $request->bank_admin_id;
+        $add_payment->booking_id =  $request->booking_id;
+        $add_payment->payment_type =  1;
 
-        return view('user.payment');
+        if ($request->hasfile('slip_img')) {
+            $this->validate($request, [
+                'slip_img' => 'required',
+                'slip_img.*' => 'mimes:jpg,jpeg,png', 'max:10240'
+            ]);
+
+            $img = $request->file('slip_img');
+            $name = $img->getClientOriginalName();
+            $img->move(public_path() . '/storage/images/', $name);
+            $add_payment->slip_img =  $name;
+        }
+
+        $add_payment->total_price =  $request->deposit;
+        $add_payment->pay_price =  $request->deposit;
+        $add_payment->change =  0;
+        $add_payment->save();
+
+        $update_booking = booking::find($request->booking_id);
+        $update_booking->status = 6;  //รอยืนยันการชำระเงิน
+        $update_booking->save();
+
+        return redirect()->route('booking-history')->with('message', "ชำระเงินเสร็จสิ้น รอยืนยันจากทางเจ้าของโฮมสเตย์");
     }
+
     public function history_details($id)
     {
         $booking = booking::find($id);
@@ -50,9 +126,12 @@ class BookingController extends Controller
     }
     public function booking_user(Request $request)
     {
-        $homestays = homestay::whereIn('id',$request->homestay_id)->get();
+        $homestays = homestay::whereIn('id', $request->homestay_id)->get();
         $dateRange = $request->dateRange;
-        return view('user.booking-user', compact('homestays', 'dateRange'));
+        $user = Auth::user();
+        $set_menus = set_menu::where('status', 1)->get();
+        $promotions = promotion::where('status', 1)->get();
+        return view('user.booking-user', compact('homestays', 'dateRange', 'user', 'set_menus', 'promotions'));
     }
     // Admin
     public function calendar_booking()
@@ -525,9 +604,9 @@ class BookingController extends Controller
 
     public function add_booking_admin()
     {
-        $homestays = homestay::all();
-        $set_menus = set_menu::all();
-        $promotions = promotion::all();
+        $homestays = homestay::where('status', 1)->get();
+        $set_menus = set_menu::where('status', 1)->get();
+        $promotions = promotion::where('status', 1)->get();
         $users = user::all();
         return view('admin.add-booking-admin', compact('set_menus', 'promotions', 'homestays', 'users'));
     }

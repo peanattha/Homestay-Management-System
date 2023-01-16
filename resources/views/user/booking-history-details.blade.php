@@ -225,7 +225,7 @@
                         @endif
                     </div>
                     <div class="col-md-6">
-                        <label for="discount_price" class="form-label">ราคา *</label>
+                        <label for="discount_price" class="form-label">ส่วนลด *</label>
                         <div class="input-group">
                             <input type="text" name="discount_price" id="discount_price" disabled required
                                 class="form-control" value="{{ $discount_price }}">
@@ -277,6 +277,9 @@
                             onclick="showCanclePay()">
                             ยกเลิกการจอง
                         </button>
+                    @endif
+                    @if ($booking->status == 5)
+                        <a href="{{ route('show-payment', $booking->id) }}" class="btn btn-success">ชำระเงิน</a>
                     @endif
                     <button type="button" class="btn btn-success"
                         onclick="printJS({ printable: 'history_booking', type: 'html', header: 'ใบรายการจอง', css:'{{ asset('css/app.css') }}', documentTitle:'ใบรายการจอง - {{ config('app.name') }}'})">
@@ -452,7 +455,8 @@
                                 <textarea class="form-control" form="edit_review" id="reply" name="reply" rows="2" readonly>{{ $booking->review->reply }}</textarea>
                             </div>
                         </form>
-                        <form action="{{ route('delete-review', $booking->review->id) }}" method="POST" id="delete_review">
+                        <form action="{{ route('delete-review', $booking->review->id) }}" method="POST"
+                            id="delete_review">
                             @csrf
                         </form>
 

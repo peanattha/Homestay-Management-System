@@ -50,6 +50,11 @@
         const formA = document.getElementById("formA");
         formA.addEventListener('change', (event) => {
 
+            var users = @json($users);
+            var promotions = @json($promotions);
+            var set_menus = @json($set_menus);
+            var homestays = @json($homestays);
+
             //homestay_name
             let checkboxes = document.querySelectorAll('input[name="homestay_name[]"]:checked');
             let output = [];
@@ -84,7 +89,7 @@
             set_menu_price = 0;
             for (let i = 0; i <= (set_menus).length - 1; i++) {
                 if (document.getElementById("set_menus").value == set_menus[i].id) {
-                    set_menu_price = document.getElementById("priceMenu").value * set_menus[i].price;
+                    set_menu_price = document.getElementById("num_menu").value * set_menus[i].price;
                     break
                 }
             }
@@ -121,11 +126,6 @@
         const email = document.getElementById('email');
         const firstName = document.getElementById('firstName');
         const lastName = document.getElementById('lastName');
-
-        var users = @json($users);
-        var promotions = @json($promotions);
-        var set_menus = @json($set_menus);
-        var homestays = @json($homestays);
 
         const inputHandler = function(e) {
             if (isNaN(e.target.value)) {
@@ -260,7 +260,7 @@
                                 <div class="col-md-4">
                                     <label class="labels">ชุดเมนูอาหาร *</label>
                                     <select class="form-select" aria-label="Default select example" name="set_menu"
-                                        id="set_menus">
+                                        id="set_menus" required>
                                         <option value="0" selected hidden>เลือกชุดเมนูอาหาร</option>
                                         @foreach ($set_menus as $set_menu)
                                             <option value="{{ $set_menu->id }}">{{ $set_menu->set_menu_name }}</option>
@@ -269,7 +269,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <label class="labels">จำนวนชุดเมนูอาหาร *</label>
-                                    <input type="number" name="num_menu" id="num_menu" class="form-control">
+                                    <input type="number" name="num_menu" id="num_menu" class="form-control" required>
                                 </div>
                                 <div class="col-md-4">
                                     <label class="labels">ราคาชุดเมนูอาหาร *</label>
