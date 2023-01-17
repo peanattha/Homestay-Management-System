@@ -52,6 +52,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('/show-payment/{id}', "show_payment")->name('show-payment');
         Route::post('/payment', "payment")->name('payment');
         Route::post('/cancel-pay-user/{id}', "cancel_pay_user")->name('cancel-pay-user');
+        Route::get('/change-status-payment/{id}', "change_status_payment")->name('change-status-payment');
     });
     Route::controller(HomestayController::class)->group(function () {
         Route::get('/homestay-details-user/{id}', "homestay_details_user")->name('homestay-details-user');

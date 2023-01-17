@@ -232,22 +232,27 @@ class homestayController extends Controller
             ->join('booking_details', 'bookings.id', '=', 'booking_details.booking_id')
             ->where(function ($query) use ($start_date, $end_date) {
                 $query->where('bookings.start_date', $start_date)
-                    ->Where('bookings.end_date', $end_date);
+                    ->Where('bookings.end_date', $end_date)
+                    ->Where('bookings.status', '!=', 4);
             })->orWhere(function ($query) use ($start_date, $end_date) {
                 $query->where('bookings.start_date', '>=', $start_date)
-                    ->Where('bookings.end_date', '<=', $end_date);
+                    ->Where('bookings.end_date', '<=', $end_date)
+                    ->Where('bookings.status', '!=', 4);
             })->orWhere(function ($query) use ($start_date, $end_date) {
                 $query->where('bookings.start_date', '<', $start_date)
-                    ->Where('bookings.end_date', '>', $end_date);
+                    ->Where('bookings.end_date', '>', $end_date)
+                    ->Where('bookings.status', '!=', 4);
             })->orWhere(function ($query) use ($start_date, $end_date) {
                 $query
                     ->Where('bookings.start_date', '>=', $start_date)
                     ->Where('bookings.start_date', '<', $end_date)
-                    ->Where('bookings.end_date', '>=', $end_date);
+                    ->Where('bookings.end_date', '>=', $end_date)
+                    ->Where('bookings.status', '!=', 4);
             })->orWhere(function ($query) use ($start_date, $end_date) {
                 $query->where('bookings.start_date', '<=', $end_date)
                     ->Where('bookings.end_date', '>', $start_date)
-                    ->Where('bookings.end_date', '<=', $end_date);
+                    ->Where('bookings.end_date', '<=', $end_date)
+                    ->Where('bookings.status', '!=', 4);
             })->get();
 
         $data = json_decode($homestay_ids);

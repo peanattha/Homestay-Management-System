@@ -76,8 +76,29 @@ class BookingController extends Controller
         $booking = booking::find($id);
         $homestays = homestay::where('status', 1)->get();
         $promotions = promotion::where('status', 1)->get();
-        return view('user.payment', compact('booking', 'bank_admin', 'homestays', 'promotions'));
+
+        $created_at = strtotime($booking->created_at);
+        $endTime = Carbon::createFromTimestamp($created_at)->addMinutes(15);
+        $curTime = Carbon::now();
+
+        if ($endTime->lt($curTime)) {
+            return redirect()->route('home')->with('danger', "หมดเวลาชำระเงิน");
+        } else {
+            if ($booking->status == 5) {
+                return view('user.payment', compact('booking', 'bank_admin', 'homestays', 'promotions'));
+            } else {
+                return redirect()->route('home');
+            }
+        }
     }
+    public function change_status_payment($id)
+    {
+        $update_booking = booking::find($id);
+        $update_booking->status = 7;  //ยกเลิกการจอง
+        $update_booking->save();
+        return redirect()->route('home')->with('danger', "Aหมดเวลาชำระเงิน");
+    }
+
     public function payment(Request $request)
     {
         $add_payment = new payment();
@@ -118,9 +139,9 @@ class BookingController extends Controller
     }
     public function cancel_pay_user($id)
     {
-        $update_homestay = booking::find($id);
-        $update_homestay->status = 7;  //ยกเลิกการจอง
-        $update_homestay->save();
+        $update_booking = booking::find($id);
+        $update_booking->status = 4;  //ยกเลิกการจอง
+        $update_booking->save();
 
         return redirect()->back()->with('message', "ยกเลิกการจองเสร็จสิ้น รอกการยืนยันจากเจ้าของโฮมสเตย์");
     }
@@ -140,6 +161,7 @@ class BookingController extends Controller
             ->join('booking_details', 'bookings.id', '=', 'booking_details.booking_id')
             ->join('homestays', 'booking_details.homestay_id', '=', 'homestays.id')
             ->select('bookings.id', 'bookings.start_date', 'bookings.end_date', 'homestays.homestay_name')
+            ->Where('bookings.status', '!=', 4)
             ->get()->groupBy('id');
 
         return view('admin.calendar-booking', compact('bookings'));
@@ -631,26 +653,31 @@ class BookingController extends Controller
             ->where(function ($query) use ($start_date, $end_date, $homestay_id) {
                 $query->where('bookings.start_date', $start_date)
                     ->Where('bookings.end_date', $end_date)
-                    ->whereIn('booking_details.homestay_id', $homestay_id);
+                    ->whereIn('booking_details.homestay_id', $homestay_id)
+                    ->Where('bookings.status', '!=', 4);
             })->orWhere(function ($query) use ($start_date, $end_date, $homestay_id) {
                 $query->where('bookings.start_date', '>=', $start_date)
                     ->Where('bookings.end_date', '<=', $end_date)
-                    ->whereIn('booking_details.homestay_id', $homestay_id);
+                    ->whereIn('booking_details.homestay_id', $homestay_id)
+                    ->Where('bookings.status', '!=', 4);
             })->orWhere(function ($query) use ($start_date, $end_date, $homestay_id) {
                 $query->where('bookings.start_date', '<', $start_date)
                     ->Where('bookings.end_date', '>', $end_date)
-                    ->whereIn('booking_details.homestay_id', $homestay_id);
+                    ->whereIn('booking_details.homestay_id', $homestay_id)
+                    ->Where('bookings.status', '!=', 4);
             })->orWhere(function ($query) use ($start_date, $end_date, $homestay_id) {
                 $query
                     ->Where('bookings.start_date', '>=', $start_date)
                     ->Where('bookings.start_date', '<', $end_date)
                     ->Where('bookings.end_date', '>=', $end_date)
-                    ->whereIn('booking_details.homestay_id', $homestay_id);
+                    ->whereIn('booking_details.homestay_id', $homestay_id)
+                    ->Where('bookings.status', '!=', 4);
             })->orWhere(function ($query) use ($start_date, $end_date, $homestay_id) {
                 $query->where('bookings.start_date', '<=', $end_date)
                     ->Where('bookings.end_date', '>', $start_date)
                     ->Where('bookings.end_date', '<=', $end_date)
-                    ->whereIn('booking_details.homestay_id', $homestay_id);
+                    ->whereIn('booking_details.homestay_id', $homestay_id)
+                    ->Where('bookings.status', '!=', 4);
             })->get();
 
         //เช็ค==0 ไม่มีการจองซ้ำในdatabase
@@ -713,7 +740,7 @@ class BookingController extends Controller
                     $add_payment->change = $request->change;
                     $add_payment->save();
                 } //ผ่าน
-                return redirect()->back()->with('message', "เพิ่มที่พักเสร็จสิ้น");
+                return redirect()->back()->with('message', "เพิ่มรายการจองเสร็จสิ้น");
             } else {
                 $add_user = new user;
                 $add_user->firstName =  $request->firstName;

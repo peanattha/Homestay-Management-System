@@ -49,12 +49,6 @@
     window.onload = function() {
         const formA = document.getElementById("formA");
         formA.addEventListener('change', (event) => {
-
-            var users = @json($users);
-            var promotions = @json($promotions);
-            var set_menus = @json($set_menus);
-            var homestays = @json($homestays);
-
             //homestay_name
             let checkboxes = document.querySelectorAll('input[name="homestay_name[]"]:checked');
             let output = [];
@@ -127,6 +121,11 @@
         const firstName = document.getElementById('firstName');
         const lastName = document.getElementById('lastName');
 
+        var users = @json($users);
+        var promotions = @json($promotions);
+        var set_menus = @json($set_menus);
+        var homestays = @json($homestays);
+        
         const inputHandler = function(e) {
             if (isNaN(e.target.value)) {
                 for (let i = 0; i <= (users).length - 1; i++) {

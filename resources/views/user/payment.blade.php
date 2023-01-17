@@ -20,6 +20,35 @@
         }
     }
 </style>
+<script>
+    setInterval(() => {
+        const booking = @json($booking);
+        const timestamp = new Date(booking.created_at);
+        let endTime = new Date(timestamp.getTime() + 15 * 60000);
+        let curTime = new Date();
+        // let endTimeFormatted = endTime.toLocaleTimeString(undefined, {
+        //     hour: '2-digit',
+        //     minute: '2-digit',
+        //     hour12: false
+        // });
+        // let curTimeFormatted = curTime.toLocaleTimeString(undefined, {
+        //     hour: '2-digit',
+        //     minute: '2-digit',
+        //     hour12: false
+        // });
+        let timeLeft = endTime.getTime() - curTime.getTime();
+        // console.log(curTime);
+        // console.log(endTime);
+        // console.log("---");
+        if (timeLeft <= 0) {
+            // console.log("Time's up!");
+            window.location.replace("{{ asset('change-status-payment/') }}/" + booking.id);
+        } else {
+            // console.log('Time left');
+        }
+    }, 1000);
+</script>
+
 @section('content')
     <div class="container">
         <?php
@@ -74,9 +103,10 @@
                     @endif
                 </div>
                 <div class="card-body" id="add_payment">
-                    <form action="{{ route('payment') }}" method="POST" enctype="multipart/form-data" >
+                    <form action="{{ route('payment') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <input type="text" name="bank_admin_id" id="bank_admin_id" class="d-none" value="{{ $bank_admin->id }}">
+                        <input type="text" name="bank_admin_id" id="bank_admin_id" class="d-none"
+                            value="{{ $bank_admin->id }}">
                         <input type="text" name="booking_id" id="booking_id" class="d-none" value="{{ $booking->id }}">
                         <div class="row mb-3">
                             <div class="col-md-4">
