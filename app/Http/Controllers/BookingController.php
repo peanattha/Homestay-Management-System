@@ -94,9 +94,9 @@ class BookingController extends Controller
     public function change_status_payment($id)
     {
         $update_booking = booking::find($id);
-        $update_booking->status = 7;  //ยกเลิกการจอง
+        $update_booking->status = 4;  //ยกเลิกการจอง
         $update_booking->save();
-        return redirect()->route('home')->with('danger', "Aหมดเวลาชำระเงิน");
+        return redirect()->route('home')->with('danger', "หมดเวลาชำระเงิน");
     }
 
     public function payment(Request $request)
@@ -140,7 +140,7 @@ class BookingController extends Controller
     public function cancel_pay_user($id)
     {
         $update_booking = booking::find($id);
-        $update_booking->status = 4;  //ยกเลิกการจอง
+        $update_booking->status = 7;  //ยกเลิกการจอง
         $update_booking->save();
 
         return redirect()->back()->with('message', "ยกเลิกการจองเสร็จสิ้น รอกการยืนยันจากเจ้าของโฮมสเตย์");

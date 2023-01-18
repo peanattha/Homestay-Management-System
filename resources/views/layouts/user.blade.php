@@ -266,7 +266,7 @@
     <div id="fb-customer-chat" class="fb-customerchat">
     </div>
 
-    {{-- <script>
+    <script>
         var chatbox = document.getElementById('fb-customer-chat');
         chatbox.setAttribute("page_id", "114913974823497");
         chatbox.setAttribute("attribution", "biz_inbox");
@@ -289,7 +289,7 @@
             js.src = 'https://connect.facebook.net/th_TH/sdk/xfbml.customerchat.js';
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
-    </script> --}}
+    </script>
 
     <a href="#" id="toTopBtn" class="cd-top text-replace rounded-3"></a>
 
