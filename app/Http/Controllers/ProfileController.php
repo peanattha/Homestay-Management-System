@@ -27,44 +27,72 @@ class ProfileController extends Controller
     }
     public function edit(Request $request, $id)
     {
-        $user = user::find($id);
-
         $tel = user::select('tel')->where('id', '!=', $id)->where('tel', $request->tel)->get();
         $email = user::select('email')->where('id', '!=', $id)->where('email', $request->email)->get();
 
 
-        if (($tel->count() == 0) && ($email->count() == 0)) {
-            $update_user = user::find($id);
-            $update_user->firstName = $request->firstName;
-            $update_user->lastName = $request->lastName;
-            $update_user->gender = $request->gender;
-            $update_user->tel = $request->tel;
-            if ($request->get('email') != $update_user->email) {
-                $update_user->email = $request->email;
-                $update_user->email_verified_at = null;
-            }
+        if ($request->tel != null) {
+            if (($tel->count() == 0) && ($email->count() == 0)) {
+                $update_user = user::find($id);
+                $update_user->firstName = $request->firstName;
+                $update_user->lastName = $request->lastName;
+                $update_user->gender = $request->gender;
+                $update_user->tel = $request->tel;
+                if ($request->get('email') != $update_user->email) {
+                    $update_user->email = $request->email;
+                    $update_user->email_verified_at = null;
+                }
 
-            if ($request->hasfile('img_profile')) {
-                $this->validate($request, [
-                    'img_profile' => 'required',
-                    'img_profile.*' => 'mimes:jpg,jpeg,png', 'max:10240'
-                ]);
+                if ($request->hasfile('img_profile')) {
+                    $this->validate($request, [
+                        'img_profile' => 'required',
+                        'img_profile.*' => 'mimes:jpg,jpeg,png', 'max:10240'
+                    ]);
 
-                $img = $request->file('img_profile');
-                $name = $img->getClientOriginalName();
-                $img->move(public_path() . '/storage/images/', $name);
-                $update_user->image = $name;
-            }
+                    $img = $request->file('img_profile');
+                    $name = $img->getClientOriginalName();
+                    $img->move(public_path() . '/storage/images/', $name);
+                    $update_user->image = $name;
+                }
 
-            $update_user->save();
-            return redirect()->back()->with("message", "แก้ใขข้อมูลโปรไฟล์เสร็จสิ้น");
-        } else {
-            if (($tel->count() != 0) && ($email->count() != 0)) {
-                return redirect()->back()->with("warning", "อีเมล เเละ เบอร์โทรศัพทร์ ซ้ำในระบบ");
-            } elseif ($email->count() != 0) {
-                return redirect()->back()->with("warning", "อีเมลซ้ำในระบบ");
+                $update_user->save();
+                return redirect()->back()->with("message", "แก้ใขข้อมูลโปรไฟล์เสร็จสิ้น");
             } else {
-                return redirect()->back()->with("warning", "เบอร์โทรศัพทร์ซ้ำในระบบ");
+                if (($tel->count() != 0) && ($email->count() != 0)) {
+                    return redirect()->back()->with("warning", "อีเมล เเละ เบอร์โทรศัพทร์ ซ้ำในระบบ");
+                } elseif ($email->count() != 0) {
+                    return redirect()->back()->with("warning", "อีเมลซ้ำในระบบ");
+                } else {
+                    return redirect()->back()->with("warning", "เบอร์โทรศัพทร์ซ้ำในระบบ");
+                }
+            }
+        }else{
+            if ($email->count() == 0) {
+                $update_user = user::find($id);
+                $update_user->firstName = $request->firstName;
+                $update_user->lastName = $request->lastName;
+                $update_user->gender = $request->gender;
+                if ($request->get('email') != $update_user->email) {
+                    $update_user->email = $request->email;
+                    $update_user->email_verified_at = null;
+                }
+
+                if ($request->hasfile('img_profile')) {
+                    $this->validate($request, [
+                        'img_profile' => 'required',
+                        'img_profile.*' => 'mimes:jpg,jpeg,png', 'max:10240'
+                    ]);
+
+                    $img = $request->file('img_profile');
+                    $name = $img->getClientOriginalName();
+                    $img->move(public_path() . '/storage/images/', $name);
+                    $update_user->image = $name;
+                }
+
+                $update_user->save();
+                return redirect()->back()->with("message", "แก้ใขข้อมูลโปรไฟล์เสร็จสิ้น");
+            } else {
+                return redirect()->back()->with("warning", "อีเมลซ้ำในระบบ");
             }
         }
     }

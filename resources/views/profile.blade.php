@@ -92,7 +92,7 @@
                                     <input type="email" name="email" class="form-control" value="{{ $user->email }}">
                                 </div>
                                 <div class="col-md-12 mb-2">
-                                    <label class="labels">เบอร์โทรศัพทร์</label>
+                                    <label class="labels">เบอร์โทรศัพท์</label>
                                     <input type="text" name="tel" class="form-control" placeholder="099-XXX-XXXX"
                                         pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" value="{{ $user->tel }}">
                                 </div>
