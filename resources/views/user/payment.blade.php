@@ -63,23 +63,28 @@
             <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <a href="{{ asset('storage/images/' . $bank_admin->qr_code) }}" target="_blank">
-                            <img src="{{ asset('storage/images/' . $bank_admin->qr_code) }}" class="card-img-top"
-                                alt="...">
-                        </a>
+                        <?php
+                        function DelChar($str)
+                        {
+                            $res = str_replace('-', '', $str);
+                            return $res;
+                        }
+
+                        $str = $bank_admin->prompt_pay;
+
+                        $prompt_pay = DelChar($str);
+                        ?>
+                        <img src="https://promptpay.io/{{ $prompt_pay }}/{{ $booking->deposit }}" class="card-img-top"
+                            alt="qr_code">
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                <p>
-                    <b>เลขบัญชี:</b> {{ $bank_admin->acc_number }}
-                </p>
-                <p>
-                    <b>ธนาคาร:</b> {{ $bank_admin->bank_name->name }}
-                </p>
-                <p>
-                    <b>ชื่อ-นามสกุล:</b> {{ $bank_admin->firstName }} {{ $bank_admin->lastName }}
-                </p>
+                <p><b>เลขบัญชี:</b> {{ $bank_admin->acc_number }}</p>
+                <p><b>ธนาคาร:</b> {{ $bank_admin->bank_name->name }}</p>
+                <p><b>ชื่อ-นามสกุล:</b> {{ $bank_admin->firstName }} {{ $bank_admin->lastName }}</p>
+                <p><a href="{{ asset('storage/images/' . $bank_admin->qr_code) }}"target="_blank">หากไม่สามารถชำระเงินผ่านทาง
+                        QR Code ได้</a></p>
             </div>
         </div>
         <div>

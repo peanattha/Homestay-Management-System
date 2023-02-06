@@ -79,9 +79,9 @@
                         <input type="text" class="form-control" id="acc_number" name="acc_number" placeholder="เลขบัญชี">
                     </div>
                     <div class="mb-3">
-                        <label class="labels">Prompt Pay</label>
+                        <label class="labels">Prompt Pay *</label>
                         <input type="text" name="prompt_pay" class="form-control" placeholder="099-XXX-XXXX"
-                            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
                     </div>
                     <div class="mb-3">
                         <label for="FileImgMultiple" class="form-label">QR Code *</label>

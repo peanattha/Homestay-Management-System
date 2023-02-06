@@ -19,7 +19,7 @@ class CreateBankAdminsTable extends Migration
             $table->string('firstName');
             $table->string('lastName');
             $table->string('acc_number');
-            $table->char('prompt_pay',12)->nullable();
+            $table->char('prompt_pay',12);
             $table->string('qr_code', 10240);
             $table->timestamps();
             $table->softDeletes();

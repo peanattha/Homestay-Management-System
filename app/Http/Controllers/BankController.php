@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\bank_admin;
 use App\Models\bank_name;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
 class BankController extends Controller
@@ -63,9 +64,8 @@ class BankController extends Controller
         $add_bank_detail->lastName = $request->lastName;
         $add_bank_detail->bank_name_id =  $request->bank_name;
         $add_bank_detail->acc_number = $request->acc_number;
-        if ($request->has('prompt_pay')) {
-            $add_bank_detail->prompt_pay = $request->prompt_pay;
-        }
+        $add_bank_detail->prompt_pay = $request->prompt_pay;
+
         if ($request->hasfile('qr_code')) {
             $this->validate($request, [
                 'qr_code' => 'required',
@@ -95,9 +95,8 @@ class BankController extends Controller
         $update_bank->lastName = $request->lastName;
         $update_bank->bank_name_id =  $request->bank_name;
         $update_bank->acc_number = $request->acc_number;
-        if ($request->has('prompt_pay')) {
-            $update_bank->prompt_pay = $request->prompt_pay;
-        }
+        $update_bank->prompt_pay = $request->prompt_pay;
+
         if ($request->hasfile('qr_code')) {
             $this->validate($request, [
                 'qr_code' => 'required',
