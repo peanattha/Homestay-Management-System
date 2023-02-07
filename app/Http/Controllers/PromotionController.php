@@ -30,7 +30,13 @@ class PromotionController extends Controller
     {
         $add_promotion = new promotion();
         $add_promotion->promotion_name =  $request->promotion_name;
-        $add_promotion->discount_price =  $request->price;
+
+        if ($request->select_type == 1) {
+            $add_promotion->discount_price =  $request->price;
+        } elseif ($request->select_type == 2) {
+            $add_promotion->percent =  $request->percent;
+        }
+
         $add_promotion->promotion_detail =  $request->promotion_detail;
         $datetimeArr = explode(" - ", $request->datetimes);
         $date1 = explode(" ", $datetimeArr[0]);
@@ -68,9 +74,14 @@ class PromotionController extends Controller
     {
         $edit_promotion = promotion::find($id);
         $edit_promotion->promotion_name =  $request->promotion_name;
-        $edit_promotion->discount_price =  $request->price;
-        $edit_promotion->promotion_detail =  $request->promotion_detail;
 
+        if ($request->select_type == 1) {
+            $edit_promotion->discount_price =  $request->price;
+        } elseif ($request->select_type == 2) {
+            $edit_promotion->percent =  $request->percent;
+        }
+
+        $edit_promotion->promotion_detail =  $request->promotion_detail;
 
         $datetimeArr = explode(" - ", $request->datetimes);
         $date1 = explode(" ", $datetimeArr[0]);

@@ -12,6 +12,38 @@
 
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
+<script>
+    window.onload = function() {
+        const select_type = document.getElementById("select_type");
+        let type = document.getElementById("select_type").value;
+        if (type == 2) {
+            document.getElementById("percent").required = true;
+            document.getElementById("price").required = false;
+            document.getElementById("dis_per").style.display = "block";
+            document.getElementById("dis_price").style.display = "none";
+        } else {
+            document.getElementById("price").required = true;
+            document.getElementById("percent").required = false;
+            document.getElementById("dis_per").style.display = "none";
+            document.getElementById("dis_price").style.display = "block";
+        }
+        select_type.addEventListener('change', (event) => {
+            let type = document.getElementById("select_type").value;
+            if (type == 2) {
+                document.getElementById("percent").required = true;
+                document.getElementById("price").required = false;
+                document.getElementById("dis_per").style.display = "block";
+                document.getElementById("dis_price").style.display = "none";
+            } else {
+                document.getElementById("price").required = true;
+                document.getElementById("percent").required = false;
+                document.getElementById("dis_per").style.display = "none";
+                document.getElementById("dis_price").style.display = "block";
+            }
+        });
+    };
+</script>
+
 @section('page-name')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb m-0">
@@ -36,19 +68,42 @@
         <div class="card-body">
             <form action="{{ route('edit-promotion', ['id' => $promotion->id]) }}" method="POST">
                 @csrf
+                <select class="form-select mb-3" id="select_type" name="select_type">
+                    @if ($promotion->discount_price != null)
+                        <option selected value="1">ส่วนลดราคา (บาท)</option>
+                        <option value="2">ส่วนลดเปอร์เซ็นต์</option>
+                    @else
+                        <option value="1">ส่วนลดราคา (บาท)</option>
+                        <option selected value="2">ส่วนลดเปอร์เซ็นต์</option>
+                    @endif
+                </select>
                 <div class="mb-3">
                     <label for="promotion_name" class="form-label">ชื่อโปรโมชั่น *</label>
                     <input type="text" class="form-control" id="promotion_name" name="promotion_name"
                         value="{{ $promotion->promotion_name }}" required>
                 </div>
-                <div class="mb-3">
-                    <label for="price" class="form-label">ราคาส่วนลด (บาท) *</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="price" name="price"
-                            value="{{ $promotion->discount_price }}" required>
-                        <span class="input-group-text">บาท</span>
+                @if ($promotion->percent != null)
+                    <div class="mb-3" id="dis_per">
+                        <label for="percent" class="form-label">ราคาส่วนลด (เปอร์เซ็นต์) *</label>
+                        <div class="input-group">
+                            <input type="number" min="1" class="form-control" id="percent" name="percent"
+                                value="{{ $promotion->percent }}">
+                            <span class="input-group-text">เปอร์เซ็นต์ (%)</span>
+                        </div>
                     </div>
-                </div>
+                @endif
+
+                @if ($promotion->discount_price != null)
+                    <div class="mb-3" id="dis_price">
+                        <label for="price" class="form-label">ราคาส่วนลด (บาท) *</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="price" name="price"
+                                value="{{ $promotion->discount_price }}">
+                            <span class="input-group-text">บาท</span>
+                        </div>
+                    </div>
+                @endif
+
                 <div class="mb-3">
                     <label for="datetimes" class="form-label">ช่วงวันโปรโมชั่น *</label>
                     <?php

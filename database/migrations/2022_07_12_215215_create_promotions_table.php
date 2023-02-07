@@ -22,7 +22,8 @@ class CreatePromotionsTable extends Migration
             $table->time('end_time');
             $table->string('promotion_detail');
             $table->char('status',1);
-            $table->float('discount_price');
+            $table->float('discount_price')->nullable();
+            $table->integer('percent')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

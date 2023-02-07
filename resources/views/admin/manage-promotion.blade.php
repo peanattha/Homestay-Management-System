@@ -23,9 +23,33 @@
     function confirmDelPromo() {
         document.getElementById("del-promo" + window.id_promo).submit();
     }
+
+    window.onload = function() {
+        const select_type = document.getElementById("select_type");
+        document.getElementById("dis_per").style.display = "none";
+        document.getElementById("dis_price").style.display = "block";
+
+        document.getElementById("price").required = true;
+        document.getElementById("percent").required = false;
+
+        select_type.addEventListener('change', (event) => {
+            let type = document.getElementById("select_type").value;
+            if (type == 2) {
+                document.getElementById("percent").required = true;
+                document.getElementById("price").required = false;
+                document.getElementById("dis_per").style.display = "block";
+                document.getElementById("dis_price").style.display = "none";
+            } else {
+                document.getElementById("price").required = true;
+                document.getElementById("percent").required = false;
+                document.getElementById("dis_per").style.display = "none";
+                document.getElementById("dis_price").style.display = "block";
+            }
+        });
+    };
 </script>
 
-<style>
+{{-- <style>
     .aa {
         width: 150px;
     }
@@ -35,7 +59,7 @@
         flex-direction: row;
         justify-content: flex-end;
     }
-</style>
+</style> --}}
 
 @section('page-name')
     <nav aria-label="breadcrumb">
@@ -64,7 +88,6 @@
         </div>
     </div>
 
-
     <div class="card rounded-3 border border-1 shadow-lg">
         <div class="card-header">
             เพิ่ม / ลบ / แก้ใข โปรโมชั่น
@@ -72,15 +95,26 @@
         <div class="card-body">
             <form action="{{ route('add-promotion') }}" method="POST">
                 @csrf
+                <select class="form-select mb-3" id="select_type" name="select_type">
+                    <option selected value="1">ส่วนลดราคา (บาท)</option>
+                    <option value="2">ส่วนลดเปอร์เซ็นต์</option>
+                </select>
                 <div class="mb-3">
                     <label for="promotion_name" class="form-label">ชื่อโปรโมชั่น *</label>
                     <input type="text" class="form-control" id="promotion_name" name="promotion_name" required>
                 </div>
-                <div class="mb-3">
+                <div class="mb-3" id="dis_price">
                     <label for="price" class="form-label">ราคาส่วนลด (บาท) *</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="price" name="price" required>
+                        <input type="text" class="form-control" id="price" name="price">
                         <span class="input-group-text">บาท</span>
+                    </div>
+                </div>
+                <div class="mb-3" id="dis_per">
+                    <label for="percent" class="form-label">ราคาส่วนลด (เปอร์เซ็นต์) *</label>
+                    <div class="input-group">
+                        <input type="number" min="1" class="form-control" id="percent" name="percent">
+                        <span class="input-group-text">เปอร์เซ็นต์ (%)</span>
                     </div>
                 </div>
                 <div class="mb-3">
@@ -153,7 +187,7 @@
         </div>
     </div>
 
-    <div class="info mt-4">
+    {{-- <div class="info mt-4">
         <div></div>
         <form action="{{ route('promotion-filter') }}" method="POST" class="filter m-0">
             @csrf
@@ -179,7 +213,7 @@
                 </select>
             </div>
         </form>
-    </div>
+    </div> --}}
 
     <div class="table100 ver2 mb-4 mt-4">
         <div class="table100-head">
