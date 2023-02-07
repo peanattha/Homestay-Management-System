@@ -16,6 +16,7 @@
     let homestay_price = 0;
     let set_menu_price = 0;
     let discount = 0;
+    let promotion_type = 0;
     let total_price_discount = 0;
     let num_date = 0;
     let myArray = [];
@@ -34,9 +35,18 @@
         num_date = (Date.parse(d1) - Date.parse(d2)) / (1000 * 60 * 60 * 24);
 
         $("#discount").val(discount);
+        $("#discount_per").val(discount);
         $("#priceMenu").val(set_menu_price);
         $("#total_price").val((homestay_price * num_date) + set_menu_price);
-        total_price_discount = ((homestay_price * num_date) + set_menu_price) - discount;
+
+        if (promotion_type == 1) {
+            total_price_discount = ((homestay_price * num_date) + set_menu_price) - discount;
+        }else if(promotion_type == 2) {
+            total_price_discount = ((homestay_price * num_date) + set_menu_price) - Math.floor(homestay_price * (
+                discount /
+                100));
+        }
+
         $("#total_price_discount").val(total_price_discount);
         document.getElementById("paytype1").checked = false;
         document.getElementById("paytype2").checked = false;
@@ -48,6 +58,7 @@
 
     window.onload = function() {
         const formA = document.getElementById("formA");
+
         formA.addEventListener('change', (event) => {
             //homestay_name
             let checkboxes = document.querySelectorAll('input[name="homestay_name[]"]:checked');
@@ -74,11 +85,27 @@
             discount = 0;
             for (let i = 0; i <= (promotions).length - 1; i++) {
                 if (document.getElementById("promotion").value == promotions[i].id) {
-                    discount = promotions[i].discount_price;
-                    break
+                    if (promotions[i].discount_price != null) {
+                        promotion_type = 1;
+                        discount = promotions[i].discount_price;
+                        total_price_discount = ((homestay_price * num_date) + set_menu_price) - discount;
+                        document.getElementById("dis_per").style.display = "none";
+                        document.getElementById("dis_price").style.display = "block";
+                        $("#discount").val(discount);
+                        break
+                    } else {
+                        promotion_type = 2;
+                        discount = promotions[i].percent;
+                        total_price_discount = ((homestay_price * num_date) + set_menu_price) - Math.floor(
+                            homestay_price * (discount / 100));
+                        document.getElementById("dis_per").style.display = "block";
+                        document.getElementById("dis_price").style.display = "block";
+                        $("#discount").val(Math.floor(homestay_price * (discount / 100)));
+                        $("#discount_per").val(discount);
+                        break
+                    }
                 }
             }
-
             //set_menu_price
             set_menu_price = 0;
             for (let i = 0; i <= (set_menus).length - 1; i++) {
@@ -88,10 +115,9 @@
                 }
             }
 
-            $("#discount").val(discount);
+            
             $("#priceMenu").val(set_menu_price);
             $("#total_price").val((homestay_price * num_date) + set_menu_price);
-            total_price_discount = ((homestay_price * num_date) + set_menu_price) - discount;
             $("#total_price_discount").val(total_price_discount);
             document.getElementById("paytype1").checked = false;
             document.getElementById("paytype2").checked = false;
@@ -108,14 +134,13 @@
                     $("#payPrice").val('');
                     $("#change").val('');
                 } else {
-                    $("#deposit").val(total_price_discount / 2);
-                    $("#toPay").val(total_price_discount / 2);
+                    $("#deposit").val(Math.floor(total_price_discount / 2));
+                    $("#toPay").val(Math.floor(total_price_discount / 2));
                     $("#payPrice").val('');
                     $("#change").val('');
                 }
             });
         });
-
         //addEventListener Email Member
         const email = document.getElementById('email');
         const firstName = document.getElementById('firstName');
@@ -125,7 +150,7 @@
         var promotions = @json($promotions);
         var set_menus = @json($set_menus);
         var homestays = @json($homestays);
-        
+
         const inputHandler = function(e) {
             if (isNaN(e.target.value)) {
                 for (let i = 0; i <= (users).length - 1; i++) {
@@ -156,7 +181,8 @@
             }
         }
         email.addEventListener('input', inputHandler);
-        email.addEventListener('propertychange', inputHandler);
+        email.addEventListener('propertychange',
+            inputHandler);
 
         //addEventListener payPrice
         const payPrice = document.getElementById('payPrice');
@@ -178,7 +204,8 @@
             }
         }
         payPrice.addEventListener('input', inputHandler2);
-        payPrice.addEventListener('propertychange', inputHandler2);
+        payPrice.addEventListener('propertychange',
+            inputHandler2);
 
         //Set Date Range Picker
         var today = new Date();
@@ -191,6 +218,7 @@
                 cancelLabel: 'Clear'
             }
         });
+
     }
 </script>
 
@@ -227,7 +255,7 @@
                                 <input type="text" name="lastName" id="lastName" class="form-control" required>
                             </div>
                             <div class="col-md-4">
-                                <label class="labels">เบอร์โทรศัพทร์</label>
+                                <label class="labels">เบอร์โทรศัพท์</label>
                                 <input type="text" name="tel" class="form-control" id="tel"
                                     placeholder="099-XXX-XXXX" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
                             </div>
@@ -246,7 +274,7 @@
                                 id="number_guests" name="number_guests" placeholder="จำนวนผู้เข้าพัก" required>
                         </div>
                         <div class="mb-3">
-                            <label for="number_guests" class="form-label">โปรโมชั่น *</label>
+                            <label for="promotion" class="form-label">โปรโมชั่น *</label>
                             <select class="form-select" aria-label="Default select example" name="promotion" id="promotion">
                                 <option value="0" selected hidden>เลือกโปรโมชั่น</option>
                                 @foreach ($promotions as $promotion)
@@ -305,7 +333,7 @@
                     </label>
                 </div>
                 <div class="row mt-2">
-                    <div class="col-md-3">
+                    <div class="col-md">
                         <label class="labels">ราคาทั้งหมด *</label>
                         <div class="input-group">
                             <input type="text" name="total_price" id="total_price" readonly required
@@ -313,14 +341,22 @@
                             <span class="input-group-text">บาท</span>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <label class="labels">ส่วนลด *</label>
+                    <div class="col-md" id="dis_price">
+                        <label class="labels">ส่วนลด (บาท)*</label>
                         <div class="input-group">
                             <input type="text" name="discount" id="discount" readonly class="form-control" required>
                             <span class="input-group-text">บาท</span>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md" id="dis_per">
+                        <label class="labels">ส่วนลด (เปอร์เซ็นต์)*</label>
+                        <div class="input-group">
+                            <input type="text" name="discount" id="discount_per" readonly class="form-control"
+                                required>
+                            <span class="input-group-text">เปอร์เซ็นต์ (%)</span>
+                        </div>
+                    </div>
+                    <div class="col-md">
                         <label class="labels">ราคารวมส่วนลด *</label>
                         <div class="input-group">
                             <input type="text" name="total_price_discount" id="total_price_discount" readonly required
@@ -328,7 +364,7 @@
                             <span class="input-group-text">บาท</span>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md">
                         <label class="labels">เงินมัดจำ *</label>
                         <div class="input-group">
                             <input type="text" name="deposit" id="deposit" readonly class="form-control" required
