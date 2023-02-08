@@ -114,14 +114,11 @@
         $("#discount").val(0);
         $("#total_price").val((homestay_price * num_date));
         total_price_discount = ((homestay_price * num_date));
-        $("#total_price_discount").val(total_price_discount);
-        $("#deposit").val(total_price_discount / 2);
+        $("#total_price_discount").val(Math.floor(total_price_discount));
+        $("#deposit").val(Math.floor(total_price_discount / 2));
 
         const booking_info = document.getElementById("booking_info");
         booking_info.addEventListener('change', (event) => {
-
-
-
             max_number_guests = 0;
             homestay_price = 0;
             for (let s = 0; s <= (homestays).length - 1; s++) {
@@ -144,8 +141,27 @@
             discount = 0;
             for (let i = 0; i <= (promotions).length - 1; i++) {
                 if (document.getElementById("promotion").value == promotions[i].id) {
-                    discount = promotions[i].discount_price;
-                    break
+                    if (promotions[i].discount_price != null) {
+                        promotion_type = 1;
+                        discount = promotions[i].discount_price;
+                        total_price_discount = ((homestay_price * num_date) + set_menu_price) - discount;
+                        document.getElementById("dis_per").style.display = "none";
+                        document.getElementById("dis_price").style.display = "block";
+                        $("#discount_price").val(discount);
+                        $("#discount").val(discount);
+                        break
+                    } else {
+                        promotion_type = 2;
+                        discount = promotions[i].percent;
+                        total_price_discount = ((homestay_price * num_date) + set_menu_price) - Math.floor(
+                            homestay_price * (discount / 100));
+                        document.getElementById("dis_per").style.display = "block";
+                        document.getElementById("dis_price").style.display = "block";
+                        $("#discount").val(Math.floor(homestay_price * (discount / 100)));
+                        $("#discount_per").val(discount);
+                        $("#discount_price").val(Math.floor(homestay_price * (discount / 100)));
+                        break
+                    }
                 }
             }
 
@@ -160,13 +176,11 @@
 
             num_date = (Date.parse(d1) - Date.parse(d2)) / (1000 * 60 * 60 * 24);
 
-            $("#discount_price").val(discount);
-            $("#discount").val(discount);
+
             $("#priceMenu").val(set_menu_price);
             $("#total_price").val((homestay_price * num_date) + set_menu_price);
-            total_price_discount = ((homestay_price * num_date) + set_menu_price) - discount;
-            $("#total_price_discount").val(total_price_discount);
-            $("#deposit").val(total_price_discount / 2);
+            $("#total_price_discount").val(Math.floor(total_price_discount));
+            $("#deposit").val(Math.floor(total_price_discount / 2));
 
         });
 
@@ -290,7 +304,7 @@
                     </div>
                     <hr>
                     <div class="row mb-3">
-                        <div class="col-md-6">
+                        <div class="col-md">
                             <label for="promotion" class="form-label">โปรโมชั่น</label>
                             <label for="number_guests" class="form-label">โปรโมชั่น</label>
                             <select class="form-select" aria-label="Default select example" name="promotion"
@@ -301,12 +315,20 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-6">
-                            <label for="discount_price" class="form-label">ส่วนลด </label>
+                        <div class="col-md" id="dis_price">
+                            <label for="discount_price" class="form-label">ส่วนลด (บาท)* </label>
                             <div class="input-group">
                                 <input type="text" name="discount_price" id="discount_price" readonly
                                     class="form-control">
                                 <span class="input-group-text">บาท</span>
+                            </div>
+                        </div>
+                        <div class="col-md" id="dis_per">
+                            <label class="form-label">ส่วนลด (เปอร์เซ็นต์)*</label>
+                            <div class="input-group">
+                                <input type="text" name="discount_per" id="discount_per" readonly
+                                    class="form-control" required>
+                                <span class="input-group-text">เปอร์เซ็นต์ (%)</span>
                             </div>
                         </div>
                     </div>

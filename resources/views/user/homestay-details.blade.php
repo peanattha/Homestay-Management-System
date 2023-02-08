@@ -58,7 +58,7 @@
                         value="{{ $details->homestay_name }}" form="form_edit_homestay" readonly>
                 </div>
                 <div class="mb-3">
-                    <label for="peice" class="form-label">ราคา *</label>
+                    <label for="peice" class="form-label">ราคา/คืน *</label>
                     <div class="input-group">
                         <input type="text" class="form-control" id="price" name="price" placeholder="ราคาต่อ 1 คืน"
                             value="{{ $details->homestay_price }}" form="form_edit_homestay" readonly>
@@ -86,21 +86,27 @@
         </div>
     </div>
 
-    <div class="container mt-4 ">
+    <div class="container mt-4 mb-4">
         <div class="card rounded-3 border border-1 shadow-lg">
             <div class="card-header">
                 รีวิวจากลูกค้า
             </div>
             <div class="card-body">
-                @foreach ($reviews as $review)
+                @if ($reviews->count() == null)
                     <div>
-                        {{ $review->booking->user->firstName }} : {{ $review->review_detail }}
-                        @if (isset($review->reply))
-                            เจ้าของโฮมสเตย์ : {{ $review->reply }}
-                        @endif
-                        <hr>
+                        <p class="m-0">ที่พักนี้ยังไม่มีการรีวิวจากลูกค้า</p>
                     </div>
-                @endforeach
+                @else
+                    @foreach ($reviews as $review)
+                        <div>
+                            {{ $review->booking->user->firstName }} : {{ $review->review_detail }}
+                            @if (isset($review->reply))
+                                เจ้าของโฮมสเตย์ : {{ $review->reply }}
+                            @endif
+                            <hr>
+                        </div>
+                    @endforeach
+                @endif
             </div>
         </div>
     </div>

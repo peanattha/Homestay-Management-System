@@ -212,14 +212,43 @@
                                     @endforeach
                                 @endif
                             </div>
-                            <div class="col-md-6">
+                            {{-- <div class="col-md-6">
                                 <label for="discount_price" class="form-label">ส่วนลด *</label>
                                 <div class="input-group">
                                     <input type="text" name="discount_price" id="discount_price" disabled required
                                         class="form-control" value="{{ $discount_price }}">
                                     <span class="input-group-text">บาท</span>
                                 </div>
-                            </div>
+                            </div> --}}
+                            @if ($booking->promotion->discount_price != null)
+                                <div class="col-md" id="dis_price">
+                                    <label class="form-label">ส่วนลด *</label>
+                                    <div class="input-group">
+                                        <input type="text" name="discount" id="discount" disabled
+                                            class="form-control" required
+                                            value="{{ $booking->total_price - $booking->total_price_discount }}">
+                                        <span class="input-group-text">บาท</span>
+                                    </div>
+                                </div>
+                            @else
+                                <div class="col-md" id="dis_price">
+                                    <label class="form-label">ส่วนลด *</label>
+                                    <div class="input-group">
+                                        <input type="text" name="discount" id="discount" disabled
+                                            class="form-control" required
+                                            value="{{ $booking->total_price - $booking->total_price_discount }}">
+                                        <span class="input-group-text">บาท</span>
+                                    </div>
+                                </div>
+                                <div class="col-md" id="dis_per">
+                                    <label class="form-label">ส่วนลด (เปอร์เซ็นต์)*</label>
+                                    <div class="input-group">
+                                        <input type="text" name="discount" id="discount_per" readonly
+                                            class="form-control" required value="{{ $booking->promotion->percent }}">
+                                        <span class="input-group-text">เปอร์เซ็นต์ (%)</span>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                         <hr>
                         <div class="row mt-2">
@@ -234,7 +263,7 @@
                             <div class="col-md-3">
                                 <label class="labels">ส่วนลด *</label>
                                 <div class="input-group">
-                                    <input type="text" name="discount" id="discount" readonly class="form-control"
+                                    <input type="text" name="discount" id="discount" readonly class="form-control" value="{{ $booking->total_price - $booking->total_price_discount }}"
                                         required>
                                     <span class="input-group-text">บาท</span>
                                 </div>

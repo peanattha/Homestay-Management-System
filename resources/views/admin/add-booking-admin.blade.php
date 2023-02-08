@@ -115,7 +115,7 @@
                 }
             }
 
-            
+
             $("#priceMenu").val(set_menu_price);
             $("#total_price").val((homestay_price * num_date) + set_menu_price);
             $("#total_price_discount").val(total_price_discount);
@@ -351,7 +351,7 @@
                     <div class="col-md" id="dis_per">
                         <label class="labels">ส่วนลด (เปอร์เซ็นต์)*</label>
                         <div class="input-group">
-                            <input type="text" name="discount" id="discount_per" readonly class="form-control"
+                            <input type="text" name="discount_per" id="discount_per" readonly class="form-control"
                                 required>
                             <span class="input-group-text">เปอร์เซ็นต์ (%)</span>
                         </div>
