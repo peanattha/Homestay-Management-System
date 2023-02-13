@@ -34,6 +34,7 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/description-details', "description_details")->name("description-details");
     Route::get('/service-charge', "service_charge")->name("service-charge");
     Route::get('/homestay', "homestay")->name("homestay");
+    Route::get('/calendar-booking-user', "calendar_booking_user")->name('calendar-booking-user');
 });
 
 // Users

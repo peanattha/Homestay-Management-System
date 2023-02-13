@@ -206,14 +206,14 @@ class homestayController extends Controller
     {
         $details = homestay::find($id);
 
-        $booking_ids = booking_detail::select('booking_id')->where('homestay_id',$id)->get();
+        $booking_ids = booking_detail::select('booking_id')->where('homestay_id', $id)->get();
 
         $reviews = review::whereIn('booking_id', $booking_ids)->get();
 
-        return view('user.homestay-details', compact('details','reviews'));
+        return view('user.homestay-details', compact('details', 'reviews'));
     }
 
-    //ตรวจสอบ10/1/66
+    //ตรวจสอบ9/2/66
     public function search_homestay(Request $request)
     {
         $dateRange = $request->dateRange;
@@ -256,14 +256,29 @@ class homestayController extends Controller
             })->get();
 
         $data = json_decode($homestay_ids);
-        $homestay_ids = array_column($data, 'homestay_id');
+        $homestay_ids = array_column($data, 'homestay_id');  //homestay id ที่มีคนจองเเล้ว
 
-        $homestays = Homestay::whereNotIn('id', $homestay_ids)->where('status',1)->get();
+        $commons = Homestay::select('id')->whereNotIn('id', $homestay_ids)->where('status', 1)->get(); //homestay id ที่ไม่มีคนจอง
 
+        $collection1 = collect();
+        foreach ($commons as $common) {
+            $collection1->push($common->id);
+        }
+        $array = explode(",", $request->homestay_filter);
+        $collection = collect($array);
+        $collection = $collection->map(function ($value) {
+            return intval($value);
+        });
+
+        $hm = collect($collection1)->intersect($collection)->all(); //homestay id ที่ไม่มีคนจอง เเละตรงกลับ homestay ที่เลือกเข้ามา
+
+        $homestays = Homestay::whereIn('id', $hm)->where('status', 1)->get(); //get ข้อมูล homestays ที่ไม่มีคนจอง เเละตรงกลับ homestay ที่เลือกเข้ามา
         if (count($homestays) != 0) {
-            return view('user.homestay', compact('homestays', 'dateRange'));
+            $homestays_filter = homestay::all();
+            return view('user.homestay', compact('homestays', 'dateRange', 'homestays_filter'));
         } else {
             return redirect()->route('homestay')->with('danger', "ไม่มีที่พักว่าง");
+            
         }
     }
 }

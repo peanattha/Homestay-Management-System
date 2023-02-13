@@ -46,6 +46,8 @@
                         <div class="collapse navbar-collapse" id="navbarCollapse">
                             <div class="navbar-nav ms-auto">
                                 <a href="{{ route('home') }}" class="nav-item nav-link @yield('home')">หน้าหลัก</a>
+                                <a href="{{ route('calendar-booking-user') }}"
+                                    class="nav-item nav-link @yield('calendar-booking-user')">ปฏิทินการจอง</a>
                                 <a href="{{ route('homestay') }}" class="nav-item nav-link @yield('homestay')">จอง</a>
                                 <a href="{{ route('booking-history') }}"
                                     class="nav-item nav-link @yield('booking-history')">ประวัติการจอง</a></li>
@@ -90,6 +92,8 @@
                         <div class="collapse navbar-collapse" id="navbarCollapse">
                             <div class="navbar-nav ms-auto">
                                 <a href="{{ route('home') }}" class="nav-item nav-link @yield('home')">หน้าหลัก</a>
+                                <a href="{{ route('calendar-booking-user') }}"
+                                    class="nav-item nav-link @yield('calendar-booking-user')">ปฏิทินการจอง</a>
                                 <a href="{{ route('homestay') }}" class="nav-item nav-link @yield('booking')">จอง</a>
                                 <a href="{{ route('login') }}" class="nav-item nav-link @yield('login')">เข้าสู่ระบบ</a>
                                 @if (Route::has('register'))
@@ -195,7 +199,8 @@
                             <a href="{{ route('home') }}" class="text-reset text-decoration-none">หน้าหลัก</a>
                         </p>
                         <p>
-                            <a href="" class="text-reset text-decoration-none">เมนู</a>
+                            <a href="{{ route('calendar-booking-user') }}"
+                                class="text-reset text-decoration-none">ปฏิทินการจอง</a>
                         </p>
                         <p>
                             <a href="{{ route('homestay') }}" class="text-reset text-decoration-none">จอง</a>

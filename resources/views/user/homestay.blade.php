@@ -63,6 +63,21 @@
                             });
                         </script>
                     </div>
+                    <div class="mb-3">
+                        <label for="dateRange" class="form-label">เลือกบ้านพัก *</label>
+                        <select class="form-select" aria-label="Default select example" name="homestay_filter">
+                            <?php
+                            $homstay_ids = [];
+                            ?>
+                            @foreach ($homestays_filter as $homestay)
+                                <option value="{{ $homestay->id }}">{{ $homestay->homestay_name }}</option>
+                                <?php
+                                array_push($homstay_ids, $homestay->id);
+                                ?>
+                            @endforeach
+                            <option value="{{implode(",",$homstay_ids)}}" selected>บ้านพักทั้งหมด</option>
+                        </select>
+                    </div>
                     <button type="submit" class="btn btn-success"><i class='bx bx-search'></i> ค้นหา</button>
                 </form>
             </div>
@@ -95,7 +110,8 @@
                                         <td style="width: 5%">{{ $loop->iteration }}</td>
                                         <td style="width: 20%">{{ $homestay->homestay_name }}</td>
                                         <td style="width: 10%">{{ $homestay->number_guests }}</td>
-                                        <td style="width: 20%"><a href="{{ route('homestay-details-user', $homestay->id) }}"
+                                        <td style="width: 20%"><a
+                                                href="{{ route('homestay-details-user', $homestay->id) }}"
                                                 class="btn btn-primary">รายละเอียด</a></td>
                                         <td style="width: 15%">
                                             <div class="custom-control custom-checkbox">

@@ -91,6 +91,7 @@
 </style>
 <script>
     window.onload = function() {
+
         var homestays = @json($homestays);
         var promotions = @json($promotions);
         var set_menus = @json($set_menus);
@@ -246,13 +247,19 @@
                         $homestay_price_total = 0;
                         ?>
                         @foreach ($homestays as $homestay)
-                            <input type="checkbox" id="hn{{ $homestay->id }}" name="homestay_name[]"
+                            <input type="checkbox" id="homestay_name" name="homestay_name[]"
                                 value="{{ $homestay->id }}" checked>
                             <label>{{ $homestay->homestay_name }}</label>
                             <?php
                             $homestay_price_total += $homestay->homestay_price;
                             ?>
                         @endforeach
+                        <script>
+                            var checkbox = document.getElementById("homestay_name");
+                            checkbox.addEventListener("click", function(event) {
+                                event.preventDefault();
+                            });
+                        </script>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-4">

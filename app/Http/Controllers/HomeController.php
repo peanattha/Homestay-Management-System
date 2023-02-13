@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\homestay;
-use App\Models\homestay_type;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -36,7 +36,18 @@ class HomeController extends Controller
         return view('description.service-charge');
     }
     public function homestay(){
-        $homestay_types = homestay_type::all();
-        return view('user.homestay',compact('homestay_types'));
+        $homestays_filter = homestay::all();
+        return view('user.homestay',compact('homestays_filter'));
+    }
+    public function calendar_booking_user()
+    {
+        $bookings = DB::table('bookings')
+            ->join('booking_details', 'bookings.id', '=', 'booking_details.booking_id')
+            ->join('homestays', 'booking_details.homestay_id', '=', 'homestays.id')
+            ->select('bookings.id', 'bookings.start_date', 'bookings.end_date', 'homestays.homestay_name')
+            ->Where('bookings.status', '!=', 4)
+            ->get()->groupBy('id');
+
+        return view('user.calendar-booking-user', compact('bookings'));
     }
 }

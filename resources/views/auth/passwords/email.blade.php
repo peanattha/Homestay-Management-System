@@ -12,7 +12,7 @@
                         {{ session('status') }}
                     </div>
                 @endif
-                <div class="card m-4">
+                <div class="card m-4 shadow-lg">
                     <div class="card-header">{{ __('เปลี่ยนรหัสผ่าน') }}</div>
                     <div class="card-body">
                         <form method="POST" action="{{ route('password.email') }}">
