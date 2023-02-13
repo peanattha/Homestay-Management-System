@@ -154,6 +154,8 @@ Route::group(['middleware' => ['auth', 'verified', 'CheckAdmin']], function () {
 
     Route::controller(ReviewController::class)->group(function () {
         Route::get('/manage-review', "manage_review")->name('manage-review');
+        Route::post('/delete-review-admin/{id}', "delete_review_admin")->name('delete-review-admin');
+        Route::post('/update-review-admin/{id}', "update_review_admin")->name('update-review-admin');
         Route::get('/review-admin', "review_admin")->name('review-admin');
         Route::get('/review-detail/{id}', "review_detail")->name('review-detail');
     });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class ReviewController extends Controller
@@ -24,13 +25,13 @@ class ReviewController extends Controller
     public function edit_review($id, Request $request)
     {
         $emoji_pattern = "\x{1F100}-\x{1F1FF}" // Enclosed Alphanumeric Supplement
-        ."\x{1F300}-\x{1F5FF}" // Miscellaneous Symbols and Pictographs
-        ."\x{1F600}-\x{1F64F}" //Emoticons
-        ."\x{1F680}-\x{1F6FF}" // Transport And Map Symbols
-        ."\x{1F900}-\x{1F9FF}" // Supplemental Symbols and Pictographs
-        ."\x{2600}-\x{26FF}" // Miscellaneous Symbols
-        ."\x{2700}-\x{27BF}"; // Dingbats
-        $string_without_emojis = preg_replace('/['. $emoji_pattern . ']+/u', '', $request->editReview);
+            . "\x{1F300}-\x{1F5FF}" // Miscellaneous Symbols and Pictographs
+            . "\x{1F600}-\x{1F64F}" //Emoticons
+            . "\x{1F680}-\x{1F6FF}" // Transport And Map Symbols
+            . "\x{1F900}-\x{1F9FF}" // Supplemental Symbols and Pictographs
+            . "\x{2600}-\x{26FF}" // Miscellaneous Symbols
+            . "\x{2700}-\x{27BF}"; // Dingbats
+        $string_without_emojis = preg_replace('/[' . $emoji_pattern . ']+/u', '', $request->editReview);
 
         $response = Http::asForm()->withHeaders([
             'Apikey' => 'QpeThh9VSvLIr0UVyQWP5NXjchaCZMWP',
@@ -56,13 +57,13 @@ class ReviewController extends Controller
     public function add_review($id, Request $request)
     {
         $emoji_pattern = "\x{1F100}-\x{1F1FF}" // Enclosed Alphanumeric Supplement
-        ."\x{1F300}-\x{1F5FF}" // Miscellaneous Symbols and Pictographs
-        ."\x{1F600}-\x{1F64F}" //Emoticons
-        ."\x{1F680}-\x{1F6FF}" // Transport And Map Symbols
-        ."\x{1F900}-\x{1F9FF}" // Supplemental Symbols and Pictographs
-        ."\x{2600}-\x{26FF}" // Miscellaneous Symbols
-        ."\x{2700}-\x{27BF}"; // Dingbats
-        $string_without_emojis = preg_replace('/['. $emoji_pattern . ']+/u', '', $request->review);
+            . "\x{1F300}-\x{1F5FF}" // Miscellaneous Symbols and Pictographs
+            . "\x{1F600}-\x{1F64F}" //Emoticons
+            . "\x{1F680}-\x{1F6FF}" // Transport And Map Symbols
+            . "\x{1F900}-\x{1F9FF}" // Supplemental Symbols and Pictographs
+            . "\x{2600}-\x{26FF}" // Miscellaneous Symbols
+            . "\x{2700}-\x{27BF}"; // Dingbats
+        $string_without_emojis = preg_replace('/[' . $emoji_pattern . ']+/u', '', $request->review);
 
         $response = Http::asForm()->withHeaders([
             'Apikey' => 'QpeThh9VSvLIr0UVyQWP5NXjchaCZMWP',
@@ -80,7 +81,7 @@ class ReviewController extends Controller
         } elseif ($polarity == 'negative') {
             $add_review->review_type = 2;
         } else {
-            $add_review->review_type = 3;
+            $add_review->review_type = 3;   //natural
         }
 
         $add_review->review_detail = $request->review;
@@ -92,18 +93,31 @@ class ReviewController extends Controller
     //Admin
     public function manage_review()
     {
-
-        return view('admin.manage-review');
+        $reviews = review::where('reply', null)->get();
+        return view('admin.manage-review', compact('reviews'));
     }
 
     public function review_admin()
     {
-
-        return view('admin.review-admin');
+        $reviews = review::all();
+        return view('admin.review-admin', compact('reviews'));
     }
     public function review_detail($id)
     {
-
-        return view('admin.review-detail');
+        $review = review::find($id);
+        return view('admin.review-detail', compact('review'));
+    }
+    public function delete_review_admin($id)
+    {
+        review::find($id)->delete();
+        return redirect()->back()->with('message', "ลบการรีวิวเสร็จสิ้น");
+    }
+    public function update_review_admin(Request $request, $id)
+    {
+        $update_review = review::find($id);
+        $update_review->reply = $request->reply;
+        $update_review->reply_by = Auth::user()->firstName . " " . Auth::user()->lastName;
+        $update_review->save();
+        return redirect()->back()->with('message', "เสร็จสิ้น");
     }
 }

@@ -17,8 +17,8 @@ class CreateReviewsTable extends Migration
             $table->id();
             $table->foreignId('booking_id')->references('id')->on('bookings')->onDelete('cascade');
             $table->string('review_detail');
-            $table->char('review_type',1);
-            $table->string('reply')->nullable();
+            $table->char('review_type', 1);
+            $table->string('reply', 10240)->nullable();
             $table->string('reply_by')->nullable();
             $table->timestamps();
             $table->softDeletes();

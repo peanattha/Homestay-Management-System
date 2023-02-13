@@ -61,7 +61,7 @@
                 <ul class="sub-menu">
                     <li><a href="{{ route('calendar-booking') }}">ปฏิทินการจอง</a></li>
                     <li><a href="{{ route('booking-admin') }}">รายการจองทั้งหมด</a></li>
-                    <li><a href="{{route('add-booking-admin')}}">เพิ่มรายการจอง</a></li>
+                    <li><a href="{{ route('add-booking-admin') }}">เพิ่มรายการจอง</a></li>
                     <li>
                         <a href="{{ route('check-in-admin') }}">
                             Check In
@@ -169,9 +169,11 @@
                         @else
                             <i class='bx bx-message-rounded-dots'></i>
                         @endif
-
                         <span class="link_name">การรีวิวบ้านพัก</span>
                     </a>
+                    @if (Session::get('noti')['cWaitReply'] != 0)
+                        <span class="badge bg-secondary">{{ Session::get('noti')['cWaitReply'] }}</span>
+                    @endif
                     <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
@@ -218,7 +220,7 @@
 
     <section class="home-section">
         <div class="home-content container">
-            <i class='bx bx-menu-alt-left' ></i>
+            <i class='bx bx-menu-alt-left'></i>
             @section('page-name')
 
             @show

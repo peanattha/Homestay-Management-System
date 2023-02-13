@@ -1,21 +1,52 @@
 @extends('layouts.admin')
 
-@section('title', 'Promotion')
+@section('title', 'Review Details')
 
-<link rel="stylesheet" href="{{ asset('css/table.css') }}">
+@section('page-name')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a href="{{ route('review-admin') }}">การรีวิวบ้านพัก</a></li>
+            <li class="breadcrumb-item active" aria-current="page">รายละเอียดการรีวิวบ้านพัก</li>
+        </ol>
+    </nav>
+@endsection
 
 @section('content')
+    <div class="card rounded-3 border border-1 shadow-lg">
+        <div class="card-header">
+            รายละเอียดการรีวิวบ้านพัก
+            @if ($review->review_type == 1)
+                <span class="badge bg-success">Positive</span>
+            @elseif ($review->review_type == 2)
+                <span class="badge bg-danger">Negative</span>
+            @elseif ($review->review_type == 3)
+                <span class="badge bg-warning text-dark">Natural</span>
+            @endif
+        </div>
+        <div class="card-body">
+            <form action="{{ route('update-review-admin', ['id' => $review->id]) }}" method="POST">
+                @csrf
+                <div class="mb-3">
+                    <label for="details" class="form-label">การรีวิว *</label>
+                    <textarea class="form-control" id="details" name="details" rows="5" readonly required>{{ $review->review_detail }}</textarea>
+                    <hr>
+                </div>
 
-    <div class="container mb-3">
-        <h3>ตอบกลับการรีวิว</h3>
-        <label for="details" class="form-label">การรีวิว </label>
-        <textarea class="form-control" id="details" name="details" rows="3" readonly required>บรรยากาศดี บริการดี  วิวสวย สะอาด  กาแฟอร่อย คาเฟ่สวยน่ารัก แนะนำเลยถ้ามาภูผาม่านต้องมาค่าเฟ่ที่นี้ แต่ส่วนที่พักจองบ้านภูผาม่านราคา1000 ไม่คุ้มเงินเลยบอกเลยไม่คุ้มเงิน จริงๆ ถ้า1000ก็ควรจะทำห้องให้ดีกว่านี้เครื่องทำน้ำอุ่นก็ใช้ไม่ได้
-ทีวีเปิดไม่ติด  ตรงที่ตั้งกาน้ำร้อนก็ไม่มีที่เสียบปลั้กแถมยังมีน้ำในกาเหลือจากคนเก่าที่พักก่อนน่าด้วย ส่วนบ้าน Family house เป็นห้องน้ำรวม แต่ประตูห้องน้ำล็อคไม่ได้เลย  เเนะนำแค่คาเฟ่เท่านั้นเฉพาะคนชอบกินกาแฟถ่ายรูป</textarea>
-<hr>
-<label for="details" class="form-label">ตอบกลับการรีวิว </label>
-<textarea class="form-control" id="details" name="details" rows="3" required></textarea>
-        <input type="submit" class="btn btn-success mt-3" value="แก้ใขการตอบกลับ">
-        <input type="submit" class="btn btn-danger mt-3" value="ลบการตอบกลับ">
+                @if ($review->reply != null)
+                    <div class="mb-3">
+                        <label for="reply" class="form-label">ตอบกลับการรีวิว *</label>
+                        <textarea class="form-control" id="reply" name="reply" rows="5" required>{{ $review->reply }}</textarea>
+                    </div>
+                    <input type="submit" class="btn btn-success" value="แก้ใขการตอบกลับ">
+                @else
+                    <div class="mb-3">
+                        <label for="reply" class="form-label">ตอบกลับการรีวิว *</label>
+                        <textarea class="form-control" id="reply" name="reply" rows="5" required></textarea>
+                    </div>
+                    <input type="submit" class="btn btn-success" value="ตอบกลับการรีวิว">
+                @endif
+            </form>
+        </div>
     </div>
 
 @endsection
