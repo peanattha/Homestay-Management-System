@@ -7,7 +7,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script>
-    // Delete homestay Type
+    // Delete appliance
     function showModelDelappliance(id, appliance_name) {
         window.id_appliance = id;
         document.getElementById("textModelDelAppliance").innerHTML =
@@ -21,7 +21,7 @@
             .submit();
     }
 
-    // Edit homestay Type
+    // Edit appliance
     function showModelEditappliance(id, appliance_name, amount, price) {
         $("#appliance_name_edit").val(appliance_name);
         $("#appliance_id").val(id);

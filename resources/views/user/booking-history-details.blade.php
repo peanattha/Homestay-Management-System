@@ -56,44 +56,6 @@
     </div>
 
     <div class="container d-flex justify-content-center flex-row flex-wrap mt-4">
-        {{-- <div class="col-md-4" style="overflow-y: scroll; height:700px;">
-            @foreach ($booking->booking_details as $booking_detail)
-                <div class="card mb-3" style="max-width: 630px; height: 301px;">
-                    <div class="row g-0">
-                        <div class="col-md-4">
-                            <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
-                                <div class="carousel-inner">
-                                    <?php $i = 0; ?>
-                                    @foreach (json_decode($booking_detail->homestay->homestay_img) as $img)
-                                        @if ($i == 0)
-                                            <?php $i += 1; ?>
-                                            <div class="carousel-item active">
-                                                <img src="{{ asset('storage/images/' . $img) }}"
-                                                    class="img-fluid rounded-start" alt="...">
-                                            </div>
-                                        @else
-                                            <div class="carousel-item">
-                                                <img src="{{ asset('storage/images/' . $img) }}"
-                                                    class="img-fluid rounded-start" alt="...">
-                                            </div>
-                                        @endif
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <h4 class="card-title"><b>{{ $booking_detail->homestay->homestay_name }}</b></h4>
-                                <pre class="card-text">{{ $booking_detail->homestay->homestay_detail }}</pre>
-                                <h5 class="card-text text-success"><b>ราคา : {{ $booking_detail->homestay->homestay_price }}
-                                        / คืน</b></h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        </div> --}}
-
         <div class="col-md-12 card rounded-3 border border-1 shadow-lg mb-4">
             <div class="card-header">
                 รายละเอียดการจอง

@@ -30,41 +30,42 @@
                 ค้นหาโฮมสเตย์
             </div>
             <div class="card-body">
-                <form action="{{ route('search-homestay') }}" method="POST">
+                <form action="{{ route('search-homestay') }}" method="POST" class="mb-0">
                     @csrf
-                    <div class="mb-3">
-                        <label for="dateRange" class="form-label">ช่วงวันที่เข้าพัก *</label>
-                        @if (isset($dateRange))
-                            <?php
-                            $dateArr = explode(' - ', $dateRange);
-                            $start_date = date('d-m-Y', strtotime($dateArr[0]));
-                            $end_date = date('d-m-Y', strtotime($dateArr[1]));
-                            $valueDate = $start_date . ' - ' . $end_date;
-                            ?>
-                        @else
-                            <?php
-                            $currentDate = date('d-m-Y');
-                            $d = date('d-m-Y', strtotime($currentDate . ' +1 days'));
-                            $valueDate = $currentDate . ' - ' . $d;
-                            ?>
-                        @endif
-                        <input type="text" name="dateRange" value="{{ $valueDate }}" class="form-control" required />
-                        <script>
-                            $(function() {
-                                var today = new Date();
-                                var date = (today.getDate()) + '-' + (today.getMonth() + 1) + '-' + today.getFullYear()
-                                $('input[name="dateRange"]').daterangepicker({
-                                    opens: 'left',
-                                    minDate: date,
-                                    locale: {
-                                        format: 'DD-MM-YYYY'
-                                    }
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="dateRange" class="form-label">ช่วงวันที่เข้าพัก *</label>
+                            @if (isset($dateRange))
+                                <?php
+                                $dateArr = explode(' - ', $dateRange);
+                                $start_date = date('d-m-Y', strtotime($dateArr[0]));
+                                $end_date = date('d-m-Y', strtotime($dateArr[1]));
+                                $valueDate = $start_date . ' - ' . $end_date;
+                                ?>
+                            @else
+                                <?php
+                                $currentDate = date('d-m-Y');
+                                $d = date('d-m-Y', strtotime($currentDate . ' +1 days'));
+                                $valueDate = $currentDate . ' - ' . $d;
+                                ?>
+                            @endif
+                            <input type="text" name="dateRange" value="{{ $valueDate }}" class="form-control" required />
+                            <script>
+                                $(function() {
+                                    var today = new Date();
+                                    var date = (today.getDate()) + '-' + (today.getMonth() + 1) + '-' + today.getFullYear()
+                                    $('input[name="dateRange"]').daterangepicker({
+                                        opens: 'left',
+                                        minDate: date,
+                                        locale: {
+                                            format: 'DD-MM-YYYY'
+                                        }
+                                    });
                                 });
-                            });
-                        </script>
-                    </div>
-                    <div class="mb-3">
-                        <label for="dateRange" class="form-label">เลือกบ้านพัก *</label>
+                            </script>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="dateRange" class="form-label">เลือกบ้านพัก *</label>
                         <select class="form-select" aria-label="Default select example" name="homestay_filter">
                             <?php
                             $homstay_ids = [];
@@ -77,6 +78,7 @@
                             @endforeach
                             <option value="{{implode(",",$homstay_ids)}}" selected>บ้านพักทั้งหมด</option>
                         </select>
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-success"><i class='bx bx-search'></i> ค้นหา</button>
                 </form>

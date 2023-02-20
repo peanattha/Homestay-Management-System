@@ -127,7 +127,7 @@ class BookingController extends Controller
         $update_booking->status = 6;  //รอยืนยันการชำระเงิน
         $update_booking->save();
 
-        return redirect()->route('booking-history')->with('message', "ชำระเงินเสร็จสิ้น รอยืนยันจากทางเจ้าของโฮมสเตย์");
+        return redirect()->route('booking-history')->with('booking-success', "ชำระเงินเสร็จสิ้น รอยืนยันจากทางเจ้าของโฮมสเตย์");
     }
 
     public function history_details($id)

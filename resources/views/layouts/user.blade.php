@@ -121,19 +121,19 @@
             {{-- Alert Message --}}
             @if (Session::has('message'))
                 <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
-                    {{ Session::get('message') }}
+                    <i class='bx bx-check-circle bx-tada me-2'></i>{{ Session::get('message') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
             @if (Session::has('warning'))
                 <div class="alert alert-warning alert-dismissible fade show mt-4" role="alert">
-                    {{ Session::get('warning') }}
+                    <i class='bx bx-error bx-tada me-2'></i>{{ Session::get('warning') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
             @if (Session::has('danger'))
                 <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
-                    {{ Session::get('danger') }}
+                    <i class='bx bx-x-circle bx-tada me-2'></i>{{ Session::get('danger') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif

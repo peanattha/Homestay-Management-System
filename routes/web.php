@@ -13,7 +13,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ApplianceController;
-use App\Http\Controllers\WindenController;
+use App\Http\Controllers\WidenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -167,9 +167,11 @@ Route::group(['middleware' => ['auth', 'verified', 'CheckAdmin']], function () {
         Route::post('/delete-appliance/{id}', "delete_appliance")->name('delete-appliance');
     });
 
-    Route::controller(WindenController::class)->group(function () {
-        Route::get('/winden-appliance-booking', "manage_appliance_booking")->name('manage-appliance-booking');
-        Route::get('/winden-appliance-homestay', "manage_appliance_homestay")->name('manage-appliance-homestay');
+    Route::controller(WidenController::class)->group(function () {
+        Route::get('/manage-appliance-booking', "manage_appliance_booking")->name('manage-appliance-booking');
+        Route::get('/manage-appliance-homestay', "manage_appliance_homestay")->name('manage-appliance-homestay');
+        Route::post('/widen-homestay', "widen_homestay")->name('widen-homestay');
+        Route::post('/edit-widen-homestay', "edit_widen_homestay")->name('edit-widen-homestay');
 
         Route::get('/appliance-homestay-detail/{id}', "appliance_homestay_detail")->name('appliance-homestay-detail');
         Route::get('/appliance-booking-detail/{id}', "appliance_booking_detail")->name('appliance-booking-detail');

@@ -45,7 +45,6 @@ class ApplianceController extends Controller
 
     public function delete_appliance($id)
     {
-
         appliance::find($id)->delete();
         return redirect()->back()->with('message', "ลบของใช้เสร็จสิ้น");
     }

@@ -18,6 +18,8 @@ class CreateHomestayDetailsTable extends Migration
             $table->foreignId('appliance_id')->references('id')->on('appliances')->onDelete('cascade');
             $table->foreignId('homestay_id')->references('id')->on('homestays')->onDelete('cascade');
             $table->integer('amount');
+            $table->string('widen_by');
+            $table->char('status',1);
             $table->timestamps();
             $table->softDeletes();
         });

@@ -97,15 +97,15 @@
                         <p class="m-0">ที่พักนี้ยังไม่มีการรีวิวจากลูกค้า</p>
                     </div>
                 @else
-                    @foreach ($reviews as $review)
-                        <div>
-                            {{ $review->booking->user->firstName }} : {{ $review->review_detail }}
+                    <div>
+                        @foreach ($reviews as $review)
+                            <p>{{ $review->booking->user->firstName }} : {{ $review->review_detail }}</p>
                             @if (isset($review->reply))
-                                เจ้าของโฮมสเตย์ : {{ $review->reply }}
+                                <p>เจ้าของโฮมสเตย์ : {{ $review->reply }}</p>
                             @endif
                             <hr>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    </div>
                 @endif
             </div>
         </div>
