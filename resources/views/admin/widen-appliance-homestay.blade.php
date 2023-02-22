@@ -7,18 +7,15 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script>
-    // Delete homestay Type
-    function showModelDelappliance(id, appliance_name) {
-        window.id_appliance = id;
-        document.getElementById("textModelDelAppliance").innerHTML =
-            "คุณเเน่ใจที่จะลบของใช้ " + appliance_name;
-        $("#modal-del-appliance").modal("show");
+    // DrawฺBack Homedetail
+    function showModelDrawฺBackHomedetail(id) {
+        window.id_homedetail = id;
+        $("#modelDrawฺBackHomedetail").modal("show");
     }
 
-    function confirmDelAppliance() {
-        document
-            .getElementById("del-appliance" + window.id_appliance)
-            .submit();
+    function confirmDrawฺBackHomedetail() {
+        document.getElementById("drawฺBack-homestaydetail" + window.id_homedetail).submit();
+        console.log("AAA");
     }
 
     // Edit homestay detail
@@ -28,6 +25,30 @@
         $("#edit_appliance_id").val(homestay_detail.appliance.id);
         $("#editAmount").val(homestay_detail.amount);
         $("#widen_by").val(homestay_detail.widen_by);
+        var homestay_details = @json($homestay_details);
+        // console.log(homestay_details);
+        let homestay_detail_id = document.getElementById("homestay_detail_id");
+        for (let i = 0; i <= (homestay_details).length - 1; i++) {
+            if ((homestay_details[i].id == homestay_detail_id.value) && (homestay_details[i].status == "2")) {
+                // console.log(homestay_detail_id.value);
+                document.getElementById("exampleModalCenterTitle").innerHTML =
+                    'แก้ไขรายการเบิกของเข้าบ้านพัก <span class="badge bg-success">คืนของเข้าคลัง</span>';
+                $("#btn-EditHomedetail").css("display", "none");
+                $("#edit_homestay_id").attr("disabled", true);
+                $("#edit_appliance_id").attr("disabled", true);
+                $("#stockAmountEdit").attr("disabled", true);
+                $("#editAmount").attr("disabled", true);
+            } else if ((homestay_details[i].id == homestay_detail_id.value) && (homestay_details[i].status == "1")) {
+                document.getElementById("exampleModalCenterTitle").innerHTML =
+                    'แก้ไขรายการเบิกของเข้าบ้านพัก <span class="badge bg-warning text-dark">เบิก</span>';
+                $("#btn-EditHomedetail").css("display", "inline");
+                $("#edit_homestay_id").attr("disabled", false);
+                $("#edit_appliance_id").attr("disabled", false);
+                $("#stockAmountEdit").attr("disabled", false);
+                $("#editAmount").attr("disabled", false);
+            }
+        }
+
         var appliances = @json($appliances);
         for (let i = 0; i <= (appliances).length - 1; i++) {
             if (appliances[i].id == edit_appliance_id.value) {
@@ -46,7 +67,7 @@
     window.onload = function() {
         let appliance_id = document.getElementById("appliance_id");
         var appliances = @json($appliances);
-        console.log(appliances);
+        // console.log(appliances);
         appliance_id.addEventListener('change', (event) => {
 
             for (let i = 0; i <= (appliances).length - 1; i++) {
@@ -80,12 +101,29 @@
 @endsection
 
 @section('content')
+    <div class="modal fade" id="modelDrawฺBackHomedetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">แจ้งเตือน</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="textModelDrawฺBackHomedetail">คุณเเน่ใจที่จะคืนของเข้าคลัง</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onclick="confirmDrawฺBackHomedetail()">ยืนยัน</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="modelEditHomedetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <p class="modal-title" id="exampleModalCenterTitle">แก้ไขรายการเบิกของเข้าบ้านพัก</p>
+                    <p class="modal-title" id="exampleModalCenterTitle"></p>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -127,7 +165,7 @@
                                     required>
                             </div>
                             <div>
-                                <button type="button" class="btn btn-success"
+                                <button type="button" class="btn btn-success" id="btn-EditHomedetail"
                                     onclick="confirmAddEditHomedetail()">ยืนยัน</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
                             </div>
@@ -218,7 +256,6 @@
                             <option selected hidden>เลือกสถานะ</option>
                             <option value="1">เบิก</option>
                             <option value="2">คืนของใช้เเล้ว</option>
-                            <option value="3">ยกเลิกการเบิก</option>
                         </select>
                     </div>
                 </div>
@@ -233,9 +270,10 @@
                 <thead>
                     <tr>
                         <th style="width: 10%">ลำดับ</th>
-                        <th style="width: 25%">ชื่อของใช้ในคลัง</th>
-                        <th style="width: 10%">จำนวนการเบิก</th>
+                        <th style="width: 20%">ชื่อของใช้ในคลัง</th>
+                        <th style="width: 5%">จำนวน</th>
                         <th style="width: 10%">ชื่อบ้านพัก</th>
+                        <th style="width: 10%">สถานะ</th>
                         <th style="width: 25%">แก้ไข</th>
                         <th style="width: 10%">คืนของใช้</th>
                     </tr>
@@ -248,21 +286,37 @@
                     @foreach ($homestay_details as $homestay_detail)
                         <tr>
                             <td style="width: 10%">{{ $loop->iteration }}</td>
-                            <td style="width: 25%">{{ $homestay_detail->appliance->appliance_name }}</td>
-                            <td style="width: 10%">{{ $homestay_detail->amount }}</td>
+                            <td style="width: 20%">{{ $homestay_detail->appliance->appliance_name }}</td>
+                            <td style="width: 5%">{{ $homestay_detail->amount }}</td>
                             <td style="width: 10%">{{ $homestay_detail->homestay->homestay_name }}</td>
+                            <td style="width: 10%">
+                                @if ($homestay_detail->status == 2)
+                                    <span class="badge bg-success">คืนของเข้าคลัง</span>
+                                @elseif ($homestay_detail->status == 1)
+                                    <span class="badge bg-warning text-dark">เบิก</span>
+                                @endif
+                            </td>
                             <td style="width: 25%"><button class="btn btn-primary"
-                                    onclick="showModelEditHomedetail({{ $homestay_detail }})">แก้ไขรายการเบิก</button>
+                                    onclick="showModelEditHomedetail({{ $homestay_detail }})">รายละเอียด/แก้ไข</button>
                             </td>
                             <td style="width: 10%">
-                                {{-- <form action="{{ route('delete-appliance', ['id' => $appliance->id]) }}" method="POST"
-                                    id="del-appliance{{ $appliance->id }}" class="m-0">
+                                <form action="{{ route('drawฺ-back-homestay-detail', ['id' => $homestay_detail->id]) }}"
+                                    method="POST" id="drawฺBack-homestaydetail{{ $homestay_detail->id }}"
+                                    class="m-0">
                                     @csrf
-                                </form> --}}
-                                <button type="button" class="btn btn-danger"
-                                    onclick="showModelDelappliance({{ $appliance->id }},'{{ $appliance->appliance_name }}')">
-                                    คืนของใช้
-                                </button>
+                                </form>
+                                @if ($homestay_detail->status == 2)
+                                    <button type="button" class="btn btn-danger"
+                                        onclick="showModelDrawฺBackHomedetail({{ $homestay_detail->id }})" disabled>
+                                        คืนของใช้
+                                    </button>
+                                @elseif ($homestay_detail->status == 1)
+                                    <button type="button" class="btn btn-danger"
+                                        onclick="showModelDrawฺBackHomedetail({{ $homestay_detail->id }})">
+                                        คืนของใช้
+                                    </button>
+                                @endif
+
                             </td>
                         </tr>
                     @endforeach
