@@ -16,6 +16,8 @@ class WidenController extends Controller
     {
         $this->middleware('auth');
     }
+
+    //booking
     public function manage_appliance_booking()
     {
 

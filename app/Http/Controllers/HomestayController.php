@@ -9,6 +9,7 @@ use App\Models\homestay;
 use Illuminate\Support\Facades\DB;
 use App\Models\booking;
 use App\Models\booking_detail;
+use App\Models\homestay_detail;
 use App\Models\review;
 use App\Models\set_menu;
 
@@ -101,8 +102,9 @@ class homestayController extends Controller
         $detail = homestay::find($id);
         $homestay_types = homestay_type::all();
         $set_menus = set_menu::all();
+        $homestay_details = homestay_detail::where('homestay_id',$id)->where('status',1)->get();
 
-        return view('admin.homestay-details', compact('detail', 'homestay_types', 'set_menus'));
+        return view('admin.homestay-details', compact('detail', 'homestay_types', 'set_menus', 'homestay_details'));
     }
 
     public function delete_img($id, $name_img)
@@ -278,7 +280,7 @@ class homestayController extends Controller
             return view('user.homestay', compact('homestays', 'dateRange', 'homestays_filter'));
         } else {
             return redirect()->route('homestay')->with('danger', "ไม่มีที่พักว่าง");
-            
+
         }
     }
 }

@@ -102,6 +102,45 @@
             </form>
         </div>
     </div>
+    <div class="card rounded-3 border border-1 shadow-lg mt-4">
+        <div class="card-header">
+            รายละเอียดของใช้ในบ้านพัก
+        </div>
+        <div class="card-body">
+            @if ($homestay_details->count() > 0)
+                @foreach ($homestay_details as $homestay_detail)
+                    @if ($loop->iteration <= 1)
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="appliance_name" class="form-label">ของใช้ *</label>
+                                <input type="text" class="form-control" id="appliance_name" name="appliance_name"
+                                    required readonly value="{{ $homestay_detail->appliance->appliance_name }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="amount" min=0 class="form-label">จำนวน *</label>
+                                <input type="number" class="form-control" min="1" id="amount" name="amount"
+                                    required readonly value="{{ $homestay_detail->amount }}">
+                            </div>
+                        </div>
+                    @else
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" id="appliance_name" name="appliance_name"
+                                    required readonly value="{{ $homestay_detail->appliance->appliance_name }}">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="number" class="form-control" min="1" id="amount" name="amount"
+                                    required readonly value="{{ $homestay_detail->amount }}">
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            @else
+                <p class="m-0">ยังไม่รายการเบิกของเข้าบ้านพักนี้ หากต้องการเบิกของใช้เข้าบ้านพัก <a
+                        href="{{ route('manage-appliance-homestay') }}">เบิกของใช้เข้าบ้านพัก</a></p>
+            @endif
+        </div>
+    </div>
     <div class="table100 ver2 mb-4 mt-4">
         <div class="table100-head">
             <table>
