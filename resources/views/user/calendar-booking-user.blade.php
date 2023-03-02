@@ -14,6 +14,14 @@
 
 <link rel="stylesheet" href="{{ asset('fullcalendar/packages/daygrid/main.css') }}">
 
+@if (Session::has('alert'))
+    <script>
+        window.onload = function() {
+            $("#modal").modal("show");
+        }
+    </script>
+@endif
+
 @section('page-name')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb m-0">
@@ -24,6 +32,30 @@
 @endsection
 
 @section('content')
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">แจ้งเตือน</h5>
+                </div>
+                <div class="modal-body" id="textModely">
+                    <span class="text-danger">--ไม่มีที่พักว่าง--</span><br>
+                    คุณสามารถดูบ้านพักที่ว่างตามหารค้นหา เเสดงในปฏิทินการจองนี้ คุณเลือกค้นหาบ้านพัก
+                    <ul>
+                        @if (Session::has('alert'))
+                            @foreach (Session::get('alert') as $homestay_name)
+                                <li>{{ $homestay_name->homestay_name }}</li>
+                            @endforeach
+                        @endif
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">ยืนยัน</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container mt-4">
         <div class="card rounded-3 border border-1 shadow-lg">
             <div class="card-header">
@@ -70,7 +102,7 @@
                         if (i == bookings[key].length - 1) {
                             homestay_name = homestay_name.concat(bookings[key][i].homestay_name);
                             var event = {
-                                "title": homestay_name,
+                                "title": homestay_name + " (จองแแล้ว)",
                                 "start": bookings[key][i].start_date,
                                 "end": bookings[key][i].end_date
                             };

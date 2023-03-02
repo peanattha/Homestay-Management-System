@@ -102,7 +102,7 @@ class homestayController extends Controller
         $detail = homestay::find($id);
         $homestay_types = homestay_type::all();
         $set_menus = set_menu::all();
-        $homestay_details = homestay_detail::where('homestay_id',$id)->where('status',1)->get();
+        $homestay_details = homestay_detail::where('homestay_id', $id)->where('status', 1)->get();
 
         return view('admin.homestay-details', compact('detail', 'homestay_types', 'set_menus', 'homestay_details'));
     }
@@ -279,8 +279,19 @@ class homestayController extends Controller
             $homestays_filter = homestay::all();
             return view('user.homestay', compact('homestays', 'dateRange', 'homestays_filter'));
         } else {
-            return redirect()->route('homestay')->with('danger', "ไม่มีที่พักว่าง");
+            $bookings = DB::table('bookings')
+                ->join('booking_details', 'bookings.id', '=', 'booking_details.booking_id')
+                ->join('homestays', 'booking_details.homestay_id', '=', 'homestays.id')
+                ->select('bookings.id', 'bookings.start_date', 'bookings.end_date', 'homestays.homestay_name')
+                ->Where('bookings.status', '!=', 4)
+                ->WhereIn('booking_details.homestay_id', $collection)
+                ->get()->groupBy('id');
 
+            $homestays = homestay::where('status', 1)->get();
+
+            $homestay_name = Homestay::select('homestay_name')->whereIn('id', $collection)->where('status', 1)->get();
+            session()->flash('alert', $homestay_name);
+            return view('user.calendar-booking-user', compact('bookings', 'homestays'));
         }
     }
 }
