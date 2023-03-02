@@ -188,34 +188,32 @@
                     </li>
                 </ul>
             </li>
-            <li>
-                <div class="profile-details">
-                    <div class="profile-content">
-                        @if (Auth::user()->image == '')
-                            <?php
-                            $name = 'https://ui-avatars.com/api/?size=512&name=' . Auth::user()->firstName . '+' . Auth::user()->lastName;
-                            ?>
-                            <img src="{{ $name }}">
-                        @else
-                            <img src="{{ asset('storage/images/' . Auth::user()->image) }}">
-                        @endif
-                    </div>
-                    <div class="name-job">
-                        <a href="{{ route('profile-admin') }}">
-                            <div class="profile_name">{{ Auth::user()->firstName }}
-                                {{ Auth::user()->lastName }}</div>
-                        </a>
-                    </div>
-                    <a href="{{ route('logout') }}"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class='bx bx-log-out'></i>
-                    </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
-                </div>
-            </li>
         </ul>
+        <div class="profile-details">
+            <div class="profile-content">
+                @if (Auth::user()->image == '')
+                    <?php
+                    $name = 'https://ui-avatars.com/api/?size=512&name=' . Auth::user()->firstName . '+' . Auth::user()->lastName;
+                    ?>
+                    <img src="{{ $name }}">
+                @else
+                    <img src="{{ asset('storage/images/' . Auth::user()->image) }}">
+                @endif
+            </div>
+            <div class="name-job">
+                <a href="{{ route('profile-admin') }}">
+                    <div class="profile_name">{{ Auth::user()->firstName }}
+                        {{ Auth::user()->lastName }}</div>
+                </a>
+            </div>
+            <a href="{{ route('logout') }}"
+                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <i class='bx bx-log-out'></i>
+            </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
+        </div>
     </div>
 
     <section class="home-section">
