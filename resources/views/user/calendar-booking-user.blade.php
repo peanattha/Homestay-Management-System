@@ -24,11 +24,39 @@
 @endsection
 
 @section('content')
-    <div class="container">
+    <div class="container mt-4">
+        <div class="card rounded-3 border border-1 shadow-lg">
+            <div class="card-header">
+                ค้นหาโฮมสเตย์
+            </div>
+            <div class="card-body">
+                <form action="{{ route('search-calendar-user') }}" method="GET">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="dateRange" class="form-label">เลือกบ้านพัก *</label>
+                        <select class="form-select" aria-label="Default select example" name="homestay_filter">
+                            <?php
+                            $homstay_ids = [];
+                            ?>
+                            @foreach ($homestays as $homestay)
+                                <option value="{{ $homestay->id }}">{{ $homestay->homestay_name }}</option>
+                                <?php
+                                array_push($homstay_ids, $homestay->id);
+                                ?>
+                            @endforeach
+                            <option value="{{ implode(',', $homstay_ids) }}" selected>บ้านพักทั้งหมด</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-success">
+                        <i class='bx bx-search'></i>
+                        ค้นหา
+                    </button>
+                </form>
+            </div>
+        </div>
         <div class="mt-4 mb-4">
             <div id='calendar' class="p-4 rounded-3 border border-1 shadow-lg"></div>
         </div>
-
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 var calendarEl = document.getElementById('calendar');

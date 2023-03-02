@@ -29,15 +29,18 @@ class HomeController extends Controller
     {
         return view('description.accommodation-rules');
     }
-    public function description_details(){
+    public function description_details()
+    {
         return view('description.details');
     }
-    public function service_charge(){
+    public function service_charge()
+    {
         return view('description.service-charge');
     }
-    public function homestay(){
+    public function homestay()
+    {
         $homestays_filter = homestay::all();
-        return view('user.homestay',compact('homestays_filter'));
+        return view('user.homestay', compact('homestays_filter'));
     }
     public function calendar_booking_user()
     {
@@ -48,6 +51,27 @@ class HomeController extends Controller
             ->Where('bookings.status', '!=', 4)
             ->get()->groupBy('id');
 
-        return view('user.calendar-booking-user', compact('bookings'));
+        $homestays = homestay::where('status', 1)->get();
+        return view('user.calendar-booking-user', compact('bookings', 'homestays'));
+    }
+    public function search_calendar_user(Request $request)
+    {
+        $array = explode(",", $request->homestay_filter);
+        $collection = collect($array);
+        $collection = $collection->map(function ($value) {
+            return intval($value);
+        });
+
+        $bookings = DB::table('bookings')
+            ->join('booking_details', 'bookings.id', '=', 'booking_details.booking_id')
+            ->join('homestays', 'booking_details.homestay_id', '=', 'homestays.id')
+            ->select('bookings.id', 'bookings.start_date', 'bookings.end_date', 'homestays.homestay_name')
+            ->Where('bookings.status', '!=', 4)
+            ->WhereIn('booking_details.homestay_id', $collection)
+            ->get()->groupBy('id');
+
+        $homestays = homestay::where('status', 1)->get();
+
+        return view('user.calendar-booking-user', compact('bookings', 'homestays'));
     }
 }

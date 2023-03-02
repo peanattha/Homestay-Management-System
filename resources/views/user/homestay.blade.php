@@ -49,7 +49,8 @@
                                 $valueDate = $currentDate . ' - ' . $d;
                                 ?>
                             @endif
-                            <input type="text" name="dateRange" value="{{ $valueDate }}" class="form-control" required />
+                            <input type="text" name="dateRange" value="{{ $valueDate }}" class="form-control"
+                                required />
                             <script>
                                 $(function() {
                                     var today = new Date();
@@ -66,18 +67,18 @@
                         </div>
                         <div class="col-md-6">
                             <label for="dateRange" class="form-label">เลือกบ้านพัก *</label>
-                        <select class="form-select" aria-label="Default select example" name="homestay_filter">
-                            <?php
-                            $homstay_ids = [];
-                            ?>
-                            @foreach ($homestays_filter as $homestay)
-                                <option value="{{ $homestay->id }}">{{ $homestay->homestay_name }}</option>
+                            <select class="form-select" aria-label="Default select example" name="homestay_filter">
                                 <?php
-                                array_push($homstay_ids, $homestay->id);
+                                $homstay_ids = [];
                                 ?>
-                            @endforeach
-                            <option value="{{implode(",",$homstay_ids)}}" selected>บ้านพักทั้งหมด</option>
-                        </select>
+                                @foreach ($homestays_filter as $homestay)
+                                    <option value="{{ $homestay->id }}">{{ $homestay->homestay_name }}</option>
+                                    <?php
+                                    array_push($homstay_ids, $homestay->id);
+                                    ?>
+                                @endforeach
+                                <option value="{{ implode(',', $homstay_ids) }}" selected>บ้านพักทั้งหมด</option>
+                            </select>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-success"><i class='bx bx-search'></i> ค้นหา</button>
