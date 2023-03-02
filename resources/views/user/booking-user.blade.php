@@ -112,6 +112,7 @@
 
         num_date = (Date.parse(d1) - Date.parse(d2)) / (1000 * 60 * 60 * 24);
 
+        //setค่าตอนแรก
         $("#discount").val(0);
         $("#total_price").val((homestay_price * num_date));
         total_price_discount = ((homestay_price * num_date));
@@ -140,31 +141,42 @@
 
             //discount
             discount = 0;
-            for (let i = 0; i <= (promotions).length - 1; i++) {
-                if (document.getElementById("promotion").value == promotions[i].id) {
-                    if (promotions[i].discount_price != null) {
-                        promotion_type = 1;
-                        discount = promotions[i].discount_price;
-                        total_price_discount = ((homestay_price * num_date) + set_menu_price) - discount;
-                        document.getElementById("dis_per").style.display = "none";
-                        document.getElementById("dis_price").style.display = "block";
-                        $("#discount_price").val(discount);
-                        $("#discount").val(discount);
-                        break
-                    } else {
-                        promotion_type = 2;
-                        discount = promotions[i].percent;
-                        total_price_discount = ((homestay_price * num_date) + set_menu_price) - Math.floor(
-                            homestay_price * (discount / 100));
-                        document.getElementById("dis_per").style.display = "block";
-                        document.getElementById("dis_price").style.display = "block";
-                        $("#discount").val(Math.floor(homestay_price * (discount / 100)));
-                        $("#discount_per").val(discount);
-                        $("#discount_price").val(Math.floor(homestay_price * (discount / 100)));
-                        break
+            if (promotions.length == 0) {
+                total_price_discount = ((homestay_price * num_date) + set_menu_price) - discount;
+                $("#discount_price").val(discount);
+                $("#discount").val(discount);
+                $("#discount_per").val(discount);
+            } else {
+                for (let i = 0; i <= (promotions).length - 1; i++) {
+                    if (document.getElementById("promotion").value == promotions[i].id) {
+                        if (promotions[i].discount_price != null) {
+                            promotion_type = 1;
+                            discount = promotions[i].discount_price;
+                            total_price_discount = ((homestay_price * num_date) + set_menu_price) -
+                                discount;
+                            document.getElementById("dis_per").style.display = "none";
+                            document.getElementById("dis_price").style.display = "block";
+                            $("#discount_price").val(discount);
+                            $("#discount").val(discount);
+                            break
+                        } else {
+                            promotion_type = 2;
+                            discount = promotions[i].percent;
+                            total_price_discount = ((homestay_price * num_date) + set_menu_price) - Math
+                                .floor(
+                                    homestay_price * (discount / 100));
+                            document.getElementById("dis_per").style.display = "block";
+                            document.getElementById("dis_price").style.display = "block";
+                            $("#discount").val(Math.floor(homestay_price * (discount / 100)));
+                            $("#discount_per").val(discount);
+                            $("#discount_price").val(Math.floor(homestay_price * (discount / 100)));
+                            break
+                        }
                     }
                 }
             }
+
+
 
             num_date = 0;
             myArray = [];
@@ -222,7 +234,7 @@
                 ข้อมูลการจอง
             </div>
             <div class="card-body" id="booking_info">
-                <form action="{{ route('add-booking-user') }}" method="POST">
+                <form action="{{ route('add-booking-user') }}" method="POST" class="m-0">
                     @csrf
                     <div class="row mb-3">
                         <div class="col-md-4">
@@ -247,19 +259,14 @@
                         $homestay_price_total = 0;
                         ?>
                         @foreach ($homestays as $homestay)
-                            <input type="checkbox" id="homestay_name" name="homestay_name[]"
-                                value="{{ $homestay->id }}" checked>
+                            <input type="checkbox" id="homestay_name" name="homestay_name[]" value="{{ $homestay->id }}"
+                                checked onclick="return false;" />
                             <label>{{ $homestay->homestay_name }}</label>
                             <?php
                             $homestay_price_total += $homestay->homestay_price;
                             ?>
                         @endforeach
-                        <script>
-                            var checkbox = document.getElementById("homestay_name");
-                            checkbox.addEventListener("click", function(event) {
-                                event.preventDefault();
-                            });
-                        </script>
+
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-4">
@@ -317,9 +324,14 @@
                             <select class="form-select" aria-label="Default select example" name="promotion"
                                 id="promotion">
                                 <option value="0" selected hidden>เลือกโปรโมชั่น</option>
-                                @foreach ($promotions as $promotion)
-                                    <option value="{{ $promotion->id }}">{{ $promotion->promotion_name }}</option>
-                                @endforeach
+                                @if ($promotions->count() == null)
+                                    <option value="0">ไม่มีโปรโมชั่น</option>
+                                @else
+                                    @foreach ($promotions as $promotion)
+                                        <option value="{{ $promotion->id }}">{{ $promotion->promotion_name }}</option>
+                                    @endforeach
+                                @endif
+
                             </select>
                         </div>
                         <div class="col-md" id="dis_price">

@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+@section('active-booking-admin', 'active')
+
 @section('title', 'Confirm Booking')
 
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">

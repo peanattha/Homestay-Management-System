@@ -10,14 +10,6 @@
 
 <link href="{{ asset('css/print.min.css') }}" rel="stylesheet">
 
-<style>
-    .carousel-item img {
-        height: 300px;
-        width: 630px;
-        object-fit: cover;
-    }
-</style>
-
 <script>
     function showCanclePay() {
         $("#modal-cancle-pay").modal("show");
@@ -25,6 +17,13 @@
 
     function confirmCanclePay() {
         document.getElementById("cancel-pay-user").submit();
+    }
+
+    function checkPolicy() {
+        console.log("aa");
+        if ($("#policyCancle").is(":checked") == true) {
+            document.getElementById("btn-confirmCanclePay").disabled = false;
+        }
     }
 </script>
 
@@ -46,9 +45,22 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">แจ้งเตือน</h5>
                 </div>
-                <div class="modal-body" id="textModelCanclePay">คุณเเน่ใจที่จะยกเลิกการจอง</div>
+                <div class="modal-body" id="textModelCanclePay">
+                    คุณเเน่ใจที่จะยกเลิกการจอง <br>
+                    --ข้อตกลงการยกเลิกการจอง--
+                    <ul>
+                        <li>หากยกเลิกการจอง <span class="text-danger">ก่อนถึงวันจอง 3 วัน</span> ทางโฮมสเตย์จะคืนเงินมันดจำ
+                            ที่ได้ทำการจ่ายมาเต็มจะนวณ</li>
+                        <li>หากยกเลิกการจอง <span class="text-danger">หลังจาก 3 วันก่อนวันจอง</span> ทางโฮมสเตย์จะ <span
+                                class="text-danger">ไม่คืน</span>
+                            เงินมันดจำ ไม่ว่ากรณีใด</li>
+                    </ul>
+                    <input type="checkbox" id="policyCancle" name="policyCancle" value="1" onclick="checkPolicy()">
+                    <label>ยอมรับข้อตกลงการยกเลิก</label>
+                </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" onclick="confirmCanclePay()">ยืนยัน</button>
+                    <button type="button" class="btn btn-success" id="btn-confirmCanclePay" onclick="confirmCanclePay()"
+                        disabled>ยืนยัน</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
                 </div>
             </div>
@@ -66,13 +78,13 @@
                 @elseif ($booking->status == 3)
                     <span class="badge bg-success">รอ Check In</span>
                 @elseif ($booking->status == 4)
-                    <span class="badge bg-success">ยกเลิกการจอง</span>
+                    <span class="badge bg-danger">ยกเลิกการจอง</span>
                 @elseif ($booking->status == 5)
-                    <span class="badge bg-success">รอชำระเงิน</span>
+                    <span class="badge bg-warning text-dark">รอชำระเงิน</span>
                 @elseif ($booking->status == 6)
-                    <span class="badge bg-success">รอยืนยันการชำระเงิน</span>
+                    <span class="badge bg-warning text-dark">รอยืนยันการชำระเงิน</span>
                 @elseif ($booking->status == 7)
-                    <span class="badge bg-success">รอยืนยันยกเลิกการจอง</span>
+                    <span class="badge bg-warning text-dark">รอยืนยันยกเลิกการจอง</span>
                 @endif
             </div>
             <div class="card-body" id="history_booking">
@@ -186,32 +198,43 @@
                             @endforeach
                         @endif
                     </div>
-                    @if ($booking->promotion->discount_price != null)
+                    @if ($booking->promotion_id == null)
                         <div class="col-md" id="dis_price">
                             <label class="form-label">ส่วนลด *</label>
                             <div class="input-group">
                                 <input type="text" name="discount" id="discount" disabled class="form-control"
-                                    required value="{{ $booking->total_price - $booking->total_price_discount }}">
+                                    required value="0">
                                 <span class="input-group-text">บาท</span>
                             </div>
                         </div>
                     @else
-                        <div class="col-md" id="dis_price">
-                            <label class="form-label">ส่วนลด *</label>
-                            <div class="input-group">
-                                <input type="text" name="discount" id="discount" disabled class="form-control"
-                                    required value="{{ $booking->total_price - $booking->total_price_discount }}">
-                                <span class="input-group-text">บาท</span>
+                        @if ($booking->promotion->discount_price != null)
+                            <div class="col-md" id="dis_price">
+                                <label class="form-label">ส่วนลด *</label>
+                                <div class="input-group">
+                                    <input type="text" name="discount" id="discount" disabled class="form-control"
+                                        required value="{{ $booking->total_price - $booking->total_price_discount }}">
+                                    <span class="input-group-text">บาท</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md" id="dis_per">
-                            <label class="form-label">ส่วนลด (เปอร์เซ็นต์)*</label>
-                            <div class="input-group">
-                                <input type="text" name="discount" id="discount_per" readonly class="form-control"
-                                    required value="{{ $booking->promotion->percent }}">
-                                <span class="input-group-text">เปอร์เซ็นต์ (%)</span>
+                        @else
+                            <div class="col-md" id="dis_price">
+                                <label class="form-label">ส่วนลด *</label>
+                                <div class="input-group">
+                                    <input type="text" name="discount" id="discount" disabled class="form-control"
+                                        required value="{{ $booking->total_price - $booking->total_price_discount }}">
+                                    <span class="input-group-text">บาท</span>
+                                </div>
                             </div>
-                        </div>
+                            <div class="col-md" id="dis_per">
+                                <label class="form-label">ส่วนลด (เปอร์เซ็นต์)*</label>
+                                <div class="input-group">
+                                    <input type="text" name="discount" id="discount_per" readonly
+                                        class="form-control" required value="{{ $booking->promotion->percent }}">
+                                    <span class="input-group-text">เปอร์เซ็นต์ (%)</span>
+                                </div>
+                            </div>
+                        @endif
                     @endif
                 </div>
                 <hr>
@@ -269,19 +292,75 @@
             </div>
         </div>
 
-        <div class="col-md-12 card rounded-3 border border-1 shadow-lg mb-4">
-            <div class="card-header">
-                รายละเอียดการจ่ายเงิน
-            </div>
-            <div class="card-body" id="silp_pay">
-                @foreach ($booking->payments as $payment)
-                    @if ($payment->payment_type == 1 || $payment->payment_type == 4)
-                        @if ($payment->payment_type == 1)
+        @if ($booking->payments->count() != null)
+            <div class="col-md-12 card rounded-3 border border-1 shadow-lg mb-4">
+                <div class="card-header">
+                    รายละเอียดการจ่ายเงิน
+                </div>
+                <div class="card-body" id="silp_pay">
+                    @foreach ($booking->payments as $payment)
+                        @if ($payment->payment_type == 1 || $payment->payment_type == 4)
+                            @if ($payment->payment_type == 1)
+                                <div class="row mt-2">
+                                    <div class="col-md-4">
+                                        <label class="labels">เงินมัดจำ *</label>
+                                        <div class="input-group">
+                                            <input type="text" name="deposit" id="deposit" disabled
+                                                class="form-control" required value="{{ $payment->total_price }}">
+                                            <span class="input-group-text">บาท</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="labels">จ่าย *</label>
+                                        <div class="input-group">
+                                            <input type="text" name="depositPay" id="depositPay" disabled required
+                                                class="form-control" value="{{ $payment->pay_price }}">
+                                            <span class="input-group-text">บาท</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="labels">เงินทอน *</label>
+                                        <div class="input-group">
+                                            <input type="text" name="change_deposit" id="change_deposit" disabled
+                                                required class="form-control" value="{{ $payment->change }}">
+                                            <span class="input-group-text">บาท</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            @else
+                                <div class="row mt-2">
+                                    <div class="col-md-4">
+                                        <label class="labels">เงินจ่ายเต็มจำนวน *</label>
+                                        <div class="input-group">
+                                            <input type="text" name="total_price" id="total_price" disabled
+                                                class="form-control" required value="{{ $payment->total_price }}">
+                                            <span class="input-group-text">บาท</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="labels">จ่าย *</label>
+                                        <div class="input-group">
+                                            <input type="text" name="total_price_pay" id="total_price_pay" disabled
+                                                required class="form-control" value="{{ $payment->pay_price }}">
+                                            <span class="input-group-text">บาท</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="labels">เงินทอน *</label>
+                                        <div class="input-group">
+                                            <input type="text" name="total_price_change" id="total_price_change"
+                                                disabled required class="form-control" value="{{ $payment->change }}">
+                                            <span class="input-group-text">บาท</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        @elseif ($payment->payment_type == 2)
                             <div class="row mt-2">
                                 <div class="col-md-4">
-                                    <label class="labels">เงินมัดจำ *</label>
+                                    <label class="labels">เงินจ่ายมัดจำที่เหลือ *</label>
                                     <div class="input-group">
-                                        <input type="text" name="deposit" id="deposit" disabled
+                                        <input type="text" name="total_price" id="total_price" disabled
                                             class="form-control" required value="{{ $payment->total_price }}">
                                         <span class="input-group-text">บาท</span>
                                     </div>
@@ -289,24 +368,24 @@
                                 <div class="col-md-4">
                                     <label class="labels">จ่าย *</label>
                                     <div class="input-group">
-                                        <input type="text" name="depositPay" id="depositPay" disabled required
-                                            class="form-control" value="{{ $payment->pay_price }}">
+                                        <input type="text" name="total_price_pay" id="total_price_pay" disabled
+                                            required class="form-control" value="{{ $payment->pay_price }}">
                                         <span class="input-group-text">บาท</span>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <label class="labels">เงินทอน *</label>
                                     <div class="input-group">
-                                        <input type="text" name="change_deposit" id="change_deposit" disabled required
-                                            class="form-control" value="{{ $payment->change }}">
+                                        <input type="text" name="total_price_change" id="total_price_change" disabled
+                                            required class="form-control" value="{{ $payment->change }}">
                                         <span class="input-group-text">บาท</span>
                                     </div>
                                 </div>
                             </div>
-                        @else
+                        @elseif ($payment->payment_type == 3)
                             <div class="row mt-2">
                                 <div class="col-md-4">
-                                    <label class="labels">เงินจ่ายเต็มจำนวน *</label>
+                                    <label class="labels">เงินจ่ายเพิ่มเติม *</label>
                                     <div class="input-group">
                                         <input type="text" name="total_price" id="total_price" disabled
                                             class="form-control" required value="{{ $payment->total_price }}">
@@ -331,71 +410,17 @@
                                 </div>
                             </div>
                         @endif
-                    @elseif ($payment->payment_type == 2)
-                        <div class="row mt-2">
-                            <div class="col-md-4">
-                                <label class="labels">เงินจ่ายมัดจำที่เหลือ *</label>
-                                <div class="input-group">
-                                    <input type="text" name="total_price" id="total_price" disabled
-                                        class="form-control" required value="{{ $payment->total_price }}">
-                                    <span class="input-group-text">บาท</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="labels">จ่าย *</label>
-                                <div class="input-group">
-                                    <input type="text" name="total_price_pay" id="total_price_pay" disabled required
-                                        class="form-control" value="{{ $payment->pay_price }}">
-                                    <span class="input-group-text">บาท</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="labels">เงินทอน *</label>
-                                <div class="input-group">
-                                    <input type="text" name="total_price_change" id="total_price_change" disabled
-                                        required class="form-control" value="{{ $payment->change }}">
-                                    <span class="input-group-text">บาท</span>
-                                </div>
-                            </div>
-                        </div>
-                    @elseif ($payment->payment_type == 3)
-                        <div class="row mt-2">
-                            <div class="col-md-4">
-                                <label class="labels">เงินจ่ายเพิ่มเติม *</label>
-                                <div class="input-group">
-                                    <input type="text" name="total_price" id="total_price" disabled
-                                        class="form-control" required value="{{ $payment->total_price }}">
-                                    <span class="input-group-text">บาท</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="labels">จ่าย *</label>
-                                <div class="input-group">
-                                    <input type="text" name="total_price_pay" id="total_price_pay" disabled required
-                                        class="form-control" value="{{ $payment->pay_price }}">
-                                    <span class="input-group-text">บาท</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="labels">เงินทอน *</label>
-                                <div class="input-group">
-                                    <input type="text" name="total_price_change" id="total_price_change" disabled
-                                        required class="form-control" value="{{ $payment->change }}">
-                                    <span class="input-group-text">บาท</span>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                @endforeach
-                <div class="mt-4">
-                    @if ($booking->status == 2)
-                        <button type="button" class="btn btn-success"
-                            onclick="printJS({ printable: 'silp_pay', type: 'html', header: 'ใบเสร็จ', css:'{{ asset('css/app.css') }}', documentTitle:'ใบรายการจอง - {{ config('app.name') }}'})">
-                            <i class='bx bx-printer'></i> ปริ้นใบเสร็จ </button>
-                    @endif
+                    @endforeach
+                    <div class="mt-4">
+                        @if ($booking->status == 2)
+                            <button type="button" class="btn btn-success"
+                                onclick="printJS({ printable: 'silp_pay', type: 'html', header: 'ใบเสร็จ', css:'{{ asset('css/app.css') }}', documentTitle:'ใบรายการจอง - {{ config('app.name') }}'})">
+                                <i class='bx bx-printer'></i> ปริ้นใบเสร็จ </button>
+                        @endif
+                    </div>
                 </div>
             </div>
-        </div>
+        @endif
     </div>
 
     <div class="container">

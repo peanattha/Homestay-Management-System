@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+@section('active-manage-promotion', 'active')
+
 @section('title', 'Manage Promotion')
 
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">

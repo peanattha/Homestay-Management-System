@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+@section('active-manage-bank', 'active')
+
 @section('title', 'Manage Bank Name')
 
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">

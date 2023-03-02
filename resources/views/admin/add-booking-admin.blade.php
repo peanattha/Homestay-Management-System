@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+@section('active-booking-admin', 'active')
+
 @section('title', 'Add Booking Admin')
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

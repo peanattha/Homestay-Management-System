@@ -35,14 +35,14 @@
         <hr class="m-2">
         <ul class="nav-links">
             <li>
-                <a href="{{ route('admin-dashboard') }}">
+                <a class="@yield('active-dashboard')" href="{{ route('admin-dashboard') }}">
                     <i class='bx bx-bar-chart-alt-2'></i>
                     <span class="link_name">เเดชบอร์ด</span>
                 </a>
             </li>
             <li>
-                <div class="iocn-link">
-                    <a href="{{ route('booking-admin') }}">
+                <div class="iocn-link @yield('active-booking-admin')">
+                    <a  href="{{ route('booking-admin') }}">
                         @if (Session::get('noti')['cBookings'] != 0)
                             <i class='bx bx-collection bx-tada'></i>
                         @else
@@ -87,7 +87,7 @@
                     </li>
                     <li>
                         <a href="{{ route('confirm-cancel-booking') }}">
-                            ยืนยันการยกเลิกการจอง
+                            ยืนยันการยกเลิก
                         </a>
                         @if (Session::get('noti')['cWaitcancel'] != 0)
                             <span class="badge bg-secondary">{{ Session::get('noti')['cWaitcancel'] }}</span>
@@ -97,7 +97,7 @@
             </li>
 
             <li>
-                <div class="iocn-link">
+                <div class="iocn-link @yield('active-homestay-admin')">
                     <a href="{{ route('homestay-admin') }}">
                         <i class='bx bx-home'></i>
                         <span class="link_name">รายการที่พัก</span>
@@ -111,19 +111,19 @@
                 </ul>
             </li>
             <li>
-                <a href="{{ route('manage-customer') }}">
+                <a class="@yield('active-manage-customer')" href="{{ route('manage-customer') }}">
                     <i class='bx bx-user'></i>
                     <span class="link_name">จัดการลูกค้า</span>
                 </a>
             </li>
             <li>
-                <a href="{{ route('manage-admin') }}">
+                <a class="@yield('active-manage-admin')" href="{{ route('manage-admin') }}">
                     <i class='bx bx-user-circle'></i>
                     <span class="link_name">ผู้ดูเเลระบบ</span>
                 </a>
             </li>
             <li>
-                <div class="iocn-link">
+                <div class="iocn-link @yield('active-manage-bank')">
                     <a href="{{ route('manage-bank') }}">
                         <i class='bx bx-money-withdraw'></i>
                         <span class="link_name">วิธีการชำระเงิน</span>
@@ -136,19 +136,19 @@
                 </ul>
             </li>
             <li>
-                <a href="{{ route('manage-menu') }}">
+                <a class="@yield('active-manage-menu')" href="{{ route('manage-menu') }}">
                     <i class='bx bx-bowl-rice'></i>
                     <span class="link_name">จัดการชุดเมนูอาหาร</span>
                 </a>
             </li>
             <li>
-                <a href="{{ route('manage-promotion') }}">
+                <a class="@yield('active-manage-promotion')" href="{{ route('manage-promotion') }}">
                     <i class='bx bxs-discount'></i>
                     <span class="link_name">จัดการโปรโมชั่น</span>
                 </a>
             </li>
             <li>
-                <div class="iocn-link">
+                <div class="iocn-link @yield('active-manage-appliance')">
                     <a href="{{ route('manage-appliance') }}">
                         <i class='bx bx-store'></i>
                         <span class="link_name">ของในคลัง</span>
@@ -162,7 +162,7 @@
                 </ul>
             </li>
             <li>
-                <div class="iocn-link">
+                <div class="iocn-link @yield('active-review-admin')">
                     <a href="{{ route('review-admin') }}">
                         @if (Session::get('noti')['cWaitReply'] != 0)
                             <i class='bx bx-message-rounded-dots bx-tada'></i>

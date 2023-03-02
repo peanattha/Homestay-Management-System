@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+@section('active-review-admin', 'active')
+
 @section('title', 'Reply Review')
 
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">

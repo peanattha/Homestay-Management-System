@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+@section('active-manage-appliance', 'active')
+
 @section('title', 'Manage Appliance')
 
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">

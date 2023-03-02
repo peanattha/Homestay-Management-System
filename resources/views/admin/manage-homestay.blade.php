@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+@section('active-homestay-admin', 'active')
+
 @section('title', 'Manage homestay')
 
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">

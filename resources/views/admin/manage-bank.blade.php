@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+@section('active-manage-bank', 'active')
+
 @section('title', 'Manage bank detail')
 
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">
@@ -46,7 +48,7 @@
         </div>
     </div>
 
-    <div class="card rounded-3 border border-1 shadow-lg">
+    <div class="card rounded-3 border border-1 shadow-lg mb-4">
         <div class="card-header">
             วิธีการชำระเงิน
         </div>
@@ -142,7 +144,7 @@
                         alt={{ $img }}>
                 </a>
                 <br>
-                <div class="d-flex justify-content-start mt-4 mb-4">
+                <div class="d-flex justify-content-start mt-4">
                     <input type="submit" class="btn btn-success" value="แก้ใขบัญชีธนาคาร" form="form-editBank"
                         style="margin-right: 5px">
                     <form action="{{ route('delete-bank', $banks[0]->id) }}" method="POST" id="form-delBank"

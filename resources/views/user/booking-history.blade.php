@@ -62,13 +62,13 @@
                             @elseif ($booking->status == 3)
                                 <span class="badge bg-success">รอ Check In</span>
                             @elseif ($booking->status == 4)
-                                <span class="badge bg-success">ยกเลิกการจอง</span>
+                                <span class="badge bg-danger">ยกเลิกการจอง</span>
                             @elseif ($booking->status == 5)
-                                <span class="badge bg-success">รอชำระเงิน</span>
+                                <span class="badge bg-warning text-dark">รอชำระเงิน</span>
                             @elseif ($booking->status == 6)
-                                <span class="badge bg-success">รอยืนยันการชำระเงิน</span>
+                                <span class="badge bg-warning text-dark">รอยืนยันการชำระเงิน</span>
                             @elseif ($booking->status == 7)
-                                <span class="badge bg-success">รอยืนยันยกเลิกการจอง</span>
+                                <span class="badge bg-warning text-dark">รอยืนยันยกเลิกการจอง</span>
                             @endif
                         </div>
                         <div class="card-body">
@@ -83,7 +83,7 @@
                         </div>
                     </div>
                 @endforeach
-                {!! $bookings->links() !!}
+                {{ $bookings->links() }}
             </div>
         @endif
     </div>

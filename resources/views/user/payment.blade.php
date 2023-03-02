@@ -9,10 +9,13 @@
         margin-right: 8px;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 960px) {
         .payment {
             flex-wrap: wrap;
+            justify-content: center;
         }
+
+        .payment div {}
 
         .bank-admin {
             margin-bottom: 8px;
@@ -50,19 +53,42 @@
 </script>
 
 @section('content')
-    <div class="container">
-        <?php
-        $Arr = explode(' ', $booking->created_at);
-        $date = date('d-m-Y', strtotime($Arr[0]));
-        $time = date('H:i', strtotime($Arr[1] . ' +15 min'));
-        ?>
-        กรุณาจ่ายเงินภายใน {{ $date }} {{ $time }}
-    </div>
-    <div class="container mb-4 d-flex flex-row justify-content-between payment">
-        <div class="card col-md-2 bank-admin" style="width: 22rem;">
+    <div class="container mb-4 d-flex flex-row payment ">
+        <div class="card col-md-2 bank-admin rounded-3 border border-1 shadow-lg" style="width: 22rem;">
             <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+                <?php
+                $Arr = explode(' ', $booking->created_at);
+                $date = date('d-m-Y', strtotime($Arr[0]));
+                $time = date('H:i:s', strtotime($Arr[1] . ' +15 min'));
+
+                $dateTime = strtotime($date . ' ' . $time);
+                $getDateTime = date('F d, Y H:i:s', $dateTime);
+                ?>
+                <h4 class="m-1 text-center" id="counter"></h4>
+                <script>
+                    var countDownTimer = new Date("<?php echo "$getDateTime"; ?>").getTime();
+                    // Update the count down every 1 second
+                    var interval = setInterval(function() {
+                        var current = new Date().getTime();
+                        // Find the difference between current and the count down date
+                        var diff = countDownTimer - current;
+                        // Countdown Time calculation for days, hours, minutes and seconds
+
+                        var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                        var seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                        document.getElementById("counter").innerHTML = "กรุณาจ่ายเงินภายใน <br>" + minutes + "นาที " + seconds +
+                            "วินาที";
+                        // Display Expired, if the count down is over
+                        if (diff < 0) {
+                            clearInterval(interval);
+                            document.getElementById("counter").innerHTML = "EXPIRED";
+                        }
+                    }, 1000);
+                </script>
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
+                    <div class="carousel-item active p-1">
+                        <img src="{{ asset('images/thai_qr_payment.png') }}" class="card-img-top" alt="prompt-pay-logo">
                         <?php
                         function DelChar($str)
                         {
@@ -78,13 +104,20 @@
                             alt="qr_code">
                     </div>
                 </div>
+                {{-- <div class="text-center">
+                    <a href="https://promptpay.io/{{ $prompt_pay }}/{{ $booking->deposit }}.png"
+                        download="AwesomeImage.png">
+                        <input type="submit" class="btn btn-success mt-2" value="บันทึก QR Payment">
+                    </a>
+                </div> --}}
             </div>
-            <div class="card-body">
-                <p><b>เลขบัญชี:</b> {{ $bank_admin->acc_number }}</p>
-                <p><b>ธนาคาร:</b> {{ $bank_admin->bank_name->name }}</p>
-                <p><b>ชื่อ-นามสกุล:</b> {{ $bank_admin->firstName }} {{ $bank_admin->lastName }}</p>
+            <div class="card-body text-center">
+                <h4><b>เงินมัดจำ:</b> {{ $booking->deposit }} บาท</h4>
+                <h4><b>{{ $bank_admin->firstName }} {{ $bank_admin->lastName }}</b></h4>
+                <p class="m-0"><b>ธนาคาร:</b> {{ $bank_admin->bank_name->name }}</p>
+                <p class="m-0"><b>เลขบัญชี:</b> {{ $bank_admin->acc_number }}</p>
                 <p><a href="{{ asset('storage/images/' . $bank_admin->qr_code) }}"target="_blank">หากไม่สามารถชำระเงินผ่านทาง
-                        QR Code ได้</a></p>
+                        QR Code ด้านบนได้</a></p>
             </div>
         </div>
         <div>
@@ -98,13 +131,13 @@
                     @elseif ($booking->status == 3)
                         <span class="badge bg-success">รอ Check In</span>
                     @elseif ($booking->status == 4)
-                        <span class="badge bg-success">ยกเลิกการจอง</span>
+                        <span class="badge bg-danger">ยกเลิกการจอง</span>
                     @elseif ($booking->status == 5)
-                        <span class="badge bg-success">รอชำระเงิน</span>
+                        <span class="badge bg-warning text-dark">รอชำระเงิน</span>
                     @elseif ($booking->status == 6)
-                        <span class="badge bg-success">รอยืนยันการชำระเงิน</span>
+                        <span class="badge bg-warning text-dark">รอยืนยันการชำระเงิน</span>
                     @elseif ($booking->status == 7)
-                        <span class="badge bg-success">รอยืนยันยกเลิกการจอง</span>
+                        <span class="badge bg-warning text-dark">รอยืนยันยกเลิกการจอง</span>
                     @endif
                 </div>
                 <div class="card-body" id="add_payment">
@@ -212,42 +245,45 @@
                                     @endforeach
                                 @endif
                             </div>
-                            {{-- <div class="col-md-6">
-                                <label for="discount_price" class="form-label">ส่วนลด *</label>
-                                <div class="input-group">
-                                    <input type="text" name="discount_price" id="discount_price" disabled required
-                                        class="form-control" value="{{ $discount_price }}">
-                                    <span class="input-group-text">บาท</span>
-                                </div>
-                            </div> --}}
-                            @if ($booking->promotion->discount_price != null)
+                            @if ($booking->promotion_id == null)
                                 <div class="col-md" id="dis_price">
                                     <label class="form-label">ส่วนลด *</label>
                                     <div class="input-group">
                                         <input type="text" name="discount" id="discount" disabled
-                                            class="form-control" required
-                                            value="{{ $booking->total_price - $booking->total_price_discount }}">
+                                            class="form-control" required value="0">
                                         <span class="input-group-text">บาท</span>
                                     </div>
                                 </div>
                             @else
-                                <div class="col-md" id="dis_price">
-                                    <label class="form-label">ส่วนลด *</label>
-                                    <div class="input-group">
-                                        <input type="text" name="discount" id="discount" disabled
-                                            class="form-control" required
-                                            value="{{ $booking->total_price - $booking->total_price_discount }}">
-                                        <span class="input-group-text">บาท</span>
+                                @if ($booking->promotion->discount_price != null)
+                                    <div class="col-md" id="dis_price">
+                                        <label class="form-label">ส่วนลด *</label>
+                                        <div class="input-group">
+                                            <input type="text" name="discount" id="discount" disabled
+                                                class="form-control" required
+                                                value="{{ $booking->total_price - $booking->total_price_discount }}">
+                                            <span class="input-group-text">บาท</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md" id="dis_per">
-                                    <label class="form-label">ส่วนลด (เปอร์เซ็นต์)*</label>
-                                    <div class="input-group">
-                                        <input type="text" name="discount" id="discount_per" readonly
-                                            class="form-control" required value="{{ $booking->promotion->percent }}">
-                                        <span class="input-group-text">เปอร์เซ็นต์ (%)</span>
+                                @else
+                                    <div class="col-md" id="dis_price">
+                                        <label class="form-label">ส่วนลด *</label>
+                                        <div class="input-group">
+                                            <input type="text" name="discount" id="discount" disabled
+                                                class="form-control" required
+                                                value="{{ $booking->total_price - $booking->total_price_discount }}">
+                                            <span class="input-group-text">บาท</span>
+                                        </div>
                                     </div>
-                                </div>
+                                    <div class="col-md" id="dis_per">
+                                        <label class="form-label">ส่วนลด (เปอร์เซ็นต์)*</label>
+                                        <div class="input-group">
+                                            <input type="text" name="discount" id="discount_per" readonly
+                                                class="form-control" required value="{{ $booking->promotion->percent }}">
+                                            <span class="input-group-text">เปอร์เซ็นต์ (%)</span>
+                                        </div>
+                                    </div>
+                                @endif
                             @endif
                         </div>
                         <hr>
@@ -263,8 +299,8 @@
                             <div class="col-md-3">
                                 <label class="labels">ส่วนลด *</label>
                                 <div class="input-group">
-                                    <input type="text" name="discount" id="discount" readonly class="form-control" value="{{ $booking->total_price - $booking->total_price_discount }}"
-                                        required>
+                                    <input type="text" name="discount" id="discount" readonly class="form-control"
+                                        value="{{ $booking->total_price - $booking->total_price_discount }}" required>
                                     <span class="input-group-text">บาท</span>
                                 </div>
                             </div>

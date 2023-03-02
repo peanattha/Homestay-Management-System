@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+@section('active-review-admin', 'active')
+
 @section('title', 'Review Details')
 
 @section('page-name')

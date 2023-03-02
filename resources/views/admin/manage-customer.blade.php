@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+@section('active-manage-customer', 'active')
+
 @section('title', 'Manage Customer')
 
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">

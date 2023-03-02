@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+@section('active-manage-menu', 'active')
+
 @section('title', 'Menu Details')
 
 <link rel="stylesheet" href="{{ asset('css/table.css') }}">

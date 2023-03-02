@@ -26,7 +26,7 @@ class BookingController extends Controller
     }
     public function history()
     {
-        $bookings = booking::where('user_id', Auth::user()->id)->paginate(5);
+        $bookings = booking::where('user_id', Auth::user()->id)->latest()->paginate(4);
         return view('user.booking-history', compact('bookings'));
     }
     public function add_booking_user(Request $request)
