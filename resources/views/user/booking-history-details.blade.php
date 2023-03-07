@@ -184,7 +184,7 @@
                         ?>
                         @if ($booking->promotion_id == null)
                             <input type="text" class="form-control" id="promotion" name="promotion"
-                                placeholder="เลือกโปรโมชั่น" value="ไม่ใช้โปรโมชั่น" required readonly>
+                                placeholder="ไม่ใช้โปรโมชั่น" value="ไม่ใช้โปรโมชั่น" required readonly>
                         @else
                             @foreach ($promotions as $promotion)
                                 @if ($booking->promotion_id == $promotion->id)

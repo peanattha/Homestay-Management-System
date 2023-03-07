@@ -169,11 +169,16 @@ Route::group(['middleware' => ['auth', 'verified', 'CheckAdmin']], function () {
     });
 
     Route::controller(WidenController::class)->group(function () {
-        Route::get('/manage-appliance-booking', "manage_appliance_booking")->name('manage-appliance-booking');
+        //widen homestay
         Route::get('/manage-appliance-homestay', "manage_appliance_homestay")->name('manage-appliance-homestay');
         Route::post('/widen-homestay', "widen_homestay")->name('widen-homestay');
         Route::post('/edit-widen-homestay', "edit_widen_homestay")->name('edit-widen-homestay');
         Route::post('/drawฺ-back-homestay-detail/{id}', "draw_back_homestay_detail")->name('drawฺ-back-homestay-detail');
+
+        //widen booking
+        Route::get('/manage-appliance-booking', "manage_appliance_booking")->name('manage-appliance-booking');
+        Route::post('/widen-booking', "widen_booking")->name('widen-booking');
+
 
         //
         Route::get('/appliance-homestay-detail/{id}', "appliance_homestay_detail")->name('appliance-homestay-detail');

@@ -55,6 +55,7 @@
         for (let i = 0; i <= (appliances).length - 1; i++) {
             if (appliances[i].id == edit_appliance_id.value) {
                 $("#stockAmountEdit").val(appliances[i].stock);
+                document.getElementById("editAmount").max = appliances[i].stock;
             }
         }
 
@@ -67,18 +68,12 @@
     }
 
     window.onload = function() {
-        let appliance_id = document.getElementById("appliance_id");
         var appliances = @json($appliances);
-        // console.log(appliances);
-        appliance_id.addEventListener('change', (event) => {
 
-            for (let i = 0; i <= (appliances).length - 1; i++) {
-                if (appliances[i].id == appliance_id.value) {
-                    $("#stockAmount").val(appliances[i].stock);
-                }
-            }
+        for (let i = 0; i <= (appliances).length - 1; i++) {
+            document.getElementById("amount" + appliances[i].id).max = appliances[i].stock;
 
-        });
+        }
 
         let edit_appliance_id = document.getElementById("edit_appliance_id");
         edit_appliance_id.addEventListener('change', (event) => {
@@ -89,9 +84,33 @@
             }
 
         });
+    }
+    function visAmount(id){
+        var appliance_id = document.getElementById("appliance_id"+id);
+        if(appliance_id.checked == true){
+            document.getElementById("amount"+id).readOnly = false;
+        }else{
+            document.getElementById("amount"+id).readOnly = true;
+            document.getElementById("amount"+id).value = "";
+        }
 
     }
 </script>
+
+<style>
+    div.ks-cboxtags {
+        border: rgba(0, 0, 0, 0.2) 1px solid;
+        border-radius: 7px;
+        height: 37px;
+
+    }
+
+    div.ks-cboxtags input {
+        display: inline;
+        padding: 6px;
+        cursor: pointer;
+    }
+</style>
 
 @section('page-name')
     <nav aria-label="breadcrumb">
@@ -194,26 +213,51 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label for="appliance_id" class="form-label">ของใช้ *</label>
-                        <select class="form-select" id="appliance_id" name="appliance_id" required>
-                            <option selected hidden>เลือกของใช้</option>
-                            @foreach ($appliances as $appliance)
-                                <option value="{{ $appliance->id }}">{{ $appliance->appliance_name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="stockAmount" min=0 class="form-label">คงเหลือ *</label>
-                        <input type="number" class="form-control" min="1" id="stockAmount" name="stockAmount"
-                            readonly>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label for="amount" min=0 class="form-label">จำนวน *</label>
-                    <input type="number" class="form-control" min="1" id="amount" name="amount" required>
+                <div>
+                    @foreach ($appliances as $appliance)
+                        @if ($loop->iteration == 1)
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label class="form-label">ของใช้ *</label>
+                                    <div class="ks-cboxtags p-2 m-0">
+                                        <input type="checkbox" name="appliance_id[]"
+                                            id="appliance_id{{ $appliance->id }}" value="{{ $appliance->id }}" onclick="visAmount({{$appliance->id}})">
+                                        <label class="form-check-label"
+                                            for="appliance_id{{ $appliance->id }}">{{ $appliance->appliance_name }}</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="stockAmount" min=0 class="form-label">คงเหลือ *</label>
+                                    <input type="number" class="form-control" min="1" name="stockAmount"
+                                        readonly value="{{ $appliance->stock }}">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="amount" min=0 class="form-label">จำนวน *</label>
+                                    <input type="number" class="form-control" min="1"
+                                        id="amount{{ $appliance->id }}" name="amount{{ $appliance->id }}" readonly>
+                                </div>
+                            </div>
+                        @else
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <div class="ks-cboxtags p-2 m-0">
+                                        <input type="checkbox" name="appliance_id[]"
+                                            id="appliance_id{{ $appliance->id }}" value="{{ $appliance->id }}" onclick="visAmount({{$appliance->id}})">
+                                        <label class="form-check-label"
+                                            for="appliance_id{{ $appliance->id }}">{{ $appliance->appliance_name }}</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="number" class="form-control" min="1" name="stockAmount"
+                                        readonly value="{{ $appliance->stock }}">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="number" class="form-control" min="1"
+                                        id="amount{{ $appliance->id }}" name="amount{{ $appliance->id }}" readonly>
+                                </div>
+                            </div>
+                        @endif
+                    @endforeach
                 </div>
                 <input type="submit" class="btn btn-success" value="เบิกของใช้ในคลัง">
             </form>
@@ -325,4 +369,8 @@
                 </tbody>
             </table>
         </div>
-    @endsection
+    </div>
+    <div class="d-flex justify-content-center">
+        {{ $homestay_details->links() }}
+    </div>
+@endsection
