@@ -27,7 +27,7 @@
         $("#edit_appliance_id").val(homestay_detail.appliance.id);
         $("#editAmount").val(homestay_detail.amount);
         $("#widen_by").val(homestay_detail.widen_by);
-        var homestay_details = @json($homestay_details);
+        var homestay_details = @json($homestay_details).data;
         // console.log(homestay_details);
         let homestay_detail_id = document.getElementById("homestay_detail_id");
         for (let i = 0; i <= (homestay_details).length - 1; i++) {
@@ -100,6 +100,7 @@
 <style>
     div.ks-cboxtags {
         border: rgba(0, 0, 0, 0.2) 1px solid;
+        background-color: #F8FAFC;
         border-radius: 7px;
         height: 37px;
 
@@ -144,7 +145,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <p class="modal-title" id="exampleModalCenterTitle"></p>
+                    <p class="modal-title" id="exampleModalCenterTitle">แก้ใขรายการเบิกของใช้เข้าบ้านพัก</p>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -159,6 +160,10 @@
                                         <option value="{{ $homestay->id }}">{{ $homestay->homestay_name }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="amount" min=0 class="form-label">ผู้เบิก *</label>
+                                <input type="text" class="form-control" id="widen_by" name="widen_by" required readonly>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-md-6">
@@ -175,10 +180,6 @@
                                     <input type="number" class="form-control" min="1" id="stockAmountEdit"
                                         name="stockAmountEdit" readonly>
                                 </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="amount" min=0 class="form-label">ผู้เบิก *</label>
-                                <input type="text" class="form-control" id="widen_by" name="widen_by" required readonly>
                             </div>
                             <div class="mb-3">
                                 <label for="amount" min=0 class="form-label">จำนวน *</label>
@@ -352,8 +353,7 @@
                                     @csrf
                                 </form>
                                 @if ($homestay_detail->status == 2)
-                                    <button type="button" class="btn btn-danger"
-                                        onclick="showModelDrawฺBackHomedetail({{ $homestay_detail->id }})" disabled>
+                                    <button type="button" class="btn btn-danger" disabled>
                                         คืนของใช้
                                     </button>
                                 @elseif ($homestay_detail->status == 1)
