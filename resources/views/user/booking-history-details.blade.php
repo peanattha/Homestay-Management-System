@@ -20,9 +20,11 @@
     }
 
     function checkPolicy() {
-        console.log("aa");
+        // console.log("aa");
         if ($("#policyCancle").is(":checked") == true) {
             document.getElementById("btn-confirmCanclePay").disabled = false;
+        }else{
+            document.getElementById("btn-confirmCanclePay").disabled = true;
         }
     }
 </script>
