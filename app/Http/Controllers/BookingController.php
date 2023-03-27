@@ -588,7 +588,7 @@ class BookingController extends Controller
         $update_booking->status = 1; //Check In
         $update_booking->save();
 
-        $payment_types = payment::select('payment_type')->where('id', $request->idCheckIn)->get();
+        $payment_types = payment::select('payment_type')->where('booking_id', $request->idCheckIn)->get();
         if ($payment_types->contains('payment_type', '!=', 4)) {
             $new_payment = new payment();
             $new_payment->booking_id = $request->idCheckIn;
