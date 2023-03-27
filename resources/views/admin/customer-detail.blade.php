@@ -24,7 +24,7 @@
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                     @if ($user->image == '')
                         <?php
-                        $name = 'https://ui-avatars.com/api/?size=512&name=' . Auth::user()->firstName . '+' . Auth::user()->lastName;
+                        $name = 'https://ui-avatars.com/api/?size=512&name=' . $user->firstName . '+' . $user->lastName;
                         ?>
                         <img class="mt-5" width="150px" height="150px" style="border-radius: 32px;"
                             src="{{ $name }}">

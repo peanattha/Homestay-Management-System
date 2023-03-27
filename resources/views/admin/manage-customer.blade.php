@@ -89,10 +89,10 @@
                         </select>
                     </div>
                 </div>
-                <div class="mt-3">
+                {{-- <div class="mt-3">
                     <label for="img_profile" class="form-label">รูปโปรไฟล์</label>
                     <input class="form-control" type="file" id="img_profile" name="img_profile">
-                </div>
+                </div> --}}
                 <div class="mt-3">
                     <button class="btn btn-success" type="submit">เพิ่มข้อมูลลูกค้า</button>
                 </div>

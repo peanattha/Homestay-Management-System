@@ -46,7 +46,7 @@
         <div class="card-body">
             <form action="{{ route('add-homestay') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <div class="row md-2">
+                <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="homestay" class="form-label">ที่พัก *</label>
                         <input type="text" class="form-control" id="homestay" name="homestay_name" required>
@@ -62,14 +62,14 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="price" class="form-label">ราคา *</label>
+                    <label for="price" class="form-label">ราคา / คืน *</label>
                     <div class="input-group">
                         <input type="text" class="form-control" id="price" name="price" placeholder="ราคาต่อ 1 คืน"
                             required>
                         <span class="input-group-text">บาท</span>
                     </div>
                 </div>
-                <div class="row md-2">
+                <div class="row mb-3">
                     <div class="col-md-4">
                         <label for="number_guests" class="form-label">จำนวนผู้เข้าพักสูงสุด*</label>
                         <input type="number" min="1" step="1" pattern="\d*" class="form-control"

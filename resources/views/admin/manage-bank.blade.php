@@ -56,7 +56,7 @@
             @if ($banks->isEmpty())
                 <form action="{{ route('add-bank') }}" method="POST" enctype="multipart/form-data" id="form-addBank">
                     @csrf
-                    <div class="row mt-2">
+                    <div class="row mb-3">
                         <div class="col-md-6">
                             <label class="labels">ชื่อ *</label>
                             <input type="text" name="firstName" class="form-control" required>

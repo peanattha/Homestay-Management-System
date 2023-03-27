@@ -50,7 +50,7 @@
                     <div id="help" class="form-text">กรอกชื่อที่พักเพื่อทำการค้นหารายการที่พัก</div>
                 </div>
                 <div class="mb-3">
-                    <input type="text" class="form-control" id="homestay" name="homestay_type"
+                    <input type="text" class="form-control" id="homestay_type" name="homestay_type"
                         placeholder="ชื่อประเภทที่พัก">
                     <div id="help" class="form-text">กรอกชื่อประเภทที่พักเพื่อทำการค้นหารายการที่พัก</div>
                 </div>

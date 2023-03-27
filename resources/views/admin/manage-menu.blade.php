@@ -64,7 +64,7 @@
                     <input type="text" class="form-control" id="set_menu_name" name="set_menu_name" required>
                 </div>
                 <div class="mb-3">
-                    <label for="price" class="form-label">ราคา (บาท) *</label>
+                    <label for="price" class="form-label">ราคา / ชุด *</label>
                     <div class="input-group">
                         <input type="text" class="form-control" id="price" name="price" required>
                         <span class="input-group-text">บาท</span>
