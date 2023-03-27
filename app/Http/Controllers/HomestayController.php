@@ -181,8 +181,8 @@ class homestayController extends Controller
                 return redirect()->route('homestay-admin')->with('warning', 'ไม่มีรายการค้นหา');
             }
         } else if (isset($request->homestay_type)) {
-            $homestay_type_id = homestay_type::select('id')->where('homestay_type_name', $request->homestay_type)->get();
-            $homestays = homestay::where('homestay_type_id', $homestay_type_id)->get();
+            $homestay_type_id = homestay_type::where('homestay_type_name', $request->homestay_type)->get();
+            $homestays = homestay::where('homestay_type_id', $homestay_type_id[0]->id)->get();
 
             if ($homestays->count() == 0) {
                 return redirect()->route('homestay-admin')->with('warning', 'ไม่มีรายการค้นหา');
